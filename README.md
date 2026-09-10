@@ -42,17 +42,18 @@ Use $astra-advisor:orchestration to plan, build, verify, and review this work.
 ## How routing works
 
 Astra remains the architect and acceptance owner in the primary GPT-6 Astra session
-at the effort selected by the user. After capability preflight, Astra records the
-parent model and effort as observed or unobservable before implementation or
-delegation begins. The skill never changes the parent session.
+at the effort selected by the user. The skill never changes the parent session or
+claims runtime settings without evidence.
 
-When delegation helps, Astra uses the exposed generic `collaboration.spawn_agent`
-tool with an explicit `model`, `reasoning_effort`, and `fork_turns: none`. It chooses
+Delegate only when an independent result justifies briefing, waiting, and integration
+costs. Inspecting several files alone is not a trigger. When delegation helps, Astra
+uses the exposed generic `collaboration.spawn_agent` tool with an explicit `model`, `reasoning_effort`, and `fork_turns: none`. It chooses
 among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
 context, and independent work. There are no predefined role TOMLs, companion
 installer, role-to-model mapping, or fixed subagent count cap. Astra gives each
-subagent a concrete bounded deliverable and continues useful parent work while it
-runs.
+subagent a short contract: objective, scope, constraints, expected result, and success
+criterion, plus explicit file ownership when writing. Astra continues useful parent
+work while it runs and owns integration.
 
 Live tool metadata is authoritative. The current documented effort snapshot is:
 
@@ -67,30 +68,39 @@ unobservable, Astra fails that delegation closed and reports the limitation. It 
 not silently substitute a model, effort, role, or fabricated tool. Chosen values and
 runtime-confirmed values are reported separately.
 
-For substantial implementation, Astra inspects the complete diff and reruns the
-requested checks, then sends the accumulated change set to a fresh read-only
-reviewer. The reviewer can be any of the three supported models at a live-supported
-effort. Astra accepts the work only after the reviewer returns `ship`; `fix-first`
-requires a new parent verification and fresh review, while `rethink` requires a
-revised plan.
+For an initial substantial implementation, Astra inspects the complete diff and runs
+the requested checks, then sends the stable change set to an independent read-only
+reviewer in a fresh context. The reviewer can be any of the supported models at a
+live-supported effort. Acceptance requires `ship`, which may include residual
+findings. `fix-first` requires a demonstrated in-scope blocking defect; non-blocking
+findings alone do not start another correction or review cycle.
 
-## Live visibility and cost receipts (0.2.0)
+After a bounded correction, Astra inspects the delta, runs affected checks, and
+obtains targeted confirmation, which may reuse the same reviewer. Unaffected evidence
+remains valid. Changes to design, authority, data ownership, or material risk require
+a new full independent review. `rethink` requires reassessing the plan and scope.
 
-Every delegation announces its name, bounded task, selected model and reasoning
-effort, and selection reason. Its result reports actual status and runtime-observed
-settings, or explicitly says those settings are unobservable. These updates also
-cover fresh reviewers. A requested setting is not proof of the realized setting.
+## Progress and cost details on request
 
-Every task ends with an API-equivalent cost receipt. When native tools expose token
-usage, the receipt estimates its USD price using the versioned snapshot and compares
-that same token workload repriced entirely at Astra. It separates whole-task,
-delegated-only, and partial coverage. Missing parent or reviewer usage prevents a
-whole-task claim. Without observed usage, the receipt says why it is unavailable.
+Updates focus on consequential decisions, results, changes, and blockers. Related
+updates can be grouped without mandatory route blocks or paired agent receipts.
+Detailed agent IDs, requested settings, and runtime evidence are available on request;
+observed mismatches and material capability limitations are still reported.
 
-The difference is a **same-token API price comparison**. It does not measure what an
+Ask for usage or cost details to get an API-equivalent receipt from the existing
+calculator and available native evidence. No receipt or unavailable-cost notice is
+required otherwise. The receipt separates observed consumption from estimated USD
+prices and distinguishes whole-task, delegated-only, and partial coverage. Missing
+parent or reviewer usage prevents a whole-task claim. Without observed usage, report
+why it is unavailable; do not add telemetry infrastructure or invent token counts.
+
+The calculator can reprice the same observed tokens entirely at Astra. The difference
+is a **same-token API price comparison**. It does not measure what an
 all-Astra run would actually consume, actual net task savings, quality, speed, or a
 change to ChatGPT subscription charges or usage credits. No subagents means no
-delegation savings. Reasoning effort does not multiply the token price.
+delegation savings. Reasoning effort does not multiply the token price. Demonstrated
+savings require comparable observed runs, including coordination and corrections,
+with their scope, quality, and cost basis.
 
 The [pricing snapshot](plugins/astra-advisor/pricing/2026-09-04.json) records official
 source URLs and standard short-context USD rates per million tokens, verified by
