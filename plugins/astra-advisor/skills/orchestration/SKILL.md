@@ -13,19 +13,14 @@ metadata says the parent model is not `gpt-6-astra`, report the mismatch as a
 selection prerequisite and do not claim Astra orchestration. If the model or effort
 is unobservable, disclose that fact rather than inventing confirmation.
 
-After capability preflight and before the first implementation or delegation task
-call, emit a short, machine-auditable declaration:
+Delegate only when a concrete independent deliverable justifies the coordination
+cost of briefing, waiting, and integration. Inspecting multiple files is not itself
+a reason to delegate. Otherwise work directly in the parent; substantial
+implementations still require the independent review below.
 
-~~~text
-ASTRA ROUTE
-parent: <observed model or unobservable> / <observed effort or unobservable>
-delegation: <none or the selected native subagent models and efforts>
-risk: <concise, task-specific rationale>
-~~~
-
-Report model and effort as observed evidence. If metadata does not expose a value,
-say that it is unobservable; never claim a runtime pin that was not confirmed. Read
-[the operations reference](references/operations.md) before the first delegation.
+Read [the operations reference](references/operations.md) when delegating, reviewing,
+or preparing a requested cost receipt. Report material capability limitations;
+never claim a runtime model or effort pin that was not confirmed.
 
 Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
 current tool schema. Each selected subagent must receive an explicit `model`, an
@@ -34,7 +29,10 @@ among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
 context, and independent work available; do not encode a role-to-model mapping or a
 fixed number of subagents. Give every subagent a concrete, bounded, independent
 deliverable while Astra continues useful parent work. Do not duplicate the parent's
-implementation or verification in a subagent.
+implementation or verification in a subagent. Keep the delegation contract short:
+objective, scope, constraints, expected result, and success criterion. For writing
+agents, assign explicit file ownership and preserve concurrent edits; exploration
+and review are read-only. Astra retains integration and acceptance ownership.
 
 Tools and their public schemas are authoritative. Select only an effort the current
 tool exposes. If a selected model, effort, spawn control, or required native tool is
@@ -43,8 +41,9 @@ continue only with safe parent work or report the limitation. Never silently
 substitute a model, effort, role, or fabricated tool. Introspection may clarify an
 omitted runtime field; it cannot replace an available public contract.
 
-For a substantial implementation, Astra must inspect the complete diff and rerun the
-requested checks before starting a fresh read-only review. The reviewer may be any of
+For an initial substantial implementation, Astra must inspect the complete diff and
+run the requested checks before starting an independent read-only review in a fresh
+context. Keep the reviewed artifact stable. The reviewer may be any of
 the three supported subagent models, selected dynamically with explicit model and
 effort controls. Give it the actual change set and evidence, and require:
 
@@ -56,9 +55,18 @@ FINDINGS: <precise findings or none>
 RESIDUAL RISK: <remaining risk or none>
 ~~~
 
-Accept a substantial implementation only after the fresh reviewer returns `ship`.
-After `fix-first`, the parent applies the correction, verifies again, and obtains a
-new fresh review. A reviewer remains read-only and never fixes its own findings.
+Accept a substantial implementation only after the reviewer returns `ship`.
+`ship` may include residual findings. `fix-first` requires a demonstrated in-scope
+blocking defect grounded in the user's requirement or an existing supported
+contract. Non-blocking findings alone never start another correction or review cycle.
+Pass this threshold and the accepted scope to every reviewer.
+
+Batch blocking findings for parent correction. For a bounded correction, inspect
+the delta, run affected checks, and obtain targeted confirmation, which may reuse
+the same reviewer; preserve unaffected evidence. Start a new full independent review
+when design, authority, data ownership, or material risk changes. On `rethink`,
+reassess the plan and scope before proceeding. A reviewer remains read-only and
+never fixes its own findings.
 
 Use native Codex subagents in the ChatGPT app when the exposed interface supports the
 needed controls. Separate app tasks require an explicit user request. For an explicit
@@ -70,29 +78,21 @@ control; do not dispatch a model-pinned request there by default or use an API-k
 workaround. Use a future native work tool only when its schema exposes the required
 controls.
 
-## Live delegation and completion receipts
+## Progress and optional cost receipts
 
-Automatically show a short user-visible lifecycle update for **every** delegation,
-including reviews, before dispatch and on completion or failure. Before dispatch,
-include task name, exact bounded ownership, requested model and effort, and the
-reason for that selection. On return, include agent ID, actual status, and observed
-model/effort with their evidence source; if unavailable say `unobservable`. If they
-differ from the request, show both. A submitted request is not runtime confirmation.
-Keep progress readable; report meaningful changes without polling narration.
+Keep updates useful: explain consequential delegation choices, material changes,
+results, and blockers. Group related updates; do not emit a route declaration or
+paired lifecycle receipts for every agent. Detailed agent IDs, model/effort evidence,
+and lifecycle history are available on request. Requested settings are not runtime
+confirmation; disclose observed mismatches and material limitations when relevant.
 
-At the completion of **every task**, even solo, failed, or blocked tasks, emit an
-`API-EQUIVALENT COST RECEIPT` using the calculator described in the operations
-reference, or a precise unavailable status when usage cannot be observed. Capture
-available usage with source, unique call IDs, agent identity, and scope as work runs.
-Include parent, implementers, and all reviewers before claiming whole-task coverage.
-Do not invent token counts, missing rates, or success percentages. Unknown is not zero.
+Report the outcome, verification, and residual risk at completion. Generate a
+detailed `API-EQUIVALENT COST RECEIPT` only when requested, using the existing
+calculator and receipt policy in the operations reference. Reuse available native
+usage evidence; do not add telemetry collection or reconstruct missing usage.
 
-Distinguish observed tokens from pricing estimates and partial coverage. Show routed
-USD and the same observed tokens repriced at Astra only when comparable; label the
-difference a **same-token API price comparison**, never measured all-Astra behavior,
-actual net task savings, subscription charges, or improved quality/speed. If parent
-usage is missing, label any available delegated-only comparison separately. With no
-subagents there are no delegation savings. Effort is metadata, not a price multiplier.
-Use the versioned snapshot and disclose its date and promotional Sol pricing. Reject
-unsupported pricing regimes rather than silently using standard rates. An illustrative
-fixture is optional and must remain separate from this task's receipt.
+Keep observed consumption, API price estimates, and demonstrated savings distinct.
+Same-token Astra repricing is a **same-token API price comparison**, not evidence
+of actual net task savings. Unknown usage is not zero; state partial coverage or
+unavailability when preparing a receipt. Do not claim savings without comparable
+observed runs and their scope, quality, and cost basis.
