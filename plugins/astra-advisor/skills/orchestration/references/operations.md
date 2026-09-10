@@ -6,13 +6,10 @@ roles, role files, task lanes, or an installer.
 
 ## Parent session
 
-The primary session is GPT-6 Astra at whatever supported effort the user selected.
-The invocation is authoritative. Do not require a particular effort, rewrite the
-parent configuration, or claim a model/effort pin without runtime evidence. If the
-session exposes model and effort metadata and the model is not `gpt-6-astra`, report
-that mismatch as a selection prerequisite and do not claim Astra orchestration. If
-metadata does not expose the model or effort, report the value as unobservable and
-continue within the user's request without inventing confirmation.
+The primary session uses the model and effort selected by the user. Do not require
+Astra, rewrite the parent configuration, or claim a model/effort pin without runtime
+evidence. If metadata does not expose the model or effort, report the value as
+unobservable and continue within the user's request without inventing confirmation.
 
 ## Dynamic native delegation
 
@@ -21,7 +18,9 @@ that tool and its schema. Select a model and effort for each concrete, bounded,
 independent deliverable from the task's risk, context, and available work. Delegate
 only if that result justifies briefing, waiting, and integration costs; multi-file
 inspection alone does not. Work directly otherwise, while preserving independent
-review for substantial implementation. Pass the chosen values explicitly:
+review for substantial implementation. Apply the user's instructions and applicable
+`AGENTS.md` preferences before the [optional routing defaults](routing-defaults.md).
+Pass the chosen values explicitly:
 
 ~~~text
 model: <selected supported model>
@@ -48,24 +47,16 @@ The example does not prescribe a model, effort, task name, or number of subagent
 Use the current tool schema for any additional required fields and reject a request
 whose selected controls cannot be enforced.
 
-Do not rely on role names, predefined TOMLs, a role-to-model table, or a fixed count
-cap. Dispatch only work whose files, interfaces, and acceptance evidence are clear;
+No predefined roles or installer are needed. User preferences may assign models to
+task types or limit concurrency, within the live tool contract. Dispatch only work
+whose files, interfaces, and acceptance evidence are clear;
 keep useful planning, implementation, integration, or verification work in the
 parent session while independent subagents run. Avoid assigning the same change or
 check to both parent and subagent. Preserve concurrent edits and return each
 subagent's actual result and evidence to the parent.
 
-The following is the known capability snapshot for routing. It is guidance for a
-selection, not a contract that overrides live tool metadata:
-
-| Model | Efforts known in the current snapshot |
-| --- | --- |
-| `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
-
-Inspect the current tool metadata when selecting and invoking a subagent. A changed
-live capability list wins over this snapshot. If the selected model, effort, explicit
+Inspect the current tool metadata when selecting and invoking a subagent; the plugin
+does not maintain a capability allowlist. If the selected model, effort, explicit
 spawn control, or required tool is unavailable, conflicting, or unobservable, fail
 the affected delegation closed. Continue safe parent work when possible and report
 the limitation; never silently substitute another model, effort, or tool.
@@ -78,10 +69,10 @@ the source of each value. Chosen values are not the same as runtime-confirmed va
 
 For an initial substantial implementation, the parent first inspects the complete
 accumulated diff and runs the requested checks. It then starts an independent
-read-only reviewer in a new context, keeping the reviewed artifact stable. The
-reviewer can be `gpt-5.6-sol`, `gpt-5.6-terra`, or `gpt-5.6-luna`,
-with an effort supported by live metadata, and must receive the exact change set,
-interfaces, constraints, and verification evidence. Ask it to return:
+read-only reviewer in a new context, keeping the reviewed artifact stable. Select
+the reviewer using the same effective routing preferences and live capabilities as
+other delegates. It must receive the exact change set, interfaces, constraints, and
+verification evidence. Ask it to return:
 
 ~~~text
 ASTRA REVIEW
@@ -153,6 +144,10 @@ or calculator run is unnecessary. Keep observed consumption, estimated API price
 and demonstrated savings distinct. A savings claim needs comparable observed runs,
 including coordination and corrections, with their scope, quality, and cost basis;
 same-token repricing alone does not establish it.
+
+Routing may use models absent from the pricing snapshot. Missing rates make the
+affected estimate unavailable, not the model ineligible for delegation. The bundled
+calculator's comparison baseline remains Astra regardless of the selected parent.
 
 Use only non-overlapping observed usage with an explicit source. Cumulative telemetry
 snapshots are not additive calls. Never sum a parent-inclusive aggregate with child
