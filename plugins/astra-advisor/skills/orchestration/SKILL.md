@@ -24,10 +24,14 @@ never claim a runtime model or effort pin that was not confirmed.
 
 Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
 current tool schema. Each selected subagent must receive an explicit `model`, an
-explicit supported `reasoning_effort`, and `fork_turns: none`. Choose dynamically
-among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
-context, and independent work available; do not encode a role-to-model mapping or a
-fixed number of subagents. Give every subagent a concrete, bounded, independent
+explicit supported `reasoning_effort`, and `fork_turns: none`. Prefer `gpt-6-astra`
+for substantial judgment, broad context, difficult diagnosis, or consequential
+review; prefer `gpt-5.6-luna` for bounded, less demanding work. Choose effort for
+the actual difficulty and expected cost per accepted result, including retries.
+Use Sol or Terra only for an explicit user request or a concrete task-specific
+advantage, explaining the exception. Live availability and user choices take
+precedence; do not encode a role-to-model mapping or a fixed number of subagents.
+Give every subagent a concrete, bounded, independent
 deliverable while Astra continues useful parent work. Do not duplicate the parent's
 implementation or verification in a subagent. Keep the delegation contract short:
 objective, scope, constraints, expected result, and success criterion. For writing
@@ -43,8 +47,8 @@ omitted runtime field; it cannot replace an available public contract.
 
 For an initial substantial implementation, Astra must inspect the complete diff and
 run the requested checks before starting an independent read-only review in a fresh
-context. Keep the reviewed artifact stable. The reviewer may be any of
-the three supported subagent models, selected dynamically with explicit model and
+context. Keep the reviewed artifact stable. Select the reviewer using the same
+routing preferences and live capabilities, with explicit model and
 effort controls. Give it the actual change set and evidence, and require:
 
 ~~~text

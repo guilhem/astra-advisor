@@ -47,9 +47,13 @@ claims runtime settings without evidence.
 
 Delegate only when an independent result justifies briefing, waiting, and integration
 costs. Inspecting several files alone is not a trigger. When delegation helps, Astra
-uses the exposed generic `collaboration.spawn_agent` tool with an explicit `model`, `reasoning_effort`, and `fork_turns: none`. It chooses
-among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
-context, and independent work. There are no predefined role TOMLs, companion
+uses the exposed generic `collaboration.spawn_agent` tool with an explicit `model`,
+`reasoning_effort`, and `fork_turns: none`. It prefers `gpt-6-astra` for substantial
+judgment and `gpt-5.6-luna` for bounded, less demanding work, including reviews.
+Sol or Terra require an explicit user request or a concrete task-specific advantage.
+Effort is chosen for the difficulty and expected cost per accepted result, including
+retries; user choices and live capabilities take precedence.
+There are no predefined role TOMLs, companion
 installer, role-to-model mapping, or fixed subagent count cap. Astra gives each
 subagent a short contract: objective, scope, constraints, expected result, and success
 criterion, plus explicit file ownership when writing. Astra continues useful parent
@@ -59,6 +63,7 @@ Live tool metadata is authoritative. The current documented effort snapshot is:
 
 | Model | Known efforts |
 | --- | --- |
+| `gpt-6-astra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
@@ -79,6 +84,20 @@ After a bounded correction, Astra inspects the delta, runs affected checks, and
 obtains targeted confirmation, which may reuse the same reviewer. Unaffected evidence
 remains valid. Changes to design, authority, data ownership, or material risk require
 a new full independent review. `rethink` requires reassessing the plan and scope.
+
+## Delegation advisory hook (0.3.0)
+
+The bundled [hook](plugins/astra-advisor/hooks/hooks.json) checks explicit delegation
+controls before `spawn_agent` calls. Missing or empty `model` / `reasoning_effort`,
+or `fork_turns` other than `"none"`, produces a short advisory in the parent's
+context. Complete calls are silent. It does not block, rewrite, or retry calls,
+enforce routing preferences, or establish runtime model/effort evidence.
+
+This requires Python 3 and a Codex host supporting plugin hooks. After installing
+or updating, review and trust the hook in Codex; installing the plugin alone does
+not activate it. Trusted hooks run even when the orchestration skill is not invoked,
+so other delegation workflows may receive the advisory too. See the
+[official hook documentation](https://learn.chatgpt.com/docs/hooks).
 
 ## Progress and cost details on request
 

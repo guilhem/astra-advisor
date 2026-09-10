@@ -60,6 +60,7 @@ selection, not a contract that overrides live tool metadata:
 
 | Model | Efforts known in the current snapshot |
 | --- | --- |
+| `gpt-6-astra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
@@ -70,6 +71,26 @@ spawn control, or required tool is unavailable, conflicting, or unobservable, fa
 the affected delegation closed. Continue safe parent work when possible and report
 the limitation; never silently substitute another model, effort, or tool.
 
+Prefer Astra for work requiring substantial judgment and Luna for bounded, less
+demanding work, including reviews. Sol and Terra require an explicit user request
+or a concrete task-specific advantage. Choose effort according to the work and
+expected cost per accepted result; effort labels alone do not establish value.
+
+## Delegation advisory hook
+
+The plugin bundles a `PreToolUse` command hook for `Agent` / `spawn_agent` calls.
+After the user trusts it in Codex, it checks for non-empty `model` and
+`reasoning_effort` strings and `fork_turns: "none"`. Missing or inconsistent
+controls add a short advisory to the parent's context; the pending call still runs
+unchanged. The hook does not validate model availability or runtime settings.
+
+Hooks run independently of skill invocation, so this advisory also reaches other
+delegation workflows while the plugin's hook is trusted. It never denies, rewrites,
+or retries a call, and does not replace the parent's capability checks. Complete
+calls are silent; malformed input is skipped. See the
+[hook configuration](../../../hooks/hooks.json) and
+[Codex hook contract](https://learn.chatgpt.com/docs/hooks).
+
 ## Evidence and review
 
 The public spawn and thread metadata are authoritative for model and effort. Use
@@ -79,8 +100,8 @@ the source of each value. Chosen values are not the same as runtime-confirmed va
 For an initial substantial implementation, the parent first inspects the complete
 accumulated diff and runs the requested checks. It then starts an independent
 read-only reviewer in a new context, keeping the reviewed artifact stable. The
-reviewer can be `gpt-5.6-sol`, `gpt-5.6-terra`, or `gpt-5.6-luna`,
-with an effort supported by live metadata, and must receive the exact change set,
+reviewer follows the same Astra/Luna routing preferences, with a model and effort
+supported by live metadata, and must receive the exact change set,
 interfaces, constraints, and verification evidence. Ask it to return:
 
 ~~~text

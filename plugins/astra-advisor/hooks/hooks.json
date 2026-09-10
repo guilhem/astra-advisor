@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(Agent|spawn_agent|collaboration\\.spawn_agent)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -B \"${PLUGIN_ROOT}/scripts/delegation_hook.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
