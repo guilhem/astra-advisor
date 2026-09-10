@@ -1,9 +1,9 @@
 # Astra Advisor
 
-**GPT-6 Astra plans the work, chooses useful bounded delegation dynamically, and
-owns verification and acceptance.**
+**Your selected model plans the work, chooses useful bounded delegation dynamically,
+and owns verification and acceptance.**
 
-Astra Advisor is a Codex plugin for capability-routed software delivery. Give Astra
+Astra Advisor is a Codex plugin for capability-routed software delivery. Give it
 the goal, constraints, and repository context; it decides whether independent work
 should run alongside the parent session and chooses a supported native subagent
 model and effort for each bounded deliverable.
@@ -25,8 +25,8 @@ to get new posts in your inbox.
 ## Quick start
 
 Install the plugin in a current Codex CLI or ChatGPT desktop app with plugins
-enabled. Start a fresh task after installation and select GPT-6 Astra at any effort
-supported by the current Codex host:
+enabled. Start a fresh task after installation with your preferred parent model and
+effort supported by the current Codex host:
 
 ~~~sh
 codex plugin marketplace add DannyMac180/astra-advisor --ref main
@@ -41,67 +41,111 @@ Use $astra-advisor:orchestration to plan, build, verify, and review this work.
 
 ## How routing works
 
-Astra remains the architect and acceptance owner in the primary GPT-6 Astra session
-at the effort selected by the user. After capability preflight, Astra records the
-parent model and effort as observed or unobservable before implementation or
-delegation begins. The skill never changes the parent session.
+The parent remains the architect and acceptance owner at the model and effort
+selected by the user. The skill never changes the parent session or
+claims runtime settings without evidence.
 
-When delegation helps, Astra uses the exposed generic `collaboration.spawn_agent`
-tool. Substantial reviews prefer `fork_turns: "all"` to retain the discussed needs,
-constraints, and tradeoffs. Full forks inherit the parent model and effort, so both
-overrides are omitted. Narrowly targeted checks may use reduced context when enough.
-Other bounded delegates receive an explicit `model`, `reasoning_effort`, and
-`fork_turns: "none"`. For explicit selection, Astra chooses
-among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
-context, and independent work. There are no predefined role TOMLs, companion
-installer, role-to-model mapping, or fixed subagent count cap. Astra gives each
-subagent a concrete bounded deliverable and continues useful parent work while it
-runs.
+Delegate only when an independent result justifies briefing, waiting, and integration
+costs. Inspecting several files alone is not a trigger. When delegation helps, the parent
+uses the exposed generic `collaboration.spawn_agent` tool. Substantial reviews prefer
+`fork_turns: "all"` to retain the discussed needs, constraints, and tradeoffs. Full
+forks inherit the parent model and effort, so both overrides are omitted. Explicit
+user and applicable `AGENTS.md` routing instructions take precedence: if different
+settings are required, use a compatible reduced-context fork with those settings
+and supply the relevant requirements and evidence. Narrowly targeted checks may
+also use reduced context when sufficient. Other bounded delegates receive explicit
+`model`, `reasoning_effort`, and `fork_turns: "none"`. The parent chooses
+among live-supported models using your routing preferences, task risk, context,
+and independent work. There are no predefined role TOMLs or companion installer.
+The parent gives each subagent a short contract: objective, scope, constraints,
+expected result, and success criterion, plus explicit file ownership when writing.
+The parent continues useful work while it runs and owns integration.
 
-Live tool metadata is authoritative. The current documented effort snapshot is:
-
-| Model | Known efforts |
-| --- | --- |
-| `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
+The [routing reference](plugins/astra-advisor/skills/orchestration/references/routing-defaults.md)
+contains optional model suggestions, not an allowlist. Live tool metadata determines
+which models and efforts are available.
 
 If a selected model, effort, control, or tool is unavailable, conflicting, or
-unobservable, Astra fails that delegation closed and reports the limitation. It does
+unobservable, the parent fails that delegation closed and reports the limitation. It does
 not silently substitute a model, effort, role, or fabricated tool. Chosen values and
 runtime-confirmed values are reported separately.
 
-For an initial substantial implementation, Astra inspects the complete diff and runs
-the requested checks, then requests an independent read-only review of that stable
-artifact. A short assignment identifies the diff, accepted scope, and evidence.
-The reviewer verifies conclusions against the code and distinguishes requirements
-from assumptions. Blocking findings must demonstrate an in-scope defect; `ship` may
-include P3 and non-blocking P2 residual risks.
+For an initial substantial implementation, the parent inspects the complete diff and runs
+the requested checks, then sends the stable change set to an independent read-only
+reviewer, preferably with a full fork as described above. Even with inherited context,
+a short assignment identifies the diff, accepted scope, and evidence. The reviewer
+verifies conclusions against the code and distinguishes requirements from assumptions.
+Acceptance requires `ship`, which may include residual
+findings. `fix-first` requires a demonstrated in-scope blocking defect; non-blocking
+findings alone do not start another correction or review cycle.
 
-Astra accepts the work only after `ship`. After `fix-first`, it batches blocking
-corrections, runs affected checks, and obtains targeted confirmation, preferably
-from the same reviewer, preserving unaffected evidence. A new full review is needed
-when design, authority, ownership, or material risk changes. `rethink` requires a
-revised plan. Small documentation and mechanical changes need parent inspection.
+After a bounded correction, the parent inspects the delta, runs affected checks, and
+obtains targeted confirmation, preferably from the same reviewer. Unaffected evidence
+remains valid. Changes to design, authority, data ownership, or material risk require
+a new full independent review. `rethink` requires reassessing the plan and scope.
+Small documentation and mechanical changes need parent inspection.
 
-## Live visibility and cost receipts (0.2.0)
+## Customize model routing with AGENTS.md
 
-Every delegation announces its name, bounded task, selected model and reasoning
-effort, and selection reason. Its result reports actual status and runtime-observed
-settings, or explicitly says those settings are unobservable. These updates also
-cover reviewers and targeted follow-ups. A requested setting is not proof of the
-realized setting.
+No plugin-specific configuration file is needed. Add your preferences to your
+personal `~/.codex/AGENTS.md` (or the `AGENTS.md` in your configured `CODEX_HOME`),
+or to your project's `AGENTS.md`. Project guidance overrides conflicting personal
+guidance; more specific applicable directory guidance takes precedence. If an
+`AGENTS.override.md` is present, Codex uses it instead of `AGENTS.md` in that
+directory. See [Codex instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 
-Every task ends with an API-equivalent cost receipt. When native tools expose token
-usage, the receipt estimates its USD price using the versioned snapshot and compares
-that same token workload repriced entirely at Astra. It separates whole-task,
-delegated-only, and partial coverage. Missing parent or reviewer usage prevents a
-whole-task claim. Without observed usage, the receipt says why it is unavailable.
+The skill applies explicit user instructions and applicable `AGENTS.md` guidance
+before its routing defaults. Override only the choices you need; the remaining
+defaults still apply. For example, add this personal preference section:
 
-The difference is a **same-token API price comparison**. It does not measure what an
+~~~md
+## Astra Advisor model preferences
+
+- Prefer gpt-5.6-luna at high effort for bounded tasks with clear acceptance criteria.
+- Prefer gpt-6-astra at low effort for work requiring substantial judgment.
+- Prefer gpt-6-astra at high effort for difficult diagnosis and consequential reviews.
+- Avoid Sol and Terra unless there is a concrete task-specific advantage.
+~~~
+
+A project can narrow those choices without copying the whole section:
+
+~~~md
+## Astra Advisor model preferences
+
+- For this repository, use only gpt-6-astra at high effort for delegated reviews.
+~~~
+
+These are examples, not additional plugin defaults. "Prefer" allows another suitable
+permitted choice with an explanation; "only" is a restriction. An unavailable required
+model or effort blocks that delegation, not independent parent work. Preferences
+cannot grant tool access or change the running parent model or effort.
+
+Keep customizations in your instruction files rather than the installed plugin cache,
+so plugin updates do not overwrite them. Start a fresh Codex session after editing,
+then ask: "Which routing preferences apply here, and which instruction supplies them?"
+The parent also passes relevant routing constraints to delegates that may delegate further.
+
+## Progress and cost details on request
+
+Updates focus on consequential decisions, results, changes, and blockers. Related
+updates can be grouped without mandatory route blocks or paired agent receipts.
+Detailed agent IDs, requested settings, and runtime evidence are available on request;
+observed mismatches and material capability limitations are still reported.
+
+Ask for usage or cost details to get an API-equivalent receipt from the existing
+calculator and available native evidence. No receipt or unavailable-cost notice is
+required otherwise. The receipt separates observed consumption from estimated USD
+prices and distinguishes whole-task, delegated-only, and partial coverage. Missing
+parent or reviewer usage prevents a whole-task claim. Without observed usage, report
+why it is unavailable; do not add telemetry infrastructure or invent token counts.
+
+The calculator can reprice the same observed tokens entirely at Astra. The difference
+is a **same-token API price comparison**. It does not measure what an
 all-Astra run would actually consume, actual net task savings, quality, speed, or a
 change to ChatGPT subscription charges or usage credits. No subagents means no
-delegation savings. Reasoning effort does not multiply the token price.
+delegation savings. Reasoning effort does not multiply the token price. Demonstrated
+savings require comparable observed runs, including coordination and corrections,
+with their scope, quality, and cost basis.
 
 The [pricing snapshot](plugins/astra-advisor/pricing/2026-09-04.json) records official
 source URLs and standard short-context USD rates per million tokens, verified by
@@ -119,6 +163,8 @@ sh plugins/astra-advisor/scripts/verify.sh
 ~~~
 
 The calculator emits JSON and accepts `--pricing PATH` for another verified snapshot.
+Custom model choices do not change its Astra comparison baseline. A model missing
+from the pricing snapshot remains eligible for routing; its cost estimate is unavailable.
 Its input lists agents and unique atomic calls, usage provenance, coverage assertions,
 and explicit pricing eligibility. It validates cached-input and reasoning-output
 subsets, refuses overlapping aggregates, and keeps unknown usage separate from zero.

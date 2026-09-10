@@ -6,40 +6,32 @@ roles, role files, task lanes, or an installer.
 
 ## Parent session
 
-The primary session is GPT-6 Astra at whatever supported effort the user selected.
-The invocation is authoritative. Do not require a particular effort, rewrite the
-parent configuration, or claim a model/effort pin without runtime evidence. If the
-session exposes model and effort metadata and the model is not `gpt-6-astra`, report
-that mismatch as a selection prerequisite and do not claim Astra orchestration. If
-metadata does not expose the model or effort, report the value as unobservable and
-continue within the user's request without inventing confirmation.
-
-After capability preflight and before the first implementation or delegation task
-call, record the selected plan:
-
-~~~text
-ASTRA ROUTE
-parent: <observed model or unobservable> / <observed effort or unobservable>
-delegation: <none or each selected model and effort>
-risk: <concise, task-specific rationale>
-~~~
-
-The declaration is a record of the current decision, not a fixed set of workflow
-lanes. Update it only when new evidence changes the plan, and explain that evidence.
+The primary session uses the model and effort selected by the user. Do not require
+Astra, rewrite the parent configuration, or claim a model/effort pin without runtime
+evidence. If metadata does not expose the model or effort, report the value as
+unobservable and continue within the user's request without inventing confirmation.
 
 ## Dynamic native delegation
 
 Use the generic `collaboration.spawn_agent` only if the current environment exposes
-that tool and its schema. Prefer `fork_turns: "all"` for substantial reviews so the
-reviewer receives the conversation context, including needs and accepted tradeoffs.
-Under the current schema, a full fork inherits the parent model and effort and does
-not accept `model` or `reasoning_effort` overrides. Omit those fields; report the
-requested inheritance separately from any runtime-observed settings.
+that tool and its schema. Select a model and effort for each concrete, bounded,
+independent deliverable from the task's risk, context, and available work. Delegate
+only if that result justifies briefing, waiting, and integration costs; multi-file
+inspection alone does not. Work directly otherwise, while preserving independent
+review for substantial implementation. Apply the user's instructions and applicable
+`AGENTS.md` preferences before the [optional routing defaults](routing-defaults.md).
 
-For a narrowly targeted check, reduced context is sufficient when the assignment
-contains the relevant requirements and evidence. For other bounded independent
-deliverables, select a model and effort from the task's risk, context, and available
-work. Pass the chosen values explicitly:
+For substantial reviews, prefer `fork_turns: "all"` to retain the discussed needs,
+constraints, and accepted tradeoffs. Under the current schema, full forks inherit
+the parent's model and effort and do not accept overrides; omit `model` and
+`reasoning_effort`. Explicit user and applicable `AGENTS.md` routing instructions
+take precedence over this default. If they require different settings, use a
+compatible reduced-context fork with explicit model and effort and supply the
+relevant requirements and evidence. Never use inheritance to bypass a restriction.
+When reporting settings, distinguish requested inheritance from runtime evidence.
+
+Narrowly targeted checks may use reduced context when sufficient. For other bounded
+delegates, pass the chosen values explicitly:
 
 ~~~text
 model: <selected supported model>
@@ -47,14 +39,15 @@ reasoning_effort: <selected supported effort>
 fork_turns: none
 ~~~
 
-Include a task name and a message that states the bounded ownership and expected
-return. For example, this is one illustrative request shape; the model and effort
-must be selected afresh for the actual task:
+Keep the message to the objective, scope, constraints, expected result, and success
+criterion, with only the context needed to act. Writing agents need explicit file
+ownership; exploration and review are read-only. For example, the model and effort
+below are illustrative and must be selected afresh for the actual task:
 
 ~~~json
 {
   "task_name": "inspect_auth_boundary",
-  "message": "Inspect the auth boundary in the owned files. Return findings, exact file references, and the checks you ran; do not edit outside that boundary.",
+  "message": "Trace authentication in src/auth/ and its route callers. Read-only; stay within the existing auth contract. Return the enforcement path, file references, and any bypass evidence. Success: each caller is accounted for, with verified checks distinguished from untested risks.",
   "model": "gpt-5.6-luna",
   "reasoning_effort": "max",
   "fork_turns": "none"
@@ -65,24 +58,16 @@ The example does not prescribe a model, effort, task name, or number of subagent
 Use the current tool schema for any additional required fields and reject a request
 whose selected controls cannot be enforced.
 
-Do not rely on role names, predefined TOMLs, a role-to-model table, or a fixed count
-cap. Dispatch only work whose files, interfaces, and acceptance evidence are clear;
+No predefined roles or installer are needed. User preferences may assign models to
+task types or limit concurrency, within the live tool contract. Dispatch only work
+whose files, interfaces, and acceptance evidence are clear;
 keep useful planning, implementation, integration, or verification work in the
 parent session while independent subagents run. Avoid assigning the same change or
 check to both parent and subagent. Preserve concurrent edits and return each
 subagent's actual result and evidence to the parent.
 
-The following is the known capability snapshot for routing. It is guidance for a
-selection, not a contract that overrides live tool metadata:
-
-| Model | Efforts known in the current snapshot |
-| --- | --- |
-| `gpt-5.6-sol` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-terra` | `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
-| `gpt-5.6-luna` | `low`, `medium`, `high`, `xhigh`, `max` |
-
-Inspect the current tool metadata when selecting and invoking a subagent. A changed
-live capability list wins over this snapshot. If the selected model, effort, explicit
+Inspect the current tool metadata when selecting and invoking a subagent; the plugin
+does not maintain a capability allowlist. If the selected model, effort, explicit
 spawn control, or required tool is unavailable, conflicting, or unobservable, fail
 the affected delegation closed. Continue safe parent work when possible and report
 the limitation; never silently substitute another model, effort, or tool.
@@ -95,17 +80,12 @@ the source of each value. Chosen values are not the same as runtime-confirmed va
 
 For an initial substantial implementation, the parent first inspects the complete
 accumulated diff and runs the requested checks. It then starts an independent
-read-only reviewer, preferably with `fork_turns: "all"`. Keep the reviewed artifact
-stable. Even with inherited context, give a short assignment naming the exact diff,
-accepted scope, interfaces, constraints, and verification evidence.
-
-The reviewer must verify the parent's conclusions against the actual code and
-evidence, distinguish user requirements from orchestrator assumptions, and justify
-every blocking finding by a demonstrated in-scope defect grounded in the user's
-requirement or an existing supported contract. Conversation history explains the
-choices; it does not establish their correctness. `ship` may include P3 and
-non-blocking P2 residual findings; those findings never alone justify `fix-first`
-or another correction cycle. Ask it to return:
+read-only reviewer, preferably with a full fork as described above, keeping the
+reviewed artifact stable. Even with inherited context, give a short assignment
+naming the exact diff, accepted scope, interfaces, constraints, and verification
+evidence. The reviewer must verify the parent's conclusions against the actual code
+and distinguish user requirements from orchestrator assumptions. Conversation
+history explains the choices; it does not establish their correctness. Ask it to return:
 
 ~~~text
 ASTRA REVIEW
@@ -115,17 +95,27 @@ FINDINGS: <precise findings or none>
 RESIDUAL RISK: <remaining risk or none>
 ~~~
 
-Treat `ship` as the only accepting verdict for substantial implementation. On
-`fix-first`, the parent batches blocking corrections, runs the affected checks, and
-obtains targeted confirmation, preferably by sending the corrected diff and evidence
-to the same reviewer with `collaboration.followup_task` when available. Preserve
-unaffected evidence. Start a new full review when design, authority, ownership, or
-material risk changes, not merely because the original PR was large. Small
-documentation and mechanical changes need parent inspection, not an independent
-review gate. On `rethink`, revise the plan before claiming completion. The reviewer
-must not edit files or implement its own fixes. Capture actual sandbox and permission
-metadata when the host exposes them; do not claim enforced read-only isolation unless
-it was observed.
+Treat `ship` as the only accepting verdict for substantial implementation; it may
+include residual findings. Give every reviewer the accepted scope and this threshold:
+`fix-first` requires a demonstrated in-scope blocking defect grounded in the user's
+requirement or an existing supported contract. Non-blocking P2 and P3 findings alone
+never start another correction or review cycle.
+
+Batch blocking findings for parent correction. After a bounded correction, inspect
+the delta, run affected checks, and request targeted confirmation, preferably from
+the same reviewer via `collaboration.followup_task` when available. Preserve
+unaffected evidence. Start a new full independent review
+when design, authority, data ownership, or material risk changes, not simply because
+the original implementation was substantial. On `rethink`, reassess the plan and
+scope before claiming completion. Reviewers must not edit files or implement their
+own fixes. Capture actual sandbox and permission metadata when exposed; do not
+claim enforced read-only isolation unless observed. Small documentation and
+mechanical changes need parent inspection, not an independent review gate.
+
+For instruction changes, separate static consistency checks and scenario walkthroughs
+from actual agent execution. A wording or link test does not establish behavior.
+Report which affected scenarios were executed and which were only inspected;
+do not invent runtime evidence.
 
 ## ChatGPT app and cloud boundaries
 
@@ -144,43 +134,35 @@ usable only once its schema exposes the required controls.
 
 ## Reporting
 
-For each delegation and review, report the selected model/effort, the evidence source,
-the bounded deliverable, and the actual result. Keep chosen-but-unconfirmed values
-separate from runtime-confirmed values. A parent acceptance claim requires its own
-diff inspection and requested checks; a subagent's assertion alone is insufficient.
+Report meaningful decisions, results, changes, and blockers. Group related delegation
+updates rather than emitting a route block or paired dispatch/completion receipts
+for every agent. Provide agent IDs, selected model/effort, runtime evidence, and
+lifecycle detail when requested. Keep requested settings separate from confirmed
+settings; disclose observed mismatches and material capability limitations promptly.
+A successful dispatch is not completed work. Parent acceptance requires its own
+diff inspection and requested checks, not a subagent's assertion alone.
 
-## Automatic lifecycle updates
-
-Emit these updates in the user's conversation, not only in an internal log. They
-apply to each implementer and each review assignment, including targeted follow-ups
-and failed dispatches. For a full fork, label requested settings as inherited and
-keep unknown parent values unobservable:
-
-~~~text
-ASTRA DELEGATE <name>
-task: <bounded deliverable and owned files>
-requested: <model> / <effort>
-reason: <why this work warrants this selection>
-
-ASTRA RESULT <name> / <agent ID or unavailable>
-status: <completed, failed, interrupted, or blocked; actual evidence>
-requested: <model> / <effort>
-observed: <model or unobservable> / <effort or unobservable>
-evidence: <runtime metadata source or unavailable>
-~~~
-
-Do not equate a successful dispatch with completed work. Keep a record of agent IDs,
-requested settings, runtime observations, result evidence, and any usage source.
-Native metadata may expose neither realized settings nor billing-grade usage; say so.
-No API keys, external inference CLIs, billing-account queries, or dashboard are needed.
+At completion, focus on the outcome, verification, and residual risk. No cost receipt
+or unavailable-cost notice is required unless the user asks for one. Reuse existing
+native traces when a receipt is requested; do not add continuous collection,
+external inference CLIs, billing-account queries, or a dashboard to support it.
 
 ## API-equivalent receipt policy
 
-Every task completion requires a visible receipt, including a task with no delegation
-or no accessible token telemetry. The calculator is Python standard library only:
+When the user requests usage or cost details, use the existing Python standard
+library calculator for API price estimates:
 [calculator](../../../scripts/cost_receipt.py),
 [pricing snapshot](../../../pricing/2026-09-04.json).
 Resolve these paths relative to this installed reference, not a guessed cache version.
+If no observed usage is accessible, report why it is unavailable; a fabricated input
+or calculator run is unnecessary. Keep observed consumption, estimated API prices,
+and demonstrated savings distinct. A savings claim needs comparable observed runs,
+including coordination and corrections, with their scope, quality, and cost basis;
+same-token repricing alone does not establish it.
+
+Routing may use models absent from the pricing snapshot. Missing rates make the
+affected estimate unavailable, not the model ineligible for delegation. The bundled
+calculator's comparison baseline remains Astra regardless of the selected parent.
 
 Use only non-overlapping observed usage with an explicit source. Cumulative telemetry
 snapshots are not additive calls. Never sum a parent-inclusive aggregate with child
