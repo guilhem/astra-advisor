@@ -28,8 +28,12 @@ say that it is unobservable; never claim a runtime pin that was not confirmed. R
 [the operations reference](references/operations.md) before the first delegation.
 
 Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
-current tool schema. Each selected subagent must receive an explicit `model`, an
-explicit supported `reasoning_effort`, and `fork_turns: none`. Choose dynamically
+current tool schema. For a substantial review, prefer `fork_turns: "all"` to retain
+the discussed needs, constraints, and tradeoffs. Under the current tool contract,
+this inherits the parent's model and effort; omit both overrides. For a narrowly
+targeted check, use reduced context when sufficient. Other bounded delegates receive
+an explicit `model`, a supported `reasoning_effort`, and `fork_turns: "none"`.
+For explicit model selection, choose dynamically
 among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
 context, and independent work available; do not encode a role-to-model mapping or a
 fixed number of subagents. Give every subagent a concrete, bounded, independent
@@ -43,10 +47,14 @@ continue only with safe parent work or report the limitation. Never silently
 substitute a model, effort, role, or fabricated tool. Introspection may clarify an
 omitted runtime field; it cannot replace an available public contract.
 
-For a substantial implementation, Astra must inspect the complete diff and rerun the
-requested checks before starting a fresh read-only review. The reviewer may be any of
-the three supported subagent models, selected dynamically with explicit model and
-effort controls. Give it the actual change set and evidence, and require:
+For an initial substantial implementation, Astra must inspect the complete diff and
+run the requested checks before starting an independent read-only review. Give the
+reviewer a short assignment identifying the stable diff, accepted scope, constraints,
+and verification evidence, even with a full fork. Require it to verify the parent's
+conclusions against the code, distinguish user requirements from assumptions, and
+ground every blocking finding in a demonstrated defect within the accepted scope or
+an existing supported contract. P3 and non-blocking P2 findings are residual risks:
+`ship` may include them; they do not alone justify `fix-first`. Require:
 
 ~~~text
 ASTRA REVIEW
@@ -56,9 +64,13 @@ FINDINGS: <precise findings or none>
 RESIDUAL RISK: <remaining risk or none>
 ~~~
 
-Accept a substantial implementation only after the fresh reviewer returns `ship`.
-After `fix-first`, the parent applies the correction, verifies again, and obtains a
-new fresh review. A reviewer remains read-only and never fixes its own findings.
+Accept a substantial implementation only after the reviewer returns `ship`.
+After `fix-first`, the parent batches blocking corrections, runs affected checks,
+and obtains targeted confirmation, preferably from the same reviewer. Preserve
+unaffected evidence. A new full review is needed when design, authority, ownership,
+or material risk changes, not merely because a correction follows a large PR.
+A reviewer remains read-only and never fixes its own findings. Small documentation
+and mechanical changes need parent inspection, not an independent review gate.
 
 Use native Codex subagents in the ChatGPT app when the exposed interface supports the
 needed controls. Separate app tasks require an explicit user request. For an explicit

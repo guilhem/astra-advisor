@@ -30,9 +30,16 @@ lanes. Update it only when new evidence changes the plan, and explain that evide
 ## Dynamic native delegation
 
 Use the generic `collaboration.spawn_agent` only if the current environment exposes
-that tool and its schema. Select a model and effort for each concrete, bounded,
-independent deliverable from the task's risk, context, and available work. Pass the
-chosen values explicitly:
+that tool and its schema. Prefer `fork_turns: "all"` for substantial reviews so the
+reviewer receives the conversation context, including needs and accepted tradeoffs.
+Under the current schema, a full fork inherits the parent model and effort and does
+not accept `model` or `reasoning_effort` overrides. Omit those fields; report the
+requested inheritance separately from any runtime-observed settings.
+
+For a narrowly targeted check, reduced context is sufficient when the assignment
+contains the relevant requirements and evidence. For other bounded independent
+deliverables, select a model and effort from the task's risk, context, and available
+work. Pass the chosen values explicitly:
 
 ~~~text
 model: <selected supported model>
@@ -86,11 +93,19 @@ The public spawn and thread metadata are authoritative for model and effort. Use
 runtime introspection only to resolve a field that public metadata omitted, and report
 the source of each value. Chosen values are not the same as runtime-confirmed values.
 
-For substantial implementation, the parent first inspects the complete accumulated
-diff and reruns the requested checks. It then starts a fresh read-only reviewer in a
-new context. The reviewer can be `gpt-5.6-sol`, `gpt-5.6-terra`, or `gpt-5.6-luna`,
-with an effort supported by live metadata, and must receive the exact change set,
-interfaces, constraints, and verification evidence. Ask it to return:
+For an initial substantial implementation, the parent first inspects the complete
+accumulated diff and runs the requested checks. It then starts an independent
+read-only reviewer, preferably with `fork_turns: "all"`. Keep the reviewed artifact
+stable. Even with inherited context, give a short assignment naming the exact diff,
+accepted scope, interfaces, constraints, and verification evidence.
+
+The reviewer must verify the parent's conclusions against the actual code and
+evidence, distinguish user requirements from orchestrator assumptions, and justify
+every blocking finding by a demonstrated in-scope defect grounded in the user's
+requirement or an existing supported contract. Conversation history explains the
+choices; it does not establish their correctness. `ship` may include P3 and
+non-blocking P2 residual findings; those findings never alone justify `fix-first`
+or another correction cycle. Ask it to return:
 
 ~~~text
 ASTRA REVIEW
@@ -101,8 +116,13 @@ RESIDUAL RISK: <remaining risk or none>
 ~~~
 
 Treat `ship` as the only accepting verdict for substantial implementation. On
-`fix-first`, the parent makes the correction, reruns verification, and obtains a new
-fresh review. On `rethink`, revise the plan before claiming completion. The reviewer
+`fix-first`, the parent batches blocking corrections, runs the affected checks, and
+obtains targeted confirmation, preferably by sending the corrected diff and evidence
+to the same reviewer with `collaboration.followup_task` when available. Preserve
+unaffected evidence. Start a new full review when design, authority, ownership, or
+material risk changes, not merely because the original PR was large. Small
+documentation and mechanical changes need parent inspection, not an independent
+review gate. On `rethink`, revise the plan before claiming completion. The reviewer
 must not edit files or implement its own fixes. Capture actual sandbox and permission
 metadata when the host exposes them; do not claim enforced read-only isolation unless
 it was observed.
@@ -132,7 +152,9 @@ diff inspection and requested checks; a subagent's assertion alone is insufficie
 ## Automatic lifecycle updates
 
 Emit these updates in the user's conversation, not only in an internal log. They
-apply to each implementer and each fresh reviewer, including failed dispatches:
+apply to each implementer and each review assignment, including targeted follow-ups
+and failed dispatches. For a full fork, label requested settings as inherited and
+keep unknown parent values unobservable:
 
 ~~~text
 ASTRA DELEGATE <name>

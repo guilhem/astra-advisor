@@ -47,7 +47,11 @@ parent model and effort as observed or unobservable before implementation or
 delegation begins. The skill never changes the parent session.
 
 When delegation helps, Astra uses the exposed generic `collaboration.spawn_agent`
-tool with an explicit `model`, `reasoning_effort`, and `fork_turns: none`. It chooses
+tool. Substantial reviews prefer `fork_turns: "all"` to retain the discussed needs,
+constraints, and tradeoffs. Full forks inherit the parent model and effort, so both
+overrides are omitted. Narrowly targeted checks may use reduced context when enough.
+Other bounded delegates receive an explicit `model`, `reasoning_effort`, and
+`fork_turns: "none"`. For explicit selection, Astra chooses
 among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
 context, and independent work. There are no predefined role TOMLs, companion
 installer, role-to-model mapping, or fixed subagent count cap. Astra gives each
@@ -67,19 +71,26 @@ unobservable, Astra fails that delegation closed and reports the limitation. It 
 not silently substitute a model, effort, role, or fabricated tool. Chosen values and
 runtime-confirmed values are reported separately.
 
-For substantial implementation, Astra inspects the complete diff and reruns the
-requested checks, then sends the accumulated change set to a fresh read-only
-reviewer. The reviewer can be any of the three supported models at a live-supported
-effort. Astra accepts the work only after the reviewer returns `ship`; `fix-first`
-requires a new parent verification and fresh review, while `rethink` requires a
-revised plan.
+For an initial substantial implementation, Astra inspects the complete diff and runs
+the requested checks, then requests an independent read-only review of that stable
+artifact. A short assignment identifies the diff, accepted scope, and evidence.
+The reviewer verifies conclusions against the code and distinguishes requirements
+from assumptions. Blocking findings must demonstrate an in-scope defect; `ship` may
+include P3 and non-blocking P2 residual risks.
+
+Astra accepts the work only after `ship`. After `fix-first`, it batches blocking
+corrections, runs affected checks, and obtains targeted confirmation, preferably
+from the same reviewer, preserving unaffected evidence. A new full review is needed
+when design, authority, ownership, or material risk changes. `rethink` requires a
+revised plan. Small documentation and mechanical changes need parent inspection.
 
 ## Live visibility and cost receipts (0.2.0)
 
 Every delegation announces its name, bounded task, selected model and reasoning
 effort, and selection reason. Its result reports actual status and runtime-observed
 settings, or explicitly says those settings are unobservable. These updates also
-cover fresh reviewers. A requested setting is not proof of the realized setting.
+cover reviewers and targeted follow-ups. A requested setting is not proof of the
+realized setting.
 
 Every task ends with an API-equivalent cost receipt. When native tools expose token
 usage, the receipt estimates its USD price using the versioned snapshot and compares
