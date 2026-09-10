@@ -47,7 +47,14 @@ claims runtime settings without evidence.
 
 Delegate only when an independent result justifies briefing, waiting, and integration
 costs. Inspecting several files alone is not a trigger. When delegation helps, the parent
-uses the exposed generic `collaboration.spawn_agent` tool with an explicit `model`, `reasoning_effort`, and `fork_turns: none`. It chooses
+uses the exposed generic `collaboration.spawn_agent` tool. Substantial reviews prefer
+`fork_turns: "all"` to retain the discussed needs, constraints, and tradeoffs. Full
+forks inherit the parent model and effort, so both overrides are omitted. Explicit
+user and applicable `AGENTS.md` routing instructions take precedence: if different
+settings are required, use a compatible reduced-context fork with those settings
+and supply the relevant requirements and evidence. Narrowly targeted checks may
+also use reduced context when sufficient. Other bounded delegates receive explicit
+`model`, `reasoning_effort`, and `fork_turns: "none"`. The parent chooses
 among live-supported models using your routing preferences, task risk, context,
 and independent work. There are no predefined role TOMLs or companion installer.
 The parent gives each subagent a short contract: objective, scope, constraints,
@@ -65,15 +72,18 @@ runtime-confirmed values are reported separately.
 
 For an initial substantial implementation, the parent inspects the complete diff and runs
 the requested checks, then sends the stable change set to an independent read-only
-reviewer in a fresh context. Reviewer selection follows the same effective model and effort
-preferences as other delegations. Acceptance requires `ship`, which may include residual
+reviewer, preferably with a full fork as described above. Even with inherited context,
+a short assignment identifies the diff, accepted scope, and evidence. The reviewer
+verifies conclusions against the code and distinguishes requirements from assumptions.
+Acceptance requires `ship`, which may include residual
 findings. `fix-first` requires a demonstrated in-scope blocking defect; non-blocking
 findings alone do not start another correction or review cycle.
 
 After a bounded correction, the parent inspects the delta, runs affected checks, and
-obtains targeted confirmation, which may reuse the same reviewer. Unaffected evidence
+obtains targeted confirmation, preferably from the same reviewer. Unaffected evidence
 remains valid. Changes to design, authority, data ownership, or material risk require
 a new full independent review. `rethink` requires reassessing the plan and scope.
+Small documentation and mechanical changes need parent inspection.
 
 ## Customize model routing with AGENTS.md
 

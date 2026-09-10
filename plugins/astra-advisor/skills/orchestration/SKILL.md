@@ -34,9 +34,16 @@ or preparing a requested cost receipt. Report material capability limitations;
 never claim a runtime model or effort pin that was not confirmed.
 
 Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
-current tool schema. Each selected subagent must receive an explicit `model`, an
-explicit supported `reasoning_effort`, and `fork_turns: none`. Choose among live-supported
-candidates using the effective preferences, task risk, context, and independent work.
+current tool schema. For substantial reviews, prefer `fork_turns: "all"` to retain
+the discussed needs, constraints, and tradeoffs. Under the current tool contract,
+full forks inherit the parent model and effort; omit both overrides. Explicit user
+and applicable `AGENTS.md` routing instructions take precedence over this default.
+When they require different settings, select a compatible reduced-context fork and
+pass the required model and effort with the relevant requirements and evidence.
+Narrowly targeted checks may also use reduced context when sufficient. Other bounded
+delegates receive an explicit `model`, supported `reasoning_effort`, and
+`fork_turns: "none"`. Choose among live-supported candidates using the effective
+preferences, task risk, context, and independent work.
 Give every subagent a concrete, bounded, independent
 deliverable while the parent continues useful work. Do not duplicate the parent's
 implementation or verification in a subagent. Keep the delegation contract short:
@@ -52,10 +59,12 @@ substitute a model, effort, role, or fabricated tool. Introspection may clarify 
 omitted runtime field; it cannot replace an available public contract.
 
 For an initial substantial implementation, the parent must inspect the complete diff and
-run the requested checks before starting an independent read-only review in a fresh
-context. Keep the reviewed artifact stable. Choose the reviewer using the same
-effective preferences and live model/effort capabilities as other delegates. Give it
-the actual change set and evidence, and require:
+run the requested checks before starting an independent read-only review, preferably
+with a full fork as described above. Keep the reviewed artifact stable. Even with
+inherited context, give a short assignment identifying the diff, accepted scope,
+constraints, and verification evidence. Require the reviewer to verify the parent's
+conclusions against the code and distinguish user requirements from assumptions.
+Ask it to return:
 
 ~~~text
 ASTRA REVIEW
@@ -72,11 +81,12 @@ contract. Non-blocking findings alone never start another correction or review c
 Pass this threshold and the accepted scope to every reviewer.
 
 Batch blocking findings for parent correction. For a bounded correction, inspect
-the delta, run affected checks, and obtain targeted confirmation, which may reuse
+the delta, run affected checks, and obtain targeted confirmation, preferably from
 the same reviewer; preserve unaffected evidence. Start a new full independent review
 when design, authority, data ownership, or material risk changes. On `rethink`,
 reassess the plan and scope before proceeding. A reviewer remains read-only and
-never fixes its own findings.
+never fixes its own findings. Small documentation and mechanical changes need parent
+inspection, not an independent review gate.
 
 Use native Codex subagents in the ChatGPT app when the exposed interface supports the
 needed controls. Separate app tasks require an explicit user request. For an explicit

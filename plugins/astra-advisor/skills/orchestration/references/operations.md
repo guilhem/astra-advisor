@@ -20,7 +20,18 @@ only if that result justifies briefing, waiting, and integration costs; multi-fi
 inspection alone does not. Work directly otherwise, while preserving independent
 review for substantial implementation. Apply the user's instructions and applicable
 `AGENTS.md` preferences before the [optional routing defaults](routing-defaults.md).
-Pass the chosen values explicitly:
+
+For substantial reviews, prefer `fork_turns: "all"` to retain the discussed needs,
+constraints, and accepted tradeoffs. Under the current schema, full forks inherit
+the parent's model and effort and do not accept overrides; omit `model` and
+`reasoning_effort`. Explicit user and applicable `AGENTS.md` routing instructions
+take precedence over this default. If they require different settings, use a
+compatible reduced-context fork with explicit model and effort and supply the
+relevant requirements and evidence. Never use inheritance to bypass a restriction.
+When reporting settings, distinguish requested inheritance from runtime evidence.
+
+Narrowly targeted checks may use reduced context when sufficient. For other bounded
+delegates, pass the chosen values explicitly:
 
 ~~~text
 model: <selected supported model>
@@ -69,10 +80,12 @@ the source of each value. Chosen values are not the same as runtime-confirmed va
 
 For an initial substantial implementation, the parent first inspects the complete
 accumulated diff and runs the requested checks. It then starts an independent
-read-only reviewer in a new context, keeping the reviewed artifact stable. Select
-the reviewer using the same effective routing preferences and live capabilities as
-other delegates. It must receive the exact change set, interfaces, constraints, and
-verification evidence. Ask it to return:
+read-only reviewer, preferably with a full fork as described above, keeping the
+reviewed artifact stable. Even with inherited context, give a short assignment
+naming the exact diff, accepted scope, interfaces, constraints, and verification
+evidence. The reviewer must verify the parent's conclusions against the actual code
+and distinguish user requirements from orchestrator assumptions. Conversation
+history explains the choices; it does not establish their correctness. Ask it to return:
 
 ~~~text
 ASTRA REVIEW
@@ -89,13 +102,15 @@ requirement or an existing supported contract. Non-blocking P2 and P3 findings a
 never start another correction or review cycle.
 
 Batch blocking findings for parent correction. After a bounded correction, inspect
-the delta, run affected checks, and request targeted confirmation; the same reviewer
-may confirm it. Preserve unaffected evidence. Start a new full independent review
+the delta, run affected checks, and request targeted confirmation, preferably from
+the same reviewer via `collaboration.followup_task` when available. Preserve
+unaffected evidence. Start a new full independent review
 when design, authority, data ownership, or material risk changes, not simply because
 the original implementation was substantial. On `rethink`, reassess the plan and
 scope before claiming completion. Reviewers must not edit files or implement their
 own fixes. Capture actual sandbox and permission metadata when exposed; do not
-claim enforced read-only isolation unless observed.
+claim enforced read-only isolation unless observed. Small documentation and
+mechanical changes need parent inspection, not an independent review gate.
 
 For instruction changes, separate static consistency checks and scenario walkthroughs
 from actual agent execution. A wording or link test does not establish behavior.
