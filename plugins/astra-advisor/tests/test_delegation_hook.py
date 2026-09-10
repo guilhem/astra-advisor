@@ -8,8 +8,7 @@ from pathlib import Path
 
 
 PLUGIN = Path(__file__).resolve().parents[1]
-MANIFEST = json.loads((PLUGIN / ".codex-plugin/plugin.json").read_text())
-CONFIG = json.loads((PLUGIN / MANIFEST["hooks"]).read_text())
+CONFIG = json.loads((PLUGIN / "hooks/hooks.json").read_text())
 GROUP, = CONFIG["hooks"]["PreToolUse"]
 HANDLER, = GROUP["hooks"]
 CONTROLS = {"model": "gpt-6-astra", "reasoning_effort": "low", "fork_turns": "none"}
