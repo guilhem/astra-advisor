@@ -1,17 +1,28 @@
 ---
 name: orchestration
-description: "Plan, route, implement, verify, and review substantial work with GPT-6 Astra and dynamically selected native Codex subagents."
+description: "Plan, route, implement, verify, and review substantial work with native Codex subagents and user-configurable model preferences."
 ---
 
 # Astra Advisor Orchestration
 
-Act as the architect and acceptance owner. Keep the primary session on GPT-6 Astra
-at the effort selected by the user. Astra owns intent, architecture, decomposition,
-delegation decisions, parent verification, and acceptance. A skill cannot change the
-parent model or effort, and must honor the invocation's effort. If observable runtime
-metadata says the parent model is not `gpt-6-astra`, report the mismatch as a
-selection prerequisite and do not claim Astra orchestration. If the model or effort
-is unobservable, disclose that fact rather than inventing confirmation.
+Act as the architect and acceptance owner. The parent owns intent, architecture,
+decomposition, delegation decisions, verification, and acceptance. Honor the user's
+selected parent model and effort; this skill cannot change them. Another parent
+model is not a prerequisite failure. If model or effort is unobservable, disclose
+that fact rather than inventing confirmation.
+
+## Model preferences
+
+Apply the user's explicit routing instructions and applicable `AGENTS.md` guidance
+before plugin defaults, following the host's instruction hierarchy and file scope.
+Before choosing delegates, read [routing defaults](references/routing-defaults.md)
+only for preferences those instructions leave unspecified. Its model suggestions
+are optional, not an allowlist; users may replace them, assign models to task types,
+or constrain efforts without editing the plugin. Forward relevant routing constraints
+to a delegate if it may delegate further. Preferences never expand live capabilities,
+permissions, or authorization to delegate.
+
+## Execution
 
 Delegate only when a concrete independent deliverable justifies the coordination
 cost of briefing, waiting, and integration. Inspecting multiple files is not itself
@@ -24,19 +35,14 @@ never claim a runtime model or effort pin that was not confirmed.
 
 Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
 current tool schema. Each selected subagent must receive an explicit `model`, an
-explicit supported `reasoning_effort`, and `fork_turns: none`. Prefer `gpt-6-astra`
-for substantial judgment, broad context, difficult diagnosis, or consequential
-review; prefer `gpt-5.6-luna` for bounded, less demanding work. Choose effort for
-the actual difficulty and expected cost per accepted result, including retries.
-Use Sol or Terra only for an explicit user request or a concrete task-specific
-advantage, explaining the exception. Live availability and user choices take
-precedence; do not encode a role-to-model mapping or a fixed number of subagents.
+explicit supported `reasoning_effort`, and `fork_turns: none`. Choose among live-supported
+candidates using the effective preferences, task risk, context, and independent work.
 Give every subagent a concrete, bounded, independent
-deliverable while Astra continues useful parent work. Do not duplicate the parent's
+deliverable while the parent continues useful work. Do not duplicate the parent's
 implementation or verification in a subagent. Keep the delegation contract short:
 objective, scope, constraints, expected result, and success criterion. For writing
 agents, assign explicit file ownership and preserve concurrent edits; exploration
-and review are read-only. Astra retains integration and acceptance ownership.
+and review are read-only. The parent retains integration and acceptance ownership.
 
 Tools and their public schemas are authoritative. Select only an effort the current
 tool exposes. If a selected model, effort, spawn control, or required native tool is
@@ -45,11 +51,11 @@ continue only with safe parent work or report the limitation. Never silently
 substitute a model, effort, role, or fabricated tool. Introspection may clarify an
 omitted runtime field; it cannot replace an available public contract.
 
-For an initial substantial implementation, Astra must inspect the complete diff and
+For an initial substantial implementation, the parent must inspect the complete diff and
 run the requested checks before starting an independent read-only review in a fresh
-context. Keep the reviewed artifact stable. Select the reviewer using the same
-routing preferences and live capabilities, with explicit model and
-effort controls. Give it the actual change set and evidence, and require:
+context. Keep the reviewed artifact stable. Choose the reviewer using the same
+effective preferences and live model/effort capabilities as other delegates. Give it
+the actual change set and evidence, and require:
 
 ~~~text
 ASTRA REVIEW
