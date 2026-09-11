@@ -101,10 +101,10 @@ defaults still apply. For example, add this personal preference section:
 ~~~md
 ## Astra Advisor model preferences
 
-- Prefer gpt-5.6-luna at high effort for bounded tasks with clear acceptance criteria.
-- Prefer gpt-6-astra at low effort for work requiring substantial judgment.
-- Prefer gpt-6-astra at high effort for difficult diagnosis and consequential reviews.
-- Avoid Sol and Terra unless there is a concrete task-specific advantage.
+- Prefer gpt-5.6-sol at medium effort for well-scoped implementation and reviews.
+- Prefer gpt-5.6-luna at high effort for small, straightforward independent tasks.
+- Prefer gpt-6-astra for ambiguity, architecture, and difficult diagnosis.
+- Choose effort for the task; do not change the user's selected parent model or effort.
 ~~~
 
 A project can narrow those choices without copying the whole section:
@@ -168,7 +168,7 @@ from the pricing snapshot remains eligible for routing; its cost estimate is una
 Its input lists agents and unique atomic calls, usage provenance, coverage assertions,
 and explicit pricing eligibility. It validates cached-input and reasoning-output
 subsets, refuses overlapping aggregates, and keeps unknown usage separate from zero.
-See the [operations reference](plugins/astra-advisor/skills/orchestration/references/operations.md)
+See the [cost receipt reference](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md)
 for the input contract and receipt policy.
 
 ## ChatGPT app tasks
@@ -195,5 +195,10 @@ codex plugin marketplace add /absolute/path/to/astra-advisor
 codex plugin add astra-advisor@astra-advisor
 ~~~
 
-For operational details, read
-[the orchestration operations reference](plugins/astra-advisor/skills/orchestration/references/operations.md).
+Read only the reference needed for the current operation:
+
+- [Native delegation and app tasks](plugins/astra-advisor/skills/orchestration/references/operations.md)
+- [Independent review and correction confirmation](plugins/astra-advisor/skills/orchestration/references/review.md)
+- [Usage and cost receipts, when requested](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md)
+
+Ordinary delegation and review do not load the cost receipt procedure.
