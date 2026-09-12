@@ -125,6 +125,30 @@ so plugin updates do not overwrite them. Start a fresh Codex session after editi
 then ask: "Which routing preferences apply here, and which instruction supplies them?"
 The parent also passes relevant routing constraints to delegates that may delegate further.
 
+## Optional advice hook
+
+The bundled `SubagentStart` hook can remind new subagents to ask their parent for
+advice when important uncertainty blocks progress. The parent can answer or consult
+a more capable permitted model. This is guidance, not automatic escalation or a
+replacement for independent review; it does not change model routing or permissions.
+
+To enable advice, review and trust this hook in Codex `/hooks`. No environment
+variable or additional configuration is required. Leave the hook untrusted,
+disable it in `/hooks`, or remove its configuration to stop future injections.
+Previously injected context remains in existing agents; start a fresh task to
+remove it. The orchestration skill works unchanged without this hook.
+
+When enabled, it applies to new subagents even outside explicit skill invocations.
+It emits only a short context message: no model calls, edits, retries, or telemetry.
+If native parent messaging is unavailable, the guidance asks the agent to report
+the blocker through its normal result.
+
+The [hook configuration](plugins/astra-advisor/hooks/hooks.json) uses Codex's
+[documented hook interface](https://learn.chatgpt.com/docs/hooks).
+Local tests exercise the packaged command, event filtering, and context-only output;
+live host discovery, trust, context injection, and any quality or cost benefit
+still need validation in a fresh Codex task.
+
 ## Progress and cost details on request
 
 Updates focus on consequential decisions, results, changes, and blockers. Related

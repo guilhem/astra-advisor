@@ -1,0 +1,16 @@
+{
+  "description": "Optional parent advice for new subagents; enable or disable through Codex hook controls.",
+  "hooks": {
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/advice_hook.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
