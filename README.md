@@ -125,6 +125,38 @@ so plugin updates do not overwrite them. Start a fresh Codex session after editi
 then ask: "Which routing preferences apply here, and which instruction supplies them?"
 The parent also passes relevant routing constraints to delegates that may delegate further.
 
+## Optional advice hook
+
+The bundled `SubagentStart` hook can remind new subagents to ask their parent for
+advice when important uncertainty blocks progress. The parent can answer or consult
+a more capable permitted model. This is guidance, not automatic escalation or a
+replacement for independent review; it does not change model routing or permissions.
+
+Advice is **off by default**, even when the hook is trusted. To enable it, review
+and trust this hook in Codex `/hooks`, then start Codex with:
+
+~~~sh
+ASTRA_ADVISOR_ADVICE=1 codex
+~~~
+
+For desktop hosts, the environment variable must reach the process running hooks;
+setting it in an unrelated terminal or a project `.env` file is not sufficient.
+Only the exact value `1` enables advice. Unset the variable and restart the host,
+or disable this hook in `/hooks`, to stop future injections. Previously injected
+context remains in existing agents; start a fresh task to remove it.
+
+Without opt-in the handler exits silently and the orchestration skill is unchanged.
+When enabled, it applies to new subagents even outside explicit skill invocations.
+It emits only a short context message: no model calls, edits, retries, or telemetry.
+If native parent messaging is unavailable, the guidance asks the agent to report
+the blocker through its normal result.
+
+The [hook configuration](plugins/astra-advisor/hooks/hooks.json) uses Codex's
+[documented hook interface](https://learn.chatgpt.com/docs/hooks).
+Local tests exercise the packaged command, including default-off behavior;
+live host discovery, trust, context injection, and any quality or cost benefit
+still need validation in a fresh Codex task.
+
 ## Progress and cost details on request
 
 Updates focus on consequential decisions, results, changes, and blockers. Related
