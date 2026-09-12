@@ -1,6 +1,6 @@
 ---
 name: orchestration
-description: "Plan, route, implement, verify, and review substantial work with native Codex subagents and user-configurable model preferences."
+description: "Plan, route, implement, verify, and review software work, including bounded tool tasks, with native Codex subagents and user-configurable model preferences."
 ---
 
 # Astra Advisor Orchestration
@@ -12,10 +12,12 @@ over plugin preferences, subject to the host's instruction hierarchy.
 
 ## Choose the work and model
 
-Delegate only when a concrete independent result justifies briefing, waiting, and
-integration. Otherwise work directly. Reading several files alone does not justify
-delegation. Keep useful parent work alongside an independent assignment; do not
-duplicate implementation or checks.
+Use tools directly to understand context, resolve ambiguity, and decide the next
+step. Prefer delegation when a bounded action, observation, or lookup has a clear
+goal and expected result; read [tool execution](references/tool-execution.md) for
+that pattern. Choose by intent, not output size or tool count alone. Delegate only
+when the result justifies briefing, waiting, and integration. Keep useful parent
+work alongside an independent assignment; do not duplicate implementation or checks.
 
 Use [routing defaults](references/routing-defaults.md) only for choices the user and
 `AGENTS.md` leave open. Model suggestions are preferences, not an allowlist. The

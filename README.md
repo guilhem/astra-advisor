@@ -45,9 +45,18 @@ The parent remains the architect and acceptance owner at the model and effort
 selected by the user. The skill never changes the parent session or
 claims runtime settings without evidence.
 
-Delegate only when an independent result justifies briefing, waiting, and integration
-costs. Inspecting several files alone is not a trigger. When delegation helps, the parent
-uses the exposed generic `collaboration.spawn_agent` tool. Substantial reviews prefer
+Use tools directly to understand context and decide the next step. Prefer delegation
+for a bounded action, observation, or lookup with a clear goal and expected result:
+for example, inspect deployment logs, check a defined hypothesis, or execute an
+authorized command and verify its effect. Intent determines the boundary, not output
+size or the number of tools. The result must justify briefing, waiting, and integration.
+The [tool execution reference](plugins/astra-advisor/skills/orchestration/references/tool-execution.md)
+defines the brief and concise, evidence-backed return. Straightforward missions
+prefer Luna under the existing routing rules; this is not automatic tool interception
+or a measured cost-saving guarantee.
+
+When delegation helps, the parent uses the exposed generic `collaboration.spawn_agent`
+tool. Substantial reviews prefer
 `fork_turns: "all"` to retain the discussed needs, constraints, and tradeoffs. Full
 forks inherit the parent model and effort, so both overrides are omitted. Explicit
 user and applicable `AGENTS.md` routing instructions take precedence: if different
@@ -222,6 +231,7 @@ codex plugin add astra-advisor@astra-advisor
 Read only the reference needed for the current operation:
 
 - [Native delegation and app tasks](plugins/astra-advisor/skills/orchestration/references/operations.md)
+- [Bounded tool execution tasks](plugins/astra-advisor/skills/orchestration/references/tool-execution.md)
 - [Independent review and correction confirmation](plugins/astra-advisor/skills/orchestration/references/review.md)
 - [Usage and cost receipts, when requested](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md)
 
