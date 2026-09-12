@@ -1,5 +1,5 @@
 {
-  "description": "Optional parent advice for new subagents; requires ASTRA_ADVISOR_ADVICE=1.",
+  "description": "Optional parent advice for new subagents; enable or disable through Codex hook controls.",
   "hooks": {
     "SubagentStart": [
       {

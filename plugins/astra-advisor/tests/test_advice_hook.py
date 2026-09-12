@@ -11,7 +11,7 @@ PLUGIN = Path(__file__).resolve().parents[1]
 
 
 class AdviceHookTests(unittest.TestCase):
-    def test_packaged_command_is_opt_in_and_context_only(self):
+    def test_packaged_command_is_event_scoped_and_context_only(self):
         with tempfile.TemporaryDirectory(prefix="advisor hook ") as directory:
             plugin = Path(directory) / "plugin with spaces"
             shutil.copytree(PLUGIN / "scripts", plugin / "scripts")
@@ -24,18 +24,14 @@ class AdviceHookTests(unittest.TestCase):
             handler = groups[0]["hooks"][0]
             self.assertEqual(handler["type"], "command")
             event = json.dumps({"hook_event_name": "SubagentStart", "agent_type": "worker"})
-            cases = [(value, event, False) for value in (None, "", "0", "true", "yes")]
-            cases += [("1", value, False) for value in (
+            cases = [(value, False) for value in (
                 "", "{", "[]", "null", '"text"', "{}",
                 '{"hook_event_name":"SessionStart"}',
             )]
-            cases.append(("1", event, True))
-            for enabled, payload, emits_context in cases:
-                with self.subTest(enabled=enabled, payload=payload):
+            cases.append((event, True))
+            for payload, emits_context in cases:
+                with self.subTest(payload=payload):
                     env = dict(os.environ, PLUGIN_ROOT=str(plugin))
-                    env.pop("ASTRA_ADVISOR_ADVICE", None)
-                    if enabled is not None:
-                        env["ASTRA_ADVISOR_ADVICE"] = enabled
                     result = subprocess.run(
                         handler["command"], shell=True, cwd=directory, env=env,
                         input=payload, text=True, capture_output=True,

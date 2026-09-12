@@ -1,13 +1,10 @@
 """Emit optional subagent advice without changing delegation or permissions."""
 
 import json
-import os
 import sys
 
 
 def main():
-    if os.environ.get("ASTRA_ADVISOR_ADVICE") != "1":
-        return
     try:
         event = json.load(sys.stdin)
     except (ValueError, UnicodeError):
