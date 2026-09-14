@@ -12,12 +12,16 @@ over plugin preferences, subject to the host's instruction hierarchy.
 
 ## Choose the work and model
 
+Delegate straightforward collection, targeted checks, and authorized execution by
+default when the useful result is defined and the mission can run independently
+alongside useful parent work. Prefer `gpt-5.6-luna` for these missions, subject to
+the routing rules below; read [tool execution](references/tool-execution.md) for
+the assignment pattern.
+
 Use tools directly to understand context, resolve ambiguity, and decide the next
-step. Prefer delegation when a bounded action, observation, or lookup has a clear
-goal and expected result; read [tool execution](references/tool-execution.md) for
-that pattern. Choose by intent, not output size or tool count alone. Delegate only
-when the result justifies briefing, waiting, and integration. Keep useful parent
-work alongside an independent assignment; do not duplicate implementation or checks.
+step. Keep trivial contextual lookups direct and group related small operations
+into one mission. Choose by intent, not output size or tool count alone; do not
+duplicate implementation or checks.
 
 A local uncertainty alone need not prevent delegation when the goal, ownership,
 and validation are clear. Include known points of attention in the brief and use

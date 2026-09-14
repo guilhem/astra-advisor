@@ -45,11 +45,13 @@ The parent remains the architect and acceptance owner at the model and effort
 selected by the user. The skill never changes the parent session or
 claims runtime settings without evidence.
 
-Use tools directly to understand context and decide the next step. Prefer delegation
-for a bounded action, observation, or lookup with a clear goal and expected result:
-for example, inspect deployment logs, check a defined hypothesis, or execute an
-authorized command and verify its effect. Intent determines the boundary, not output
-size or the number of tools. The result must justify briefing, waiting, and integration.
+Delegate straightforward collection, targeted checks, and authorized execution by
+default when the useful result is defined and the work can run independently while
+the parent advances another part of the task. For example, inspect deployment logs,
+check a defined hypothesis, or execute an authorized command and verify its effect.
+Use tools directly to understand context and decide the next step; keep trivial
+contextual lookups direct and group related small operations into one mission.
+Intent determines the boundary, not output size or the number of tools.
 The [tool execution reference](plugins/astra-advisor/skills/orchestration/references/tool-execution.md)
 defines the brief and concise, evidence-backed return. Straightforward missions
 prefer Luna under the existing routing rules; this is not automatic tool interception
