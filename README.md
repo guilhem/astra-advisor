@@ -72,6 +72,7 @@ It adds known points of attention and decisions to bring back to the parent, and
 states whether direct read-only advice is permitted. A local uncertainty need not
 prevent delegation when the goal, ownership, and validation are clear; advice is
 optional and does not make an unsuitable model a suitable choice.
+When advice is permitted, its constraints travel in the brief even without the hook.
 The parent continues useful work while the delegate runs and owns integration.
 
 The [routing reference](plugins/astra-advisor/skills/orchestration/references/routing-defaults.md)

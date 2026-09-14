@@ -45,6 +45,11 @@ preserve, and conditions that need the parent's decision. Do not invent a checkl
 or solve every local uncertainty before dispatch. State whether direct read-only
 advice is permitted and pass the applicable model and effort constraints; deciding
 this within the authorized scope does not require another user approval.
+When permitting direct advice, include the Optional advice contract below in the
+delegate's brief: read-only advice, no execution handoff or further delegation,
+parent-reserved decisions, routing/capability constraints, and the unavailable-tool
+fallback. Do not rely on inherited history, access to this reference, or hook
+injection to convey that contract.
 
 A successful dispatch is not completed work. Inspect results and validation evidence
 before integration or acceptance. Report consequential selection choices and outcomes;
