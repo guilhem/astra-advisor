@@ -19,6 +19,11 @@ that pattern. Choose by intent, not output size or tool count alone. Delegate on
 when the result justifies briefing, waiting, and integration. Keep useful parent
 work alongside an independent assignment; do not duplicate implementation or checks.
 
+A local uncertainty alone need not prevent delegation when the goal, ownership,
+and validation are clear. Include known points of attention in the brief and use
+the optional [advice routing](references/operations.md#optional-advice) when useful.
+Do not choose an unsuitable model on the assumption that advice will rescue it.
+
 Use [routing defaults](references/routing-defaults.md) only for choices the user and
 `AGENTS.md` leave open. Model suggestions are preferences, not an allowlist. The
 live tool schema determines supported controls; never silently substitute a

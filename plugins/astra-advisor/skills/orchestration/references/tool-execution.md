@@ -32,8 +32,10 @@ and expected result. Honor explicitly required commands; otherwise the delegate
 chooses suitable available tools within scope. Do not expand an inspection into
 a repair or treat a supplied command as permission to exceed the authorized scope.
 
-The assigned executor uses tools directly and does not delegate this mission
-again. It reports missing access or capability through the normal result. Group
+The assigned executor uses tools directly and retains execution of the mission.
+When the assignment permits it, it may seek narrow read-only advice under
+[optional advice](operations.md#optional-advice); it must not hand off execution.
+It reports missing access or capability through the normal result. Group
 dependent steps in order and preserve the existing ownership rules for writes.
 After an uncertain modifying outcome, inspect the state before retrying; if the
 outcome cannot be established, report it rather than blindly repeating the action.

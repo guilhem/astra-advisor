@@ -68,7 +68,11 @@ among live-supported models using your routing preferences, task risk, context,
 and independent work. There are no predefined role TOMLs or companion installer.
 The parent gives each subagent a short contract: objective, scope, constraints,
 expected result, and success criterion, plus explicit file ownership when writing.
-The parent continues useful work while it runs and owns integration.
+It adds known points of attention and decisions to bring back to the parent, and
+states whether direct read-only advice is permitted. A local uncertainty need not
+prevent delegation when the goal, ownership, and validation are clear; advice is
+optional and does not make an unsuitable model a suitable choice.
+The parent continues useful work while the delegate runs and owns integration.
 
 The [routing reference](plugins/astra-advisor/skills/orchestration/references/routing-defaults.md)
 contains optional model suggestions, not an allowlist. Live tool metadata determines
@@ -136,21 +140,30 @@ The parent also passes relevant routing constraints to delegates that may delega
 
 ## Optional advice hook
 
-The bundled `SubagentStart` hook can remind new subagents to ask their parent for
-advice when important uncertainty blocks progress. The parent can answer or consult
-a more capable permitted model. This is guidance, not automatic escalation or a
-replacement for independent review; it does not change model routing or permissions.
+The bundled `SubagentStart` hook reminds new subagents of the optional
+[advice routing](plugins/astra-advisor/skills/orchestration/references/operations.md#optional-advice).
+Bring decisions requiring project context or authority to the parent. For an isolated
+technical question, an assignment may permit direct consultation of a read-only
+advisor with a compact brief and suitable model/effort. Reuse a suitable advisor for
+related follow-ups; it cannot edit, take over execution, or delegate further.
+The delegate returns useful advice and evidence with its result.
 
-To enable advice, review and trust this hook in Codex `/hooks`. No environment
+Choose by the context needed and total expected work, including briefing and
+integration. Neither consulting the parent nor starting a new advisor is always
+cheaper. Consultation remains optional and preserves independent review and existing
+routing and permission constraints.
+
+To enable the reminder, review and trust this hook in Codex `/hooks`. No environment
 variable or additional configuration is required. Leave the hook untrusted,
 disable it in `/hooks`, or remove its configuration to stop future injections.
 Previously injected context remains in existing agents; start a fresh task to
-remove it. The orchestration skill works unchanged without this hook.
+remove it. Without the hook, the skill and optional advice routing still work;
+no consultation is required and the hook grants no delegation permission.
 
 When enabled, it applies to new subagents even outside explicit skill invocations.
 It emits only a short context message: no model calls, edits, retries, or telemetry.
-If native parent messaging is unavailable, the guidance asks the agent to report
-the blocker through its normal result.
+If direct advice is prohibited or unavailable, use native parent messaging; if
+that is also unavailable, report the unresolved point through the normal result.
 
 The [hook configuration](plugins/astra-advisor/hooks/hooks.json) uses Codex's
 [documented hook interface](https://learn.chatgpt.com/docs/hooks).
