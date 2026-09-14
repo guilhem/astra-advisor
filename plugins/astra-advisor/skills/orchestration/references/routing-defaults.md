@@ -22,5 +22,7 @@ model or effort is unavailable, report the limitation and continue independent
 parent work; do not silently replace it. If no suitable permitted candidate remains,
 do not delegate. Never treat a pricing snapshot as a runtime model catalog.
 
-The same selection rules apply to implementers and reviewers. They do not relax
-review, permission, or evidence requirements in the orchestration workflow.
+Use these selection rules for implementers and bounded technical reviewers. For
+acceptance review, follow the parent-context fork preference in
+[operations](operations.md), subject to explicit routing restrictions. These choices
+do not relax review, permission, or evidence requirements.

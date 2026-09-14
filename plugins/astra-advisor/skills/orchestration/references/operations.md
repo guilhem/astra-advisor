@@ -10,13 +10,16 @@ Use `collaboration.spawn_agent` only when the host exposes it. Choose among live
 capabilities using the user's instructions, applicable `AGENTS.md`, and optional
 [routing defaults](routing-defaults.md).
 
-For substantial reviews, prefer `fork_turns: "all"` to retain discussed needs,
+For acceptance reviews, prefer `fork_turns: "all"` to retain discussed needs,
 constraints, and accepted tradeoffs. Full forks inherit the parent's model and
 effort; omit `model` and `reasoning_effort`. Explicit user and applicable
 `AGENTS.md` routing instructions take precedence. When different settings are
 required, use a compatible reduced-context fork with explicit model and effort,
 and supply the relevant requirements and evidence. Never use inheritance to bypass
-a restriction. Targeted checks may use reduced context when sufficient.
+a restriction. Bounded technical reviews use the relevant requirements, interfaces,
+and evidence with `fork_turns: "none"` when sufficient, and explicit model and effort
+chosen under the routing rules. Review purpose and acceptance criteria live in
+[review](review.md).
 
 For other bounded delegates, pass the selected controls explicitly:
 
