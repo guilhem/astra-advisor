@@ -14,10 +14,10 @@ delegation guidance, not interception of every tool call.
 | Check a defined hypothesis or find whether a condition holds within a specified scope | Delegate |
 | Execute an authorized command and verify its effect | Delegate |
 
-Apply the skill's proportionality and host capability rules. Do not turn every
-small lookup into a new agent, or read an entire dataset in the parent before
-delegating its analysis. Group related commands into one mission. Use an existing
-delegate for follow-ups on the same mission when its context remains relevant.
+Apply the skill's default delegation trigger and host capability rules. Keep
+trivial contextual lookups direct, and group related commands into one mission.
+Do not read an entire dataset in the parent before delegating its analysis. Use an
+existing delegate for follow-ups on the same mission when its context remains relevant.
 
 ## Brief and execute
 
