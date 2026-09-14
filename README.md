@@ -56,13 +56,13 @@ prefer Luna under the existing routing rules; this is not automatic tool interce
 or a measured cost-saving guarantee.
 
 When delegation helps, the parent uses the exposed generic `collaboration.spawn_agent`
-tool. Substantial reviews prefer
+tool. Acceptance reviews prefer
 `fork_turns: "all"` to retain the discussed needs, constraints, and tradeoffs. Full
 forks inherit the parent model and effort, so both overrides are omitted. Explicit
 user and applicable `AGENTS.md` routing instructions take precedence: if different
 settings are required, use a compatible reduced-context fork with those settings
-and supply the relevant requirements and evidence. Narrowly targeted checks may
-also use reduced context when sufficient. Other bounded delegates receive explicit
+and supply the relevant requirements and evidence. Bounded technical reviews use
+reduced context when sufficient. Other bounded delegates receive explicit
 `model`, `reasoning_effort`, and `fork_turns: "none"`. The parent chooses
 among live-supported models using your routing preferences, task risk, context,
 and independent work. There are no predefined role TOMLs or companion installer.
@@ -79,19 +79,26 @@ unobservable, the parent fails that delegation closed and reports the limitation
 not silently substitute a model, effort, role, or fabricated tool. Chosen values and
 runtime-confirmed values are reported separately.
 
-For an initial substantial implementation, the parent inspects the complete diff and runs
-the requested checks, then sends the stable change set to an independent read-only
-reviewer, preferably with a full fork as described above. Even with inherited context,
-a short assignment identifies the diff, accepted scope, and evidence. The reviewer
-verifies conclusions against the code and distinguishes requirements from assumptions.
-Acceptance requires `ship`, which may include residual
-findings. `fix-first` requires a demonstrated in-scope blocking defect; non-blocking
+For an initial substantial implementation, the parent inspects the integrated result
+and ensures the requested checks have run, directly or through delegates. An independent
+read-only acceptance reviewer uses a parent-context fork to check the stable accumulated
+diff and delivered behavior against the user's need, constraints, and accepted tradeoffs.
+It verifies claims against code and evidence, including any technical review results.
+
+Bounded code reviews can use less costly suitable agents with relevant context and the
+applicable review skill. Their technical findings inform acceptance; a technical `ship`
+covers only the assigned scope. A separate technical agent is useful when it adds
+independent evidence, without a fixed reviewer count or duplicate checks.
+The parent retains the final decision, using concise verdicts and evidence with targeted
+follow-ups as needed. Bulk inspection stays in the review agents. Acceptance review
+requires `ship`, which may include residual findings; demonstrated blockers from either
+review must be resolved. `fix-first` requires an in-scope blocking defect; non-blocking
 findings alone do not start another correction or review cycle.
 
 After a bounded correction, the parent inspects the delta, runs affected checks, and
 obtains targeted confirmation, preferably from the same reviewer. Unaffected evidence
 remains valid. Changes to design, authority, data ownership, or material risk require
-a new full independent review. `rethink` requires reassessing the plan and scope.
+a new full acceptance review. `rethink` requires reassessing the plan and scope.
 Small documentation and mechanical changes need parent inspection.
 
 ## Customize model routing with AGENTS.md

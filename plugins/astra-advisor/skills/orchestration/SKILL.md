@@ -28,10 +28,11 @@ required model or effort. Preferences do not grant execution permissions.
 
 - Before native delegation, read [operations](references/operations.md) for the
   assignment and capability contract. This includes requested app-task boundaries.
-- For initial substantial implementation, inspect the complete diff, run requested
-  checks, and obtain independent read-only review under [review](references/review.md).
-  Accept only `ship`, which may include residual findings. Small mechanical edits
-  and documentation corrections need parent inspection, not an independent gate.
+- For initial substantial implementation, inspect the integrated result and check
+  evidence, and obtain independent acceptance review in a parent-context fork under
+  [review](references/review.md). Delegate bounded technical review when useful.
+  Acceptance requires `ship`; the parent retains the final decision. Small mechanical
+  edits and documentation corrections need parent inspection, not an independent gate.
 - For bounded corrections, use the same review reference for affected checks and
   targeted confirmation; preserve unaffected evidence and reuse the reviewer when
   appropriate. Renew full review only for changed design, authority, ownership, or
