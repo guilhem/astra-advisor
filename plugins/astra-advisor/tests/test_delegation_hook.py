@@ -35,17 +35,31 @@ class DelegationHookTests(unittest.TestCase):
     def test_complete_calls_are_silent_and_do_not_restrict_live_model_choices(self):
         for tool in ("Agent", "spawn_agent", "collaboration.spawn_agent"):
             self.assertIsNotNone(re.fullmatch(GROUP["matcher"], tool))
+            for args in ({}, {"fork_turns": "all"}):
+                with self.subTest(tool=tool, args=args):
+                    self.assertEqual(self.run_hook(self.event(args, tool)), {})
             for model in ("gpt-6-astra", "gpt-5.6-luna", "gpt-5.6-sol", "future-model"):
-                with self.subTest(tool=tool, model=model):
-                    self.assertEqual(self.run_hook(self.event({**CONTROLS, "model": model}, tool)), {})
+                for fork in ("none", "1", "3", "01"):
+                    with self.subTest(tool=tool, model=model, fork=fork):
+                        args = {**CONTROLS, "model": model, "fork_turns": fork}
+                        self.assertEqual(self.run_hook(self.event(args, tool)), {})
 
     def test_incomplete_controls_only_add_context_without_echoing_input(self):
-        cases = [({}, ("model", "reasoning_effort", "fork_turns"))]
-        for field in ("model", "reasoning_effort", "fork_turns"):
+        cases = []
+        for fork in ("none", "3"):
+            cases.append(({"fork_turns": fork}, ("model", "reasoning_effort")))
+            for field in ("model", "reasoning_effort"):
+                controls = {**CONTROLS, "fork_turns": fork}
+                for value in (None, "", "  ", False, [], {}):
+                    cases.append(({**controls, field: value}, (field,)))
+                cases.append(({key: value for key, value in controls.items() if key != field}, (field,)))
+        for field in ("model", "reasoning_effort"):
             for value in (None, "", "  ", False, [], {}):
-                cases.append(({**CONTROLS, field: value}, (field,)))
-            cases.append(({key: value for key, value in CONTROLS.items() if key != field}, (field,)))
-        cases.append(({**CONTROLS, "fork_turns": "all"}, ("fork_turns",)))
+                cases.append(({"fork_turns": "all", field: value}, (field,)))
+            cases.append(({field: CONTROLS[field]}, (field,)))
+            cases.append(({"fork_turns": "all", field: CONTROLS[field]}, (field,)))
+        for fork in (None, "", "  ", False, [], {}, "0", "00", "-1", "1.5", 3):
+            cases.append(({**CONTROLS, "fork_turns": fork}, ("fork_turns",)))
         for args, fields in cases:
             with self.subTest(args=args):
                 output = self.run_hook(self.event({**args, "message": "PRIVATE TASK CONTENT"}))

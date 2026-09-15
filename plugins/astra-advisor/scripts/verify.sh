@@ -118,9 +118,9 @@ ui_path = skill_root / "agents" / "openai.yaml"
 require(skill_path.is_file(), f"missing orchestration skill: {skill_path}")
 require(operations_path.is_file(), f"missing operations reference: {operations_path}")
 require(ui_path.is_file(), f"missing orchestration UI metadata: {ui_path}")
-if operations_path.is_file():
-    for target in markdown_links(operations_path.read_text(encoding="utf-8")):
-        check_relative_link(target, operations_path.parent, "operations reference link")
+for reference_path in (skill_root / "references").glob("*.md"):
+    for target in markdown_links(reference_path.read_text(encoding="utf-8")):
+        check_relative_link(target, reference_path.parent, f"{reference_path.name} link")
 require((plugin / "scripts" / "cost_receipt.py").is_file(), "missing cost receipt calculator")
 require((plugin / "tests" / "test_cost_receipt.py").is_file(), "missing cost receipt tests")
 require((plugin / "pricing" / "2026-09-04.json").is_file(), "missing pricing snapshot")

@@ -1,4 +1,5 @@
 {
+  "description": "Optional delegation preflight and subagent advice; enable or disable through Codex hook controls.",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,6 +8,17 @@
           {
             "type": "command",
             "command": "python3 -B \"${PLUGIN_ROOT}/scripts/delegation_hook.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/advice_hook.py\"",
             "timeout": 5
           }
         ]

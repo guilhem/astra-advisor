@@ -1,108 +1,64 @@
 ---
 name: orchestration
-description: "Plan, route, implement, verify, and review substantial work with native Codex subagents and user-configurable model preferences."
+description: "Plan, route, implement, verify, and review software work, including bounded tool tasks, with native Codex subagents and user-configurable model preferences."
 ---
 
 # Astra Advisor Orchestration
 
-Act as the architect and acceptance owner. The parent owns intent, architecture,
-decomposition, delegation decisions, verification, and acceptance. Honor the user's
-selected parent model and effort; this skill cannot change them. Another parent
-model is not a prerequisite failure. If model or effort is unobservable, disclose
-that fact rather than inventing confirmation.
+The parent owns intent, architecture, integration, verification, and acceptance.
+Honor the user's selected parent model and effort; this skill cannot change them
+or require Astra. User instructions and applicable `AGENTS.md` take precedence
+over plugin preferences, subject to the host's instruction hierarchy.
 
-## Model preferences
+## Choose the work and model
 
-Apply the user's explicit routing instructions and applicable `AGENTS.md` guidance
-before plugin defaults, following the host's instruction hierarchy and file scope.
-Before choosing delegates, read [routing defaults](references/routing-defaults.md)
-only for preferences those instructions leave unspecified. Its model suggestions
-are optional, not an allowlist; users may replace them, assign models to task types,
-or constrain efforts without editing the plugin. Forward relevant routing constraints
-to a delegate if it may delegate further. Preferences never expand live capabilities,
-permissions, or authorization to delegate.
+Delegate straightforward collection, targeted checks, and authorized execution by
+default when the useful result is defined and the mission can run independently
+alongside useful parent work. Prefer `gpt-5.6-luna` for these missions, subject to
+the routing rules below; read [tool execution](references/tool-execution.md) for
+the assignment pattern.
 
-## Execution
+Use tools directly to understand context, resolve ambiguity, and decide the next
+step. Keep trivial contextual lookups direct and group related small operations
+into one mission. Choose by intent, not output size or tool count alone; do not
+duplicate implementation or checks.
 
-Delegate only when a concrete independent deliverable justifies the coordination
-cost of briefing, waiting, and integration. Inspecting multiple files is not itself
-a reason to delegate. Otherwise work directly in the parent; substantial
-implementations still require the independent review below.
+A local uncertainty alone need not prevent delegation when the goal, ownership,
+and validation are clear. Include known points of attention in the brief and use
+the optional [advice routing](references/operations.md#optional-advice) when useful.
+Do not choose an unsuitable model on the assumption that advice will rescue it.
 
-Read [the operations reference](references/operations.md) when delegating, reviewing,
-or preparing a requested cost receipt. Report material capability limitations;
-never claim a runtime model or effort pin that was not confirmed.
+Use [routing defaults](references/routing-defaults.md) only for choices the user and
+`AGENTS.md` leave open. Model suggestions are preferences, not an allowlist. The
+live tool schema determines supported controls; never silently substitute a
+required model or effort. Preferences do not grant execution permissions.
 
-Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
-current tool schema. Each selected subagent must receive an explicit `model`, an
-explicit supported `reasoning_effort`, and `fork_turns: none`. Choose among live-supported
-candidates using the effective preferences, task risk, context, and independent work.
-Give every subagent a concrete, bounded, independent
-deliverable while the parent continues useful work. Do not duplicate the parent's
-implementation or verification in a subagent. Keep the delegation contract short:
-objective, scope, constraints, expected result, and success criterion. For writing
-agents, assign explicit file ownership and preserve concurrent edits; exploration
-and review are read-only. The parent retains integration and acceptance ownership.
+## Load the procedure needed
 
-Tools and their public schemas are authoritative. Select only an effort the current
-tool exposes. If a selected model, effort, spawn control, or required native tool is
-missing, conflicting, unavailable, or unobservable, fail that delegation closed and
-continue only with safe parent work or report the limitation. Never silently
-substitute a model, effort, role, or fabricated tool. Introspection may clarify an
-omitted runtime field; it cannot replace an available public contract.
+- Before native delegation, read [operations](references/operations.md) for the
+  assignment and capability contract. This includes requested app-task boundaries.
+- For initial substantial implementation, inspect the integrated result and check
+  evidence, and obtain independent acceptance review in a parent-context fork under
+  [review](references/review.md). Delegate bounded technical review when useful.
+  Acceptance requires `ship`; the parent retains the final decision. Small mechanical
+  edits and documentation corrections need parent inspection, not an independent gate.
+- For bounded corrections, use the same review reference for affected checks and
+  targeted confirmation; preserve unaffected evidence and reuse the reviewer when
+  appropriate. Renew full review only for changed design, authority, ownership, or
+  material risk. Reviewers do not implement their own findings.
+- For explicitly requested usage or cost details, read
+  [cost receipts](references/cost-receipts.md). Ordinary delegation and review do not
+  need that reference or a cost report.
 
-For an initial substantial implementation, the parent must inspect the complete diff and
-run the requested checks before starting an independent read-only review in a fresh
-context. Keep the reviewed artifact stable. Choose the reviewer using the same
-effective preferences and live model/effort capabilities as other delegates. Give it
-the actual change set and evidence, and require:
+## Finish the authorized work
 
-~~~text
-ASTRA REVIEW
-VERDICT: ship | fix-first | rethink
-REASON: <evidence-based reason>
-FINDINGS: <precise findings or none>
-RESIDUAL RISK: <remaining risk or none>
-~~~
+Continue through relevant verification, in-scope blocking corrections, and requested
+delivery; internal review is not a request for user approval. Ask only for missing
+essential information, a material scope decision, or additional authorization.
+Report limitations and continue independent permitted work when a capability is
+unavailable. Never claim a required check or review passed without evidence.
 
-Accept a substantial implementation only after the reviewer returns `ship`.
-`ship` may include residual findings. `fix-first` requires a demonstrated in-scope
-blocking defect grounded in the user's requirement or an existing supported
-contract. Non-blocking findings alone never start another correction or review cycle.
-Pass this threshold and the accepted scope to every reviewer.
-
-Batch blocking findings for parent correction. For a bounded correction, inspect
-the delta, run affected checks, and obtain targeted confirmation, which may reuse
-the same reviewer; preserve unaffected evidence. Start a new full independent review
-when design, authority, data ownership, or material risk changes. On `rethink`,
-reassess the plan and scope before proceeding. A reviewer remains read-only and
-never fixes its own findings.
-
-Use native Codex subagents in the ChatGPT app when the exposed interface supports the
-needed controls. Separate app tasks require an explicit user request. For an explicit
-Codex app task, `mcp__codex_app__create_thread` supports `model` and `thinking`; call
-`mcp__codex_app__list_projects` first for project targets, using a worktree by default
-for Git projects and local otherwise. ChatGPT Work cloud `create_thread` must omit
-`model` and `thinking`, so it cannot currently promise arbitrary model or effort
-control; do not dispatch a model-pinned request there by default or use an API-key/CLI
-workaround. Use a future native work tool only when its schema exposes the required
-controls.
-
-## Progress and optional cost receipts
-
-Keep updates useful: explain consequential delegation choices, material changes,
-results, and blockers. Group related updates; do not emit a route declaration or
-paired lifecycle receipts for every agent. Detailed agent IDs, model/effort evidence,
-and lifecycle history are available on request. Requested settings are not runtime
-confirmation; disclose observed mismatches and material limitations when relevant.
-
-Report the outcome, verification, and residual risk at completion. Generate a
-detailed `API-EQUIVALENT COST RECEIPT` only when requested, using the existing
-calculator and receipt policy in the operations reference. Reuse available native
-usage evidence; do not add telemetry collection or reconstruct missing usage.
-
-Keep observed consumption, API price estimates, and demonstrated savings distinct.
-Same-token Astra repricing is a **same-token API price comparison**, not evidence
-of actual net task savings. Unknown usage is not zero; state partial coverage or
-unavailability when preparing a receipt. Do not claim savings without comparable
-observed runs and their scope, quality, and cost basis.
+Report the outcome, verification, and residual risk. Keep progress focused on
+consequential choices, changes, results, and blockers; provide detailed agent or
+usage receipts only on request. Requested settings are not runtime confirmation;
+disclose observed mismatches and material limitations without inventing evidence.

@@ -14,7 +14,7 @@
   "interface": {
     "displayName": "Astra Advisor",
     "shortDescription": "Plan, route, verify, and review work with your preferred models.",
-    "longDescription": "Astra Advisor preserves the user's selected parent model and effort. It combines useful parent work with bounded native Codex subagents, applying user and AGENTS.md routing preferences before optional plugin defaults. Model and effort choices remain limited by live tool capabilities. A delegation hook advises on missing explicit controls without blocking or rewriting calls. ChatGPT Work cloud tasks remain bounded by the create_thread schema and do not promise arbitrary model or effort pinning.",
+    "longDescription": "Astra Advisor preserves the user's selected parent model and effort. It combines useful parent work with bounded native Codex subagents, applying user and AGENTS.md routing preferences before optional plugin defaults. Model and effort choices remain limited by live tool capabilities. An optional delegation hook advises on inconsistent controls while respecting inherited full-context forks, without blocking or rewriting calls. ChatGPT Work cloud tasks remain bounded by the create_thread schema and do not promise arbitrary model or effort pinning.",
     "developerName": "Daniel McAteer",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
