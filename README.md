@@ -148,6 +148,26 @@ so plugin updates do not overwrite them. Start a fresh Codex session after editi
 then ask: "Which routing preferences apply here, and which instruction supplies them?"
 The parent also passes relevant routing constraints to delegates that may delegate further.
 
+## Delegation advisory hook (0.3.0)
+
+The bundled `PreToolUse` [hook](plugins/astra-advisor/hooks/hooks.json) checks
+delegation controls before `spawn_agent` calls. Full-context forks (`fork_turns`
+omitted or `"all"`) inherit the parent's model and effort and must omit both
+overrides. Reduced-context forks (`"none"` or a positive integer string) use explicit
+non-empty `model` and `reasoning_effort`. Inconsistent controls add a short advisory
+to the parent's context; valid inherited and explicit calls are silent. It does not
+block, rewrite, or retry calls, enforce routing preferences, or establish runtime
+model/effort evidence. The live tool schema remains authoritative.
+
+This requires Python 3 and a Codex host supporting plugin hooks. After installing
+or updating, review and trust this hook in Codex `/hooks`. Leave it untrusted,
+disable it, or remove its configuration to stop the preflight; no environment
+variable is needed. It is separate from the `SubagentStart` reminder below.
+Trusted hooks run even when the orchestration skill is not invoked, so other
+delegation workflows may receive the advisory too. Local tests exercise the packaged
+command; live host discovery, trust, and injection remain unverified. See the
+[official hook documentation](https://learn.chatgpt.com/docs/hooks).
+
 ## Optional advice hook
 
 The bundled `SubagentStart` hook reminds new subagents of the optional

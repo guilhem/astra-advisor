@@ -16,7 +16,7 @@ class AdviceHookTests(unittest.TestCase):
             plugin = Path(directory) / "plugin with spaces"
             shutil.copytree(PLUGIN / "scripts", plugin / "scripts")
             config = json.loads((PLUGIN / "hooks/hooks.json").read_text())
-            self.assertEqual(set(config["hooks"]), {"SubagentStart"})
+            self.assertEqual(set(config["hooks"]), {"PreToolUse", "SubagentStart"})
             groups = config["hooks"]["SubagentStart"]
             self.assertEqual(len(groups), 1)
             self.assertNotIn("matcher", groups[0])

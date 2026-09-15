@@ -60,6 +60,25 @@ agent IDs and lifecycle details are available on request. Keep requested setting
 distinct from runtime-observed settings. Disclose unobservable metadata and observed
 mismatches; do not claim enforced read-only isolation without supporting evidence.
 
+## Delegation advisory hook
+
+The plugin bundles a `PreToolUse` command hook for `Agent` / `spawn_agent` calls.
+Full-context forks (`fork_turns` omitted or `"all"`) inherit model and effort, so
+both overrides must be absent. Reduced-context forks (`"none"` or a positive integer
+string) need non-empty explicit `model` and `reasoning_effort`. After the user trusts
+the hook in Codex, inconsistent controls add a short advisory to the parent's context.
+Valid inherited and explicit calls are silent. The hook does not validate model
+availability or runtime settings; the live tool schema remains authoritative.
+
+Hooks run independently of skill invocation, so this advisory also reaches other
+delegation workflows while the plugin's hook is trusted. It never denies, rewrites,
+or retries a call, and does not replace the parent's capability checks. Malformed
+input is skipped. Leave the hook untrusted, disable it, or remove its configuration
+to stop the preflight; no environment variable is required. It is separate from the
+`SubagentStart` advice reminder. See the
+[hook configuration](../../../hooks/hooks.json) and
+[Codex hook contract](https://learn.chatgpt.com/docs/hooks).
+
 ## Optional advice
 
 Consultation is optional and does not depend on the reminder hook. Leaving that

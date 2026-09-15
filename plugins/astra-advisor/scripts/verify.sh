@@ -77,7 +77,7 @@ manifest_path = plugin / ".codex-plugin" / "plugin.json"
 manifest = require_mapping(load_json(manifest_path, "plugin manifest"), "plugin manifest")
 
 require_string(manifest, "name", "plugin manifest", "astra-advisor")
-require_string(manifest, "version", "plugin manifest", "0.2.0")
+require_string(manifest, "version", "plugin manifest", "0.3.0")
 require_string(manifest, "description", "plugin manifest")
 require_string(manifest, "homepage", "plugin manifest", "https://github.com/DannyMac180/astra-advisor#readme")
 require_string(manifest, "repository", "plugin manifest", "https://github.com/DannyMac180/astra-advisor")
@@ -209,12 +209,12 @@ for path in plugin.rglob("*"):
         errors.append(f"static role TOML is not allowed: {path.relative_to(plugin)}")
 require(not (plugin / "scripts" / "install-agents.sh").exists(), "companion installer is not allowed")
 
-# Exercise accounting behavior as part of the same local and CI verifier.
+# Exercise accounting and hook behavior as part of the same local and CI verifier.
 result = subprocess.run(
     [sys.executable, "-B", "-m", "unittest", "discover", "-s", str(plugin / "tests"), "-p", "test_*.py"],
     cwd=repo,
 )
-require(result.returncode == 0, "cost receipt tests failed")
+require(result.returncode == 0, "plugin tests failed")
 
 if errors:
     print("VERIFY FAILED")
