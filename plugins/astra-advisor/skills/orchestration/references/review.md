@@ -1,8 +1,8 @@
 # Independent review
 
-The public spawn and thread metadata are authoritative for model and effort. Use
-runtime introspection only to resolve a field that public metadata omitted, and report
-the source of each value. Chosen values are not the same as runtime-confirmed values.
+Keep requested model and effort separate from runtime-confirmed values. Report the
+source of observable settings and mark missing metadata unknown; it does not prove
+that review delegation is unavailable. Explicit requirements still govern dispatch.
 
 ## Acceptance review
 

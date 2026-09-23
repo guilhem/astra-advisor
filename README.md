@@ -5,15 +5,16 @@ evidence and runs bounded operational work.**
 
 Astra Advisor is a Codex plugin for capability-routed software delivery. Give it
 the goal, constraints, and repository context. The parent delegates information
-acquisition to a retained native subagent and chooses supported models and efforts
-for bounded work.
+acquisition to a retained native subagent and applies routing preferences through
+controls the host supports.
 
-## Cloud limitation
+## Host capabilities
 
-ChatGPT Work cloud `create_thread` must omit `model` and
-`thinking`, so it cannot currently promise arbitrary model or effort control. Astra
-does not dispatch a model-pinned request there by default. Native Codex subagents are usable
-where the current tool schema exposes the needed controls.
+Astra uses the delegation tools and controls exposed by the current host. Routing
+preferences do not require model or effort controls to be available. If an explicit
+user requirement cannot be met, the parent explains the limit and continues
+independent authorized work. Missing runtime metadata leaves confirmation unknown;
+it does not establish that delegation is unavailable.
 
 ## Go deeper
 
@@ -50,28 +51,28 @@ arbitration, correction decisions, integration, verification, and acceptance.
 It sends all information acquisition to a retained squire, including short searches,
 contextual reads, documentation, logs, monitoring, and investigation. The squire
 chooses the tools and order within a mission, reports evidence and uncertainty, and
-can be reused with native `send_input` for related work. It may recommend an option;
+can be reused for related work. It may recommend an option;
 the parent decides. The parent can execute a pure action once its target, parameters,
 and effect are fully determined and authorized. Unexpected facts requiring research
 go back to the squire. See the [squire contract](plugins/astra-advisor/skills/orchestration/references/squire.md)
 and [tool execution reference](plugins/astra-advisor/skills/orchestration/references/tool-execution.md).
 
-Native delegation follows the host's exposed schema. This runtime's spawn uses
-`fork_context`, and follow-up calls do not expose model or effort controls. The
-parent supplies an objective, scope, constraints, ownership, expected result,
-stopping condition, and reserved decisions. The squire may dispatch authorized
+Native delegation follows the host's exposed capabilities. The parent supplies an
+objective, scope, constraints, ownership, expected result, stopping condition, and
+reserved decisions. The squire may dispatch authorized
 workers within that mission; an information request does not authorize code edits.
 The parent directly launches independent acceptance review. There are no predefined
 role TOMLs or companion installer.
 
 The [routing reference](plugins/astra-advisor/skills/orchestration/references/routing-defaults.md)
-contains optional model suggestions, not an allowlist. Live tool metadata determines
-which models and efforts are available.
+contains optional model suggestions, not an allowlist. Use the host's exposed
+capabilities to choose tools and supported arguments.
 
-If a required model, effort, control, or tool is unavailable or conflicting, the
-parent reports the limitation and does not silently substitute. Requested settings
-and recorded runtime settings are separate; a role name or self-identification is
-not proof. If runtime metadata is unavailable, confirmation remains unknown.
+If an explicit model, effort, or permission requirement cannot be met, the parent
+reports the limitation and does not silently substitute or invent arguments.
+Requested settings and recorded runtime settings are separate; a role name or
+self-identification is not proof. If runtime metadata is unavailable, confirmation
+remains unknown.
 
 For an initial substantial implementation, the parent assesses the integrated result
 and ensures the requested checks have run using delegated evidence. An independent
@@ -106,18 +107,7 @@ directory. See [Codex instruction discovery](https://learn.chatgpt.com/docs/agen
 
 The skill applies explicit user instructions and applicable `AGENTS.md` guidance
 before its routing defaults. Override only the choices you need; the remaining
-defaults still apply. For example, add this personal preference section:
-
-~~~md
-## Astra Advisor model preferences
-
-- Prefer gpt-6-luna at max effort for the retained squire and routine work.
-- Prefer gpt-6-sol at high effort for implementation and ordinary reviews.
-- Prefer anthropic/claude-opus-5-5 at high effort for complex technical advice.
-- Choose effort for the task; do not change the user's selected parent model or effort.
-~~~
-
-A project can narrow those choices without copying the whole section:
+defaults still apply. For example, a project can restrict one role:
 
 ~~~md
 ## Astra Advisor model preferences
@@ -125,9 +115,9 @@ A project can narrow those choices without copying the whole section:
 - For this repository, use only gpt-6-astra at high effort for delegated reviews.
 ~~~
 
-These examples match the current plugin suggestions. "Prefer" allows another
-suitable permitted choice with an explanation; "only" is a restriction. An unavailable required
-model or effort blocks that delegation, not independent parent work. Preferences
+"Prefer" allows another permitted choice; "only" is a restriction. A preference
+does not block delegation when the host lacks routing controls. An unmet explicit
+requirement blocks that delegation, not independent authorized work. Preferences
 cannot grant tool access or change the running parent model or effort.
 
 Keep customizations in your instruction files rather than the installed plugin cache,
@@ -147,7 +137,7 @@ The bundled `SubagentStart` hook reminds new subagents of the optional
 [advice routing](plugins/astra-advisor/skills/orchestration/references/operations.md#optional-advice).
 Bring decisions requiring project context or authority to the parent. For an isolated
 technical question, an assignment may permit direct consultation of a read-only
-advisor with a compact brief and explicit supported model/effort. Check live native
+advisor with a compact brief and supported routing controls. Check live native
 tools and schemas first. Reuse a suitable advisor for
 related follow-ups; it cannot edit, take over execution, or delegate further.
 The delegate returns useful advice and evidence with its result.
@@ -223,12 +213,11 @@ for the input contract and receipt policy.
 
 ## ChatGPT app tasks
 
-Separate app tasks require an explicit user request. For an explicit Codex app task,
-`mcp__codex_app__create_thread` supports `model` and `thinking`; call
-`mcp__codex_app__list_projects` first for project targets, use a worktree by default
-for Git projects, and use local otherwise. Cloud `create_thread` omits both controls,
-so the bounded limitation above applies. Do not use an API key, nested CLI, or
-invented tool as a workaround.
+Separate app tasks require an explicit user request. Use the app capabilities
+actually exposed by the host, choose a suitable project and starting state, and
+preserve the user's model, effort, and permission requirements. A preference alone
+does not block a task when routing controls are absent; report settings that cannot
+be confirmed. Do not use an API key, nested CLI, or invented tool as a workaround.
 
 ## Updating
 

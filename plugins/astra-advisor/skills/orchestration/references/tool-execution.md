@@ -21,12 +21,11 @@ squire. The parent may load necessary instructions and perform native coordinati
 
 ## Brief and execute
 
-Use the assignment and capability contract in [operations](operations.md). Prefer
-`gpt-6-luna` / `max` for the squire and routine execution, subject to the existing
-[routing rules](routing-defaults.md). More demanding judgment uses those same
-routing rules, not a mandatory escalation sequence.
+Use the assignment and capability contract in [operations](operations.md) and
+the optional [routing rules](routing-defaults.md). Choose for the mission without
+a mandatory escalation sequence.
 
-Supply only the relevant context using the live spawn schema. Include the goal,
+Supply only the relevant context using the host's exposed capabilities. Include the goal,
 target or working directory, optional commands, permitted effects, constraints,
 ownership, and expected result. Honor explicitly required commands; otherwise the
 delegate chooses suitable available tools within scope. Do not expand an inspection into

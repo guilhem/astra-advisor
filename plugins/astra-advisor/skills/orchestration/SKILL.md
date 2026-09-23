@@ -23,9 +23,9 @@ needed for delegation and native agent coordination remain parent actions.
 
 Read the [squire contract](references/squire.md) for missions, reports, reuse, and
 handoff, and [tool execution](references/tool-execution.md) for the research/action
-boundary. The squire chooses tools and operational steps within its mandate;
-workers perform their assigned work without creating another squire. The parent
-retains scope and acceptance decisions. Do not duplicate delegated work.
+boundary. The squire chooses tools and operational steps within its mandate and
+may dispatch authorized workers; workers do not create another retained squire.
+The parent retains scope and acceptance decisions. Do not duplicate delegated work.
 
 A local uncertainty alone need not prevent delegation when the goal, ownership,
 and validation are clear. Include known points of attention in the brief and use
@@ -34,8 +34,10 @@ Do not choose an unsuitable model on the assumption that advice will rescue it.
 
 Use [routing defaults](references/routing-defaults.md) only for choices the user and
 `AGENTS.md` leave open. Model suggestions are preferences, not an allowlist. The
-live tool schema determines supported controls; never silently substitute a
-required model or effort. Preferences do not grant execution permissions.
+host's exposed capabilities determine usable tools and controls. A preference
+alone does not block delegation when a host cannot set model or effort. Explain
+any unmet explicit requirement without silently substituting or inventing controls.
+Preferences do not grant execution permissions.
 
 ## Load the procedure needed
 
