@@ -1,35 +1,35 @@
 # Tool execution tasks
 
 Use this pattern for a bounded mission whose useful result can be specified before
-execution. The parent retains decisions, authorization, and acceptance. This is
-delegation guidance, not interception of every tool call.
+execution. The parent retains decisions, authorization, and acceptance. Use the
+[retained squire](squire.md) for the mission and its related follow-ups.
 
 ## Choose the boundary
 
 | Work | Route |
 | --- | --- |
-| Read a function or configuration to understand it and decide what to do next | Direct |
-| Resolve an ambiguity in a delegate's evidence | Direct, or ask that delegate for a targeted follow-up |
-| Inspect a deployment's logs and identify relevant failures | Delegate |
-| Check a defined hypothesis or find whether a condition holds within a specified scope | Delegate |
-| Execute an authorized command and verify its effect | Delegate |
+| Read a function or configuration to understand it and decide what to do next | Squire |
+| Resolve an ambiguity in a delegate's evidence | Ask the squire or relevant delegate for a follow-up |
+| Inspect deployment logs, documentation, or a short search result | Squire |
+| Check a hypothesis or verify an effect | Squire |
+| Apply an authorized, fully specified action with known target, parameters, and effect | Parent may execute directly |
 
-Apply the skill's default delegation trigger and host capability rules. Keep
-trivial contextual lookups direct, and group related commands into one mission.
-Do not read an entire dataset in the parent before delegating its analysis. Use an
-existing delegate for follow-ups on the same mission when its context remains relevant.
+Delegate all acquisition, including trivial contextual lookups. Group related
+commands into one mission rather than directing each command. The parent reasons
+over returned evidence; unexpected facts requiring investigation go back to the
+squire. The parent may load necessary instructions and perform native coordination.
 
 ## Brief and execute
 
 Use the assignment and capability contract in [operations](operations.md). Prefer
-`gpt-5.6-luna` for straightforward execution and collection, subject to the existing
-[routing rules](routing-defaults.md); choose effort for the task. More demanding
-judgment uses those same routing rules, not a mandatory escalation sequence.
+`gpt-6-luna` / `max` for the squire and routine execution, subject to the existing
+[routing rules](routing-defaults.md). More demanding judgment uses those same
+routing rules, not a mandatory escalation sequence.
 
-Supply only the relevant context with `fork_turns: "none"`. Include the goal,
+Supply only the relevant context using the live spawn schema. Include the goal,
 target or working directory, optional commands, permitted effects, constraints,
-and expected result. Honor explicitly required commands; otherwise the delegate
-chooses suitable available tools within scope. Do not expand an inspection into
+ownership, and expected result. Honor explicitly required commands; otherwise the
+delegate chooses suitable available tools within scope. Do not expand an inspection into
 a repair or treat a supplied command as permission to exceed the authorized scope.
 
 The assigned executor uses tools directly and retains execution of the mission.

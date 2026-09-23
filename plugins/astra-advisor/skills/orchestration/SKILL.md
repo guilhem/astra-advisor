@@ -5,23 +5,27 @@ description: "Plan, route, implement, verify, and review software work, includin
 
 # Astra Advisor Orchestration
 
-The parent owns intent, architecture, integration, verification, and acceptance.
+The parent owns the user conversation, intent, architecture, approach, scope,
+arbitration, correction decisions, integration, verification, and acceptance.
 Honor the user's selected parent model and effort; this skill cannot change them
 or require Astra. User instructions and applicable `AGENTS.md` take precedence
 over plugin preferences, subject to the host's instruction hierarchy.
 
-## Choose the work and model
+## Delegate acquisition; retain decisions
 
-Delegate straightforward collection, targeted checks, and authorized execution by
-default when the useful result is defined and the mission can run independently
-alongside useful parent work. Prefer `gpt-5.6-luna` for these missions, subject to
-the routing rules below; read [tool execution](references/tool-execution.md) for
-the assignment pattern.
+Delegate all information acquisition, including short searches, contextual reads,
+documentation, logs, monitoring, investigation, and evidence for verification, to
+a retained squire. The parent reasons over its reports and asks it for further
+evidence when needed. The parent may perform a pure action when its target,
+parameters, and effect are already determined and authorized. If an unexpected
+fact calls for investigation, delegate that acquisition. Loading instructions
+needed for delegation and native agent coordination remain parent actions.
 
-Use tools directly to understand context, resolve ambiguity, and decide the next
-step. Keep trivial contextual lookups direct and group related small operations
-into one mission. Choose by intent, not output size or tool count alone; do not
-duplicate implementation or checks.
+Read the [squire contract](references/squire.md) for missions, reports, reuse, and
+handoff, and [tool execution](references/tool-execution.md) for the research/action
+boundary. The squire chooses tools and operational steps within its mandate;
+workers perform their assigned work without creating another squire. The parent
+retains scope and acceptance decisions. Do not duplicate delegated work.
 
 A local uncertainty alone need not prevent delegation when the goal, ownership,
 and validation are clear. Include known points of attention in the brief and use
@@ -37,11 +41,11 @@ required model or effort. Preferences do not grant execution permissions.
 
 - Before native delegation, read [operations](references/operations.md) for the
   assignment and capability contract. This includes requested app-task boundaries.
-- For initial substantial implementation, inspect the integrated result and check
-  evidence, and obtain independent acceptance review in a parent-context fork under
+- For initial substantial implementation, assess the integrated result and check
+  evidence, and launch independent acceptance review under
   [review](references/review.md). Delegate bounded technical review when useful.
   Acceptance requires `ship`; the parent retains the final decision. Small mechanical
-  edits and documentation corrections need parent inspection, not an independent gate.
+  edits and documentation corrections need parent assessment, not an independent gate.
 - For bounded corrections, use the same review reference for affected checks and
   targeted confirmation; preserve unaffected evidence and reuse the reviewer when
   appropriate. Renew full review only for changed design, authority, ownership, or

@@ -1,12 +1,12 @@
 # Astra Advisor
 
-**Your selected model plans the work, chooses useful bounded delegation dynamically,
-and owns verification and acceptance.**
+**Your selected model owns the decisions and acceptance; a retained squire gathers
+evidence and runs bounded operational work.**
 
 Astra Advisor is a Codex plugin for capability-routed software delivery. Give it
-the goal, constraints, and repository context; it decides whether independent work
-should run alongside the parent session and chooses a supported native subagent
-model and effort for each bounded deliverable.
+the goal, constraints, and repository context. The parent delegates information
+acquisition to a retained native subagent and chooses supported models and efforts
+for bounded work.
 
 ## Cloud limitation
 
@@ -45,50 +45,37 @@ The parent remains the architect and acceptance owner at the model and effort
 selected by the user. The skill never changes the parent session or
 claims runtime settings without evidence.
 
-Delegate straightforward collection, targeted checks, and authorized execution by
-default when the useful result is defined and the work can run independently while
-the parent advances another part of the task. For example, inspect deployment logs,
-check a defined hypothesis, or execute an authorized command and verify its effect.
-Use tools directly to understand context and decide the next step; keep trivial
-contextual lookups direct and group related small operations into one mission.
-Intent determines the boundary, not output size or the number of tools.
-The [tool execution reference](plugins/astra-advisor/skills/orchestration/references/tool-execution.md)
-defines the brief and concise, evidence-backed return. Straightforward missions
-prefer Luna under the existing routing rules; this is not automatic tool interception
-or a measured cost-saving guarantee.
+The parent keeps the user conversation, intent, architecture, approach, scope,
+arbitration, correction decisions, integration, verification, and acceptance.
+It sends all information acquisition to a retained squire, including short searches,
+contextual reads, documentation, logs, monitoring, and investigation. The squire
+chooses the tools and order within a mission, reports evidence and uncertainty, and
+can be reused with native `send_input` for related work. It may recommend an option;
+the parent decides. The parent can execute a pure action once its target, parameters,
+and effect are fully determined and authorized. Unexpected facts requiring research
+go back to the squire. See the [squire contract](plugins/astra-advisor/skills/orchestration/references/squire.md)
+and [tool execution reference](plugins/astra-advisor/skills/orchestration/references/tool-execution.md).
 
-When delegation helps, the parent uses the exposed generic `collaboration.spawn_agent`
-tool. Acceptance reviews prefer
-`fork_turns: "all"` to retain the discussed needs, constraints, and tradeoffs. Full
-forks inherit the parent model and effort, so both overrides are omitted. Explicit
-user and applicable `AGENTS.md` routing instructions take precedence: if different
-settings are required, use a compatible reduced-context fork with those settings
-and supply the relevant requirements and evidence. Bounded technical reviews use
-reduced context when sufficient. Other bounded delegates receive explicit
-`model`, `reasoning_effort`, and `fork_turns: "none"`. The parent chooses
-among live-supported models using your routing preferences, task risk, context,
-and independent work. There are no predefined role TOMLs or companion installer.
-The parent gives each subagent a short contract: objective, scope, constraints,
-expected result, and success criterion, plus explicit file ownership when writing.
-It adds known points of attention and decisions to bring back to the parent, and
-states whether direct read-only advice is permitted. A local uncertainty need not
-prevent delegation when the goal, ownership, and validation are clear; advice is
-optional and does not make an unsuitable model a suitable choice.
-When advice is permitted, its constraints travel in the brief even without the hook.
-The parent continues useful work while the delegate runs and owns integration.
+Native delegation follows the host's exposed schema. This runtime's spawn uses
+`fork_context`, and follow-up calls do not expose model or effort controls. The
+parent supplies an objective, scope, constraints, ownership, expected result,
+stopping condition, and reserved decisions. The squire may dispatch authorized
+workers within that mission; an information request does not authorize code edits.
+The parent directly launches independent acceptance review. There are no predefined
+role TOMLs or companion installer.
 
 The [routing reference](plugins/astra-advisor/skills/orchestration/references/routing-defaults.md)
 contains optional model suggestions, not an allowlist. Live tool metadata determines
 which models and efforts are available.
 
-If a selected model, effort, control, or tool is unavailable, conflicting, or
-unobservable, the parent fails that delegation closed and reports the limitation. It does
-not silently substitute a model, effort, role, or fabricated tool. Chosen values and
-runtime-confirmed values are reported separately.
+If a required model, effort, control, or tool is unavailable or conflicting, the
+parent reports the limitation and does not silently substitute. Requested settings
+and recorded runtime settings are separate; a role name or self-identification is
+not proof. If runtime metadata is unavailable, confirmation remains unknown.
 
-For an initial substantial implementation, the parent inspects the integrated result
-and ensures the requested checks have run, directly or through delegates. An independent
-read-only acceptance reviewer uses a parent-context fork to check the stable accumulated
+For an initial substantial implementation, the parent assesses the integrated result
+and ensures the requested checks have run using delegated evidence. An independent
+read-only acceptance reviewer checks the stable accumulated
 diff and delivered behavior against the user's need, constraints, and accepted tradeoffs.
 It verifies claims against code and evidence, including any technical review results.
 
@@ -102,11 +89,11 @@ requires `ship`, which may include residual findings; demonstrated blockers from
 review must be resolved. `fix-first` requires an in-scope blocking defect; non-blocking
 findings alone do not start another correction or review cycle.
 
-After a bounded correction, the parent inspects the delta, runs affected checks, and
+After a bounded correction, the parent assesses the delta and affected checks, and
 obtains targeted confirmation, preferably from the same reviewer. Unaffected evidence
 remains valid. Changes to design, authority, data ownership, or material risk require
 a new full acceptance review. `rethink` requires reassessing the plan and scope.
-Small documentation and mechanical changes need parent inspection.
+Small documentation and mechanical changes need parent assessment.
 
 ## Customize model routing with AGENTS.md
 
@@ -124,9 +111,9 @@ defaults still apply. For example, add this personal preference section:
 ~~~md
 ## Astra Advisor model preferences
 
-- Prefer gpt-5.6-sol at medium effort for well-scoped implementation and reviews.
-- Prefer gpt-5.6-luna at high effort for small, straightforward independent tasks.
-- Prefer gpt-6-astra for ambiguity, architecture, and difficult diagnosis.
+- Prefer gpt-6-luna at max effort for the retained squire and routine work.
+- Prefer gpt-6-sol at high effort for implementation and ordinary reviews.
+- Prefer anthropic/claude-opus-5-5 at high effort for complex technical advice.
 - Choose effort for the task; do not change the user's selected parent model or effort.
 ~~~
 
@@ -138,8 +125,8 @@ A project can narrow those choices without copying the whole section:
 - For this repository, use only gpt-6-astra at high effort for delegated reviews.
 ~~~
 
-These are examples, not additional plugin defaults. "Prefer" allows another suitable
-permitted choice with an explanation; "only" is a restriction. An unavailable required
+These examples match the current plugin suggestions. "Prefer" allows another
+suitable permitted choice with an explanation; "only" is a restriction. An unavailable required
 model or effort blocks that delegation, not independent parent work. Preferences
 cannot grant tool access or change the running parent model or effort.
 
@@ -148,13 +135,20 @@ so plugin updates do not overwrite them. Start a fresh Codex session after editi
 then ask: "Which routing preferences apply here, and which instruction supplies them?"
 The parent also passes relevant routing constraints to delegates that may delegate further.
 
+If your personal instructions still exempt trivial searches from delegation, align
+them separately; this plugin cannot override higher-priority instructions. Suggested
+replacement: “The parent delegates all information acquisition to the squire or an
+appropriate delegate. It retains reasoning over received evidence, arbitration, and
+fully determined pure actions.” This plugin does not edit personal instruction files.
+
 ## Optional advice hook
 
 The bundled `SubagentStart` hook reminds new subagents of the optional
 [advice routing](plugins/astra-advisor/skills/orchestration/references/operations.md#optional-advice).
 Bring decisions requiring project context or authority to the parent. For an isolated
 technical question, an assignment may permit direct consultation of a read-only
-advisor with a compact brief and suitable model/effort. Reuse a suitable advisor for
+advisor with a compact brief and explicit supported model/effort. Check live native
+tools and schemas first. Reuse a suitable advisor for
 related follow-ups; it cannot edit, take over execution, or delegate further.
 The delegate returns useful advice and evidence with its result.
 
@@ -254,6 +248,7 @@ codex plugin add astra-advisor@astra-advisor
 Read only the reference needed for the current operation:
 
 - [Native delegation and app tasks](plugins/astra-advisor/skills/orchestration/references/operations.md)
+- [Retained squire contract](plugins/astra-advisor/skills/orchestration/references/squire.md)
 - [Bounded tool execution tasks](plugins/astra-advisor/skills/orchestration/references/tool-execution.md)
 - [Independent review and correction confirmation](plugins/astra-advisor/skills/orchestration/references/review.md)
 - [Usage and cost receipts, when requested](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md)
