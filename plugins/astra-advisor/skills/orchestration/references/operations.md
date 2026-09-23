@@ -1,47 +1,39 @@
 # Native delegation and app tasks
 
-Use this reference before dispatch. Review criteria live in [review](review.md);
+Use this reference before dispatch. Squire missions and lifecycle live in
+[squire](squire.md). Review criteria live in [review](review.md);
 requested usage and cost analysis lives in [cost receipts](cost-receipts.md).
 Read those references only for the operation concerned.
 
 ## Native delegation
 
-Use `collaboration.spawn_agent` only when the host exposes it. Choose among live
-capabilities using the user's instructions, applicable `AGENTS.md`, and optional
+Use native delegation exposed by the host. Choose supported tools and arguments
+using the user's instructions, applicable `AGENTS.md`, and optional
 [routing defaults](routing-defaults.md).
 
-For acceptance reviews, prefer `fork_turns: "all"` to retain discussed needs,
-constraints, and accepted tradeoffs. Full forks inherit the parent's model and
-effort; omit `model` and `reasoning_effort`. Explicit user and applicable
-`AGENTS.md` routing instructions take precedence. When different settings are
-required, use a compatible reduced-context fork with explicit model and effort,
-and supply the relevant requirements and evidence. Never use inheritance to bypass
-a restriction. Bounded technical reviews use the relevant requirements, interfaces,
-and evidence with `fork_turns: "none"` when sufficient, and explicit model and effort
-chosen under the routing rules. Review purpose and acceptance criteria live in
+The parent launches acceptance review directly. Give it the discussed needs,
+constraints, accepted tradeoffs, integrated artifact, and evidence using available
+context. Never use inherited context to bypass a restriction. Bounded technical
+reviews receive relevant requirements, interfaces, and evidence. Review criteria live in
 [review](review.md).
 
-For other bounded delegates, pass the selected controls explicitly:
+Check the exposed tools, including nested tools when relevant. Use model and effort
+controls when supported, applying explicit requirements before preferences. A missing
+control does not by itself prohibit dispatch for a preference; state which settings
+are known and which are unknown. Missing runtime metadata does not prove delegation
+is unavailable. If an explicit user requirement for model, effort, or permission
+cannot be met, do not silently substitute or invent arguments: explain the limit and
+continue independent authorized work. If nested delegation is unavailable, the
+delegate can give the parent a ready brief for native coordination. Do not infer
+available models from pricing snapshots.
 
-~~~text
-model: <selected supported model>
-reasoning_effort: <selected supported effort>
-fork_turns: none
-~~~
-
-The live schema is authoritative. If a required tool, model, effort, or control is
-missing, conflicting, unavailable, or cannot be established, do not dispatch that
-assignment. Explain the limitation and continue permitted parent work. Never
-silently substitute a model, effort, role, or fabricated tool. Do not infer available
-models from pricing snapshots. Introspection can clarify omitted runtime metadata,
-but cannot override the public tool contract.
-
-Give each agent a short contract: objective, scope, constraints, expected result,
-and success criterion. Include the relevant context and prior decisions; forward
-routing constraints if further delegation is permitted. Writing agents need explicit
+Give each agent a short contract: objective, scope, constraints, ownership, expected
+result, and success criterion. Include the relevant context and prior decisions;
+forward routing constraints if further delegation is permitted. Writing agents need explicit
 file ownership and must preserve concurrent edits. Exploration and review stay
-read-only. Sequence dependent or overlapping work; avoid duplicating the parent's
-implementation or verification. No fixed roles or agent count are required.
+read-only. The squire may dispatch workers only within an authorized mission; an
+information request does not authorize implementation. Sequence dependent or
+overlapping work and preserve ownership. No fixed worker count is required.
 
 Add known, mission-specific points of attention: relevant pitfalls, constraints to
 preserve, and conditions that need the parent's decision. Do not invent a checklist
@@ -54,11 +46,12 @@ parent-reserved decisions, routing/capability constraints, and the unavailable-t
 fallback. Do not rely on inherited history, access to this reference, or hook
 injection to convey that contract.
 
-A successful dispatch is not completed work. Inspect results and validation evidence
+A successful dispatch is not completed work. Assess results and validation evidence
 before integration or acceptance. Report consequential selection choices and outcomes;
 agent IDs and lifecycle details are available on request. Keep requested settings
-distinct from runtime-observed settings. Disclose unobservable metadata and observed
-mismatches; do not claim enforced read-only isolation without supporting evidence.
+distinct from runtime-recorded settings; role names and self-identification do not
+confirm a model. The parent corrects observed mismatches. Disclose unobservable
+metadata; do not claim enforced read-only isolation without supporting evidence.
 
 ## Optional advice
 
@@ -69,11 +62,12 @@ consultation requirement or delegation permission.
 - Ask the parent when the answer depends on project history, product intent, scope,
   ownership, or authorization. Preserve the parent's decision and acceptance role.
 - For an isolated technical question, a delegate whose assignment permits it may
-  consult a native read-only advisor directly. Use the capability and routing rules
-  above, with explicit model and effort and `fork_turns: "none"`. Send only the
-  question, evidence, attempts, recommendation, and relevant constraints. An advisor
+  consult a native read-only advisor directly when supported. Use available routing
+  controls subject to explicit requirements. Send only
+  the question, evidence, attempts, recommendation, and relevant constraints. An advisor
   returns advice and uncertainty; it must not edit, take over the mission, or delegate
-  again. Advice does not replace independent review or authorize scope changes.
+  again or compensate for a routing mismatch by delegating. Advice does not replace
+  independent review or authorize scope changes.
 - Reuse an available advisor for follow-ups on the same question when its context
   and settings remain suitable. Include useful advice and its evidence in the
   delegate's result for the parent. Continue independent work while awaiting advice.
@@ -97,8 +91,8 @@ subtasks use native delegation. Discover the available task tools and their curr
 schemas. For project targets, list projects first and follow the requested starting
 state. Prefer a native Git worktree for a Git project within effective permissions.
 
-Pass model and effort controls only when that host's schema supports them. Cloud
-tools without those controls cannot satisfy a pinned request. Report that limitation
-rather than silently substituting settings or using an API key, nested CLI, or
-invented tool as a workaround. A future tool is usable only when its schema supports
-the required controls.
+Pass model and effort controls when supported. A host without those controls can
+still carry a preference-based task, with the settings marked unknown. If the user
+requires a particular model or effort and the host cannot meet that requirement,
+report the limit and continue independent authorized work. Do not use an API key,
+nested CLI, or invented tool as a workaround.

@@ -1,19 +1,21 @@
 # Independent review
 
-The public spawn and thread metadata are authoritative for model and effort. Use
-runtime introspection only to resolve a field that public metadata omitted, and report
-the source of each value. Chosen values are not the same as runtime-confirmed values.
+Keep requested model and effort separate from runtime-confirmed values. Report the
+source of observable settings and mark missing metadata unknown; it does not prove
+that review delegation is unavailable. Explicit requirements still govern dispatch.
 
 ## Acceptance review
 
-For an initial substantial implementation, the parent inspects the integrated result
-and ensures the requested checks have run, using direct or delegated execution as
-appropriate. Start an independent read-only acceptance reviewer in a full
-parent-context fork under [operations](operations.md), subject to its routing and
-capability rules. Keep the reviewed artifact stable. Even with inherited context,
+For an initial substantial implementation, the parent assesses the integrated result
+and ensures the requested checks have run, using the squire for evidence acquisition.
+The parent starts an independent read-only acceptance reviewer under
+[operations](operations.md), subject to its routing and capability rules. The squire
+does not launch or perform acceptance review. Keep the reviewed artifact stable.
+Even with inherited context,
 give a short assignment naming the exact accumulated diff, accepted scope, interfaces,
 constraints, and verification evidence, including any technical review results.
 
+The reviewer must be able to inspect the artifact and original source evidence.
 The acceptance reviewer checks whether the delivered behavior answers the user's
 need across the conversation, including corrections, constraints, and accepted
 tradeoffs that a technical brief may omit. It inspects the complete diff and relevant
@@ -54,12 +56,12 @@ requirement or an existing supported contract. Non-blocking P2 and P3 findings a
 never start another correction or review cycle.
 
 The parent uses the verdicts and evidence to decide acceptance, requesting targeted
-source reads or follow-ups where needed. Keep bulk code inspection and logs in the
-review agents rather than routinely loading them again in the parent.
+source reads through the squire or follow-ups from the reviewer where needed. Keep
+bulk code inspection and logs in the delegates.
 
-Batch blocking findings for parent-owned correction. After a bounded correction, inspect
-the delta, run affected checks, and request targeted confirmation, preferably from
-the same reviewer via `collaboration.followup_task` when available. Preserve
+Batch blocking findings for parent-owned correction decisions. After a bounded correction,
+assess the delta and affected checks from delegated evidence, and request targeted
+confirmation, preferably from the same reviewer through live native follow-up. Preserve
 unaffected evidence. Start a new full acceptance review
 when design, authority, data ownership, or material risk changes, not simply because
 the original implementation was substantial. On `rethink`, reassess the plan and
