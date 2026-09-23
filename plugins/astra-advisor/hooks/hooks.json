@@ -1,13 +1,14 @@
 {
-  "description": "Optional parent advice for new subagents; enable or disable through Codex hook controls.",
+  "description": "Route unpinned native agent spawns through Jev Choice.",
   "hooks": {
-    "SubagentStart": [
+    "PreToolUse": [
       {
+        "matcher": "^spawn_agent$",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${PLUGIN_ROOT}/scripts/advice_hook.py\"",
-            "timeout": 5
+            "command": "python3 \"${PLUGIN_ROOT}/scripts/jev_router.py\"",
+            "timeout": 15
           }
         ]
       }

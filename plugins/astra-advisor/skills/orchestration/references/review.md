@@ -1,76 +1,24 @@
 # Independent review
 
-Keep requested model and effort separate from runtime-confirmed values. Report the
-source of observable settings and mark missing metadata unknown; it does not prove
-that review delegation is unavailable. Explicit requirements still govern dispatch.
+For initial substantial implementation, the parent launches an independent
+read-only acceptance reviewer on the stable integrated diff. Give it the user's
+need, accepted scope and tradeoffs, constraints, changed interfaces, and verification
+evidence. It inspects the artifact and original evidence, rather than treating
+inherited context or a worker report as proof. The squire does not replace this
+reviewer. Bounded technical review is optional when it adds distinct evidence.
 
-## Acceptance review
+Ask reviewers for a concise `ship`, `fix-first`, or `rethink` verdict with source
+locators, findings, and residual risk. Acceptance requires `ship`, which may include
+residual findings. `fix-first` needs a demonstrated in-scope blocking defect against
+the user requirement or a supported contract; non-blocking P2/P3 findings alone do
+not start another correction cycle. The parent arbitrates and decides acceptance.
+Reviewers do not implement their findings.
 
-For an initial substantial implementation, the parent assesses the integrated result
-and ensures the requested checks have run, using the squire for evidence acquisition.
-The parent starts an independent read-only acceptance reviewer under
-[operations](operations.md), subject to its routing and capability rules. The squire
-does not launch or perform acceptance review. Keep the reviewed artifact stable.
-Even with inherited context,
-give a short assignment naming the exact accumulated diff, accepted scope, interfaces,
-constraints, and verification evidence, including any technical review results.
+After a bounded correction, assess the delta from delegated evidence and affected
+checks, then obtain targeted confirmation, preferably from the same reviewer.
+Preserve unaffected evidence. Renew full review only when design, authority,
+ownership, or material risk changes. `rethink` means reassess plan and scope.
+Small documentation and mechanical edits need parent assessment.
 
-The reviewer must be able to inspect the artifact and original source evidence.
-The acceptance reviewer checks whether the delivered behavior answers the user's
-need across the conversation, including corrections, constraints, and accepted
-tradeoffs that a technical brief may omit. It inspects the complete diff and relevant
-code and evidence for missing behavior, scope drift, and integration gaps. It must
-distinguish user requirements from orchestrator assumptions and verify conclusions
-against the artifact. Inherited history explains choices; it does not prove them
-correct. This review informs the parent's final acceptance decision.
-
-## Technical review
-
-Delegate bounded code review when it adds useful independent evidence. Prefer a
-less costly suitable model under the existing routing rules, with only the relevant
-context and an explicit technical scope: correctness, regressions, security, or test
-coverage as applicable. Use the requested or applicable code-review skill within
-that assignment; orchestration retains dispatch and acceptance. A technical `ship`
-applies only to its named scope and does not replace acceptance review. The acceptance
-reviewer can also cover technical concerns when a separate delegate adds no value;
-these purposes do not impose a fixed agent count or duplicate review of the same work.
-
-## Verdict and corrections
-
-Ask each reviewer to return a concise verdict with source locators for its evidence:
-
-~~~text
-ASTRA REVIEW
-SCOPE: acceptance | technical (<named scope>)
-VERDICT: ship | fix-first | rethink
-REASON: <evidence-based reason>
-FINDINGS: <precise findings or none>
-RESIDUAL RISK: <remaining risk or none>
-~~~
-
-Acceptance review requires `ship` for substantial implementation; it may include
-residual findings. Resolve demonstrated blockers from either review before acceptance.
-Give every reviewer the accepted scope and this threshold:
-`fix-first` requires a demonstrated in-scope blocking defect grounded in the user's
-requirement or an existing supported contract. Non-blocking P2 and P3 findings alone
-never start another correction or review cycle.
-
-The parent uses the verdicts and evidence to decide acceptance, requesting targeted
-source reads through the squire or follow-ups from the reviewer where needed. Keep
-bulk code inspection and logs in the delegates.
-
-Batch blocking findings for parent-owned correction decisions. After a bounded correction,
-assess the delta and affected checks from delegated evidence, and request targeted
-confirmation, preferably from the same reviewer through live native follow-up. Preserve
-unaffected evidence. Start a new full acceptance review
-when design, authority, data ownership, or material risk changes, not simply because
-the original implementation was substantial. On `rethink`, reassess the plan and
-scope before claiming completion. Reviewers must not edit files or implement their
-own fixes. Capture actual sandbox and permission metadata when exposed; do not
-claim enforced read-only isolation unless observed. Small documentation and
-mechanical changes need parent inspection, not an independent review gate.
-
-For instruction changes, separate static consistency checks and scenario walkthroughs
-from actual agent execution. A wording or link test does not establish behavior.
-Report which affected scenarios were executed and which were only inspected;
-do not invent runtime evidence.
+For instruction changes, distinguish static checks and scenario walkthroughs from
+actual agent execution; wording checks do not prove behavior.

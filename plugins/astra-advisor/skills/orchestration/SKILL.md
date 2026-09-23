@@ -1,70 +1,34 @@
 ---
 name: orchestration
-description: "Plan, route, implement, verify, and review software work, including bounded tool tasks, with native Codex subagents and user-configurable model preferences."
+description: "Delegate software research, implementation, verification, and review through native Codex agents while the parent interprets evidence and owns decisions."
 ---
 
 # Astra Advisor Orchestration
 
-The parent owns the user conversation, intent, architecture, approach, scope,
-arbitration, correction decisions, integration, verification, and acceptance.
-Honor the user's selected parent model and effort; this skill cannot change them
-or require Astra. User instructions and applicable `AGENTS.md` take precedence
-over plugin preferences, subject to the host's instruction hierarchy.
+The parent frames the objective, constraints, ownership, and expected result;
+delegates research, execution, and verification; then interprets the returned
+evidence, arbitrates, decides the next step, and accepts the result. Reuse the
+[retained squire](references/squire.md) for related operational missions. Do not
+repeat a delegate's work in the parent. Loading required instructions and native
+agent coordination remain parent actions.
 
-## Delegate acquisition; retain decisions
+Follow user instructions, applicable `AGENTS.md`, and actual host permissions.
+Use [native delegation](references/operations.md) for assignments and capabilities.
+Leave `model` and `reasoning_effort` unset unless intentionally pinned:
+the trusted `PreToolUse` hook offers Jev routing for unpinned native `spawn_agent`
+calls. A routing failure leaves native inheritance/defaults in place. Do not infer
+the model actually run from the requested or selected model.
 
-Delegate all information acquisition, including short searches, contextual reads,
-documentation, logs, monitoring, investigation, and evidence for verification, to
-a retained squire. The parent reasons over its reports and asks it for further
-evidence when needed. The parent may perform a pure action when its target,
-parameters, and effect are already determined and authorized. If an unexpected
-fact calls for investigation, delegate that acquisition. Loading instructions
-needed for delegation and native agent coordination remain parent actions.
+For an initial substantial implementation, obtain an independent read-only
+acceptance review of the stable integrated artifact under [review](references/review.md).
+The parent decides acceptance from the diff, checks, and review evidence. After
+bounded corrections, use affected checks and targeted confirmation; renew full
+review only for changed design, authority, ownership, or material risk. Small
+documentation or mechanical edits need parent assessment.
 
-Read the [squire contract](references/squire.md) for missions, reports, reuse, and
-handoff, and [tool execution](references/tool-execution.md) for the research/action
-boundary. The squire chooses tools and operational steps within its mandate and
-may dispatch authorized workers; workers do not create another retained squire.
-The parent retains scope and acceptance decisions. Do not duplicate delegated work.
-
-A local uncertainty alone need not prevent delegation when the goal, ownership,
-and validation are clear. Include known points of attention in the brief and use
-the optional [advice routing](references/operations.md#optional-advice) when useful.
-Do not choose an unsuitable model on the assumption that advice will rescue it.
-
-Use [routing defaults](references/routing-defaults.md) only for choices the user and
-`AGENTS.md` leave open. Model suggestions are preferences, not an allowlist. The
-host's exposed capabilities determine usable tools and controls. A preference
-alone does not block delegation when a host cannot set model or effort. Explain
-any unmet explicit requirement without silently substituting or inventing controls.
-Preferences do not grant execution permissions.
-
-## Load the procedure needed
-
-- Before native delegation, read [operations](references/operations.md) for the
-  assignment and capability contract. This includes requested app-task boundaries.
-- For initial substantial implementation, assess the integrated result and check
-  evidence, and launch independent acceptance review under
-  [review](references/review.md). Delegate bounded technical review when useful.
-  Acceptance requires `ship`; the parent retains the final decision. Small mechanical
-  edits and documentation corrections need parent assessment, not an independent gate.
-- For bounded corrections, use the same review reference for affected checks and
-  targeted confirmation; preserve unaffected evidence and reuse the reviewer when
-  appropriate. Renew full review only for changed design, authority, ownership, or
-  material risk. Reviewers do not implement their own findings.
-- For explicitly requested usage or cost details, read
-  [cost receipts](references/cost-receipts.md). Ordinary delegation and review do not
-  need that reference or a cost report.
-
-## Finish the authorized work
-
-Continue through relevant verification, in-scope blocking corrections, and requested
-delivery; internal review is not a request for user approval. Ask only for missing
-essential information, a material scope decision, or additional authorization.
-Report limitations and continue independent permitted work when a capability is
-unavailable. Never claim a required check or review passed without evidence.
-
-Report the outcome, verification, and residual risk. Keep progress focused on
-consequential choices, changes, results, and blockers; provide detailed agent or
-usage receipts only on request. Requested settings are not runtime confirmation;
-disclose observed mismatches and material limitations without inventing evidence.
+Continue authorized work through validation, blocking corrections, and requested
+delivery. Ask only for essential missing information, a material scope decision,
+or additional authorization. Report checks and limitations actually observed.
+Load [cost receipts](references/cost-receipts.md) only when usage or cost is
+requested. Separate app tasks require an explicit user request; see
+[operations](references/operations.md#separately-requested-app-tasks).

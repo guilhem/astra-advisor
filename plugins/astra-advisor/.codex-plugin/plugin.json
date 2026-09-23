@@ -1,7 +1,7 @@
 {
   "name": "astra-advisor",
   "version": "0.2.0",
-  "description": "Codex-native dynamic orchestration with user-configurable model preferences.",
+  "description": "Native Codex delegation with optional Jev model routing.",
   "author": {
     "name": "Daniel McAteer",
     "url": "https://github.com/DannyMac180"
@@ -13,15 +13,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Astra Advisor",
-    "shortDescription": "Plan, route, verify, and review work with your preferred models.",
-    "longDescription": "Astra Advisor preserves the user's selected parent model and effort. The parent keeps decisions and acceptance while a retained squire gathers evidence and coordinates bounded operational work through native Codex subagents. User and AGENTS.md routing preferences precede optional plugin defaults, subject to live tool capabilities. ChatGPT Work cloud tasks remain bounded by the create_thread schema and do not promise arbitrary model or effort pinning.",
+    "shortDescription": "Delegate work; let Jev route unpinned native agents.",
+    "longDescription": "The selected parent delegates research, execution, verification, and review through native Codex agents, then interprets evidence and owns decisions and acceptance. An optional trusted PreToolUse hook asks Jev to select model and effort for unpinned spawn_agent calls; explicit settings and native fallback remain intact.",
     "developerName": "Daniel McAteer",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
     "websiteURL": "https://github.com/DannyMac180/astra-advisor",
     "defaultPrompt": [
       "Use $astra-advisor:orchestration to plan, build, verify, and review this work.",
-      "Keep decisions and acceptance with the parent; use a retained squire for information acquisition and bounded operational work."
+      "Keep decisions and acceptance with the parent; delegate research, execution, verification, and review."
     ]
   }
 }
