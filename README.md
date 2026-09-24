@@ -8,7 +8,7 @@ independent read-only acceptance review checks substantial implementations.
 ## Set up
 
 ~~~sh
-codex plugin marketplace add DannyMac180/astra-advisor --ref main
+codex plugin marketplace add guilhem/astra-advisor --ref main
 codex plugin add astra-advisor@astra-advisor
 ~~~
 
@@ -35,8 +35,17 @@ and its trusted hook. Install and enable it separately if you want Jev to select
 and effort for unpinned native agent spawns. Astra itself needs no SDK or key.
 The router reads JSON profiles from `${CODEX_HOME:-~/.codex}/subagent-router/*.json`.
 The filename stem is the Jev Choice id; `defer` is reserved. Each profile has
-`description`, `model`, and `reasoning_effort`. Copy Astra's profiles from this
-checkout root into that shared directory without replacing existing files:
+`description`, `model`, and `reasoning_effort`. A marketplace installation does not
+create a checkout in your current directory. If you do not already have one,
+get the profiles from this repository:
+
+~~~sh
+git clone https://github.com/guilhem/astra-advisor.git
+cd astra-advisor
+~~~
+
+From the checkout root, copy Astra's profiles into the shared directory without
+replacing existing files:
 
 ~~~sh
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/subagent-router"
