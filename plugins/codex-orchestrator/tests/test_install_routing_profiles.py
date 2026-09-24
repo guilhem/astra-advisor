@@ -12,7 +12,7 @@ HOOK = json.loads((PLUGIN / 'hooks/hooks.json').read_text())['hooks']['SessionSt
 
 class InstallRoutingProfilesTests(unittest.TestCase):
     def test_hook_installs_missing_profiles_and_preserves_existing_files(self):
-        with tempfile.TemporaryDirectory(prefix='astra profiles ') as temporary:
+        with tempfile.TemporaryDirectory(prefix='codex orchestrator profiles ') as temporary:
             home = Path(temporary)
             # Run the packaged hook from an unrelated working directory.
             env = {**os.environ, 'CODEX_HOME': str(home), 'PLUGIN_ROOT': str(PLUGIN)}
@@ -37,17 +37,17 @@ class InstallRoutingProfilesTests(unittest.TestCase):
                 self.assertEqual(result.stdout, '')
 
             run_hook()
-            sources = list((PLUGIN / 'routing').glob('astra-*.json'))
+            sources = list((PLUGIN / 'routing').glob('codex-orchestrator-*.json'))
             self.assertEqual(len(sources), 3)
             for source in sources:
                 self.assertEqual((catalog / source.name).read_bytes(), source.read_bytes())
 
-            customized = catalog / 'astra-routine.json'
+            customized = catalog / 'codex-orchestrator-routine.json'
             customized.write_text('{"model": "my-custom-model"}')
             other = catalog / 'other-plugin.json'
             other.write_text('{"model": "another-plugin-model"}')
             before = {p.name: p.read_bytes() for p in catalog.iterdir()}
-            missing = catalog / 'astra-complex.json'
+            missing = catalog / 'codex-orchestrator-complex.json'
             missing.unlink()
             run_hook()
             run_hook()

@@ -9,7 +9,7 @@ esac
 destination=$codex_home/subagent-router
 mkdir -p "$destination"
 
-for profile in "${PLUGIN_ROOT:?}/routing"/astra-*.json; do
+for profile in "${PLUGIN_ROOT:?}/routing"/codex-orchestrator-*.json; do
   target=$destination/${profile##*/}
   if [ ! -e "$target" ] && [ ! -L "$target" ]; then
     cp -n "$profile" "$target"

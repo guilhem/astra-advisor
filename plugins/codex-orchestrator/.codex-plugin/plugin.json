@@ -1,26 +1,26 @@
 {
-  "name": "astra-advisor",
+  "name": "codex-orchestrator",
   "version": "0.2.0",
   "description": "Native Codex delegation with optional external model routing.",
   "author": {
-    "name": "Daniel McAteer",
-    "url": "https://github.com/DannyMac180"
+    "name": "Guilhem Lettron",
+    "url": "https://github.com/guilhem"
   },
-  "homepage": "https://github.com/DannyMac180/astra-advisor#readme",
-  "repository": "https://github.com/DannyMac180/astra-advisor",
+  "homepage": "https://github.com/guilhem/codex-orchestrator#readme",
+  "repository": "https://github.com/guilhem/codex-orchestrator",
   "license": "MIT",
-  "keywords": ["codex", "orchestration", "multi-agent", "gpt-6-astra"],
+  "keywords": ["codex", "orchestration", "multi-agent"],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Astra Advisor",
+    "displayName": "Codex Orchestrator",
     "shortDescription": "Delegate work; interpret evidence and own decisions.",
     "longDescription": "The selected parent delegates research, execution, verification, and review through native Codex agents, then interprets evidence and owns decisions and acceptance. Optional model routing is provided by the separate codex-subagent-router plugin.",
-    "developerName": "Daniel McAteer",
+    "developerName": "Guilhem Lettron",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
-    "websiteURL": "https://github.com/DannyMac180/astra-advisor",
+    "websiteURL": "https://github.com/guilhem/codex-orchestrator",
     "defaultPrompt": [
-      "Use $astra-advisor:orchestration to plan, build, verify, and review this work.",
+      "Use $codex-orchestrator:orchestration to plan, build, verify, and review this work.",
       "Keep decisions and acceptance with the parent; delegate research, execution, verification, and review."
     ]
   }

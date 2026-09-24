@@ -1,4 +1,0 @@
-interface:
-  display_name: "Astra Advisor Orchestration"
-  short_description: "Delegate work; interpret evidence and own acceptance"
-  default_prompt: "Use $astra-advisor:orchestration to delegate research, execution, verification, and review while the parent owns decisions and acceptance."
