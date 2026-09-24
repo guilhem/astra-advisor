@@ -13,11 +13,11 @@ import re
 import sys
 import subprocess
 from pathlib import Path
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import urlsplit
 
 
 repo = Path(sys.argv[1]).resolve()
-plugin = repo / "plugins" / "astra-advisor"
+plugin = repo / "plugins" / "codex-orchestrator"
 errors: list[str] = []
 
 
@@ -76,11 +76,11 @@ require(plugin.is_dir(), f"missing plugin directory: {plugin}")
 manifest_path = plugin / ".codex-plugin" / "plugin.json"
 manifest = require_mapping(load_json(manifest_path, "plugin manifest"), "plugin manifest")
 
-require_string(manifest, "name", "plugin manifest", "astra-advisor")
+require_string(manifest, "name", "plugin manifest", "codex-orchestrator")
 require_string(manifest, "version", "plugin manifest", "0.2.0")
 require_string(manifest, "description", "plugin manifest")
-require_string(manifest, "homepage", "plugin manifest", "https://github.com/DannyMac180/astra-advisor#readme")
-require_string(manifest, "repository", "plugin manifest", "https://github.com/DannyMac180/astra-advisor")
+require_string(manifest, "homepage", "plugin manifest", "https://github.com/guilhem/codex-orchestrator#readme")
+require_string(manifest, "repository", "plugin manifest", "https://github.com/guilhem/codex-orchestrator")
 require_string(manifest, "license", "plugin manifest", "MIT")
 require(manifest.get("skills") == "./skills/", "plugin manifest.skills must be ./skills/")
 keywords = manifest.get("keywords")
@@ -89,13 +89,13 @@ if isinstance(keywords, list):
     require("orchestration" in keywords, "plugin manifest.keywords must include orchestration")
 
 author = require_mapping(manifest.get("author"), "plugin manifest.author")
-require_string(author, "name", "plugin manifest.author", "Daniel McAteer")
-require_string(author, "url", "plugin manifest.author", "https://github.com/DannyMac180")
+require_string(author, "name", "plugin manifest.author", "Guilhem Lettron")
+require_string(author, "url", "plugin manifest.author", "https://github.com/guilhem")
 
 interface = require_mapping(manifest.get("interface"), "plugin manifest.interface")
 for key, expected in (
-    ("displayName", "Astra Advisor"),
-    ("developerName", "Daniel McAteer"),
+    ("displayName", "Codex Orchestrator"),
+    ("developerName", "Guilhem Lettron"),
     ("category", "Productivity"),
 ):
     require_string(interface, key, "plugin manifest.interface", expected)
@@ -105,11 +105,11 @@ capabilities = interface.get("capabilities")
 require_list_of_strings(capabilities, "plugin manifest.interface.capabilities")
 if isinstance(capabilities, list):
     require({"Interactive", "Write"}.issubset(capabilities), "plugin manifest.interface.capabilities must include Interactive and Write")
-require_string(interface, "websiteURL", "plugin manifest.interface", "https://github.com/DannyMac180/astra-advisor")
+require_string(interface, "websiteURL", "plugin manifest.interface", "https://github.com/guilhem/codex-orchestrator")
 default_prompt = interface.get("defaultPrompt")
 require_list_of_strings(default_prompt, "plugin manifest.interface.defaultPrompt")
 if isinstance(default_prompt, list):
-    require(any("$astra-advisor:orchestration" in item for item in default_prompt), "defaultPrompt must invoke $astra-advisor:orchestration")
+    require(any("$codex-orchestrator:orchestration" in item for item in default_prompt), "defaultPrompt must invoke $codex-orchestrator:orchestration")
 
 skill_root = plugin / "skills" / "orchestration"
 skill_path = skill_root / "SKILL.md"
@@ -146,36 +146,25 @@ readme_path = repo / "README.md"
 require(readme_path.is_file(), f"missing README: {readme_path}")
 if readme_path.is_file():
     readme = readme_path.read_text(encoding="utf-8")
-    require("$astra-advisor:orchestration" in readme, "README must include the Astra Advisor invocation")
+    require("$codex-orchestrator:orchestration" in readme, "README must include the Codex Orchestrator invocation")
     links = markdown_links(readme)
-    require("https://attentionheads.substack.com/" in links, "README must link to Attention Heads")
-    subscribe_links = [urlsplit(link) for link in links if urlsplit(link).path == "/subscribe"]
-    require(bool(subscribe_links), "README must link to the Attention Heads subscribe page")
-    require(
-        any(
-            parsed.netloc == "attentionheads.substack.com"
-            and parse_qs(parsed.query).get("utm_campaign") == ["astra-advisor"]
-            for parsed in subscribe_links
-        ),
-        "README subscribe link must track astra-advisor",
-    )
     for target in links:
         check_relative_link(target, repo, "README link")
 
 marketplace_path = repo / ".agents" / "plugins" / "marketplace.json"
 marketplace = require_mapping(load_json(marketplace_path, "marketplace"), "marketplace")
-require_string(marketplace, "name", "marketplace", "astra-advisor")
+require_string(marketplace, "name", "marketplace", "codex-orchestrator")
 marketplace_interface = require_mapping(marketplace.get("interface"), "marketplace.interface")
-require_string(marketplace_interface, "displayName", "marketplace.interface", "Astra Advisor")
+require_string(marketplace_interface, "displayName", "marketplace.interface", "Codex Orchestrator")
 entries = marketplace.get("plugins")
 require(isinstance(entries, list), "marketplace.plugins must be an array")
-astra_entries = [entry for entry in entries if isinstance(entry, dict) and entry.get("name") == "astra-advisor"] if isinstance(entries, list) else []
-require(len(astra_entries) == 1, "marketplace must contain exactly one astra-advisor entry")
-if len(astra_entries) == 1:
-    entry = astra_entries[0]
+plugin_entries = [entry for entry in entries if isinstance(entry, dict) and entry.get("name") == "codex-orchestrator"] if isinstance(entries, list) else []
+require(len(plugin_entries) == 1, "marketplace must contain exactly one codex-orchestrator entry")
+if len(plugin_entries) == 1:
+    entry = plugin_entries[0]
     source = require_mapping(entry.get("source"), "marketplace entry.source")
     require_string(source, "source", "marketplace entry.source", "local")
-    require_string(source, "path", "marketplace entry.source", "./plugins/astra-advisor")
+    require_string(source, "path", "marketplace entry.source", "./plugins/codex-orchestrator")
     policy = require_mapping(entry.get("policy"), "marketplace entry.policy")
     require_string(policy, "installation", "marketplace entry.policy", "AVAILABLE")
     require_string(policy, "authentication", "marketplace entry.policy", "ON_INSTALL")
@@ -201,7 +190,7 @@ require(workflow_path.is_file(), f"missing CI workflow: {workflow_path}")
 if workflow_path.is_file():
     workflow = workflow_path.read_text(encoding="utf-8")
     require("actions/checkout@v4" in workflow, "CI workflow must check out the repository")
-    require("plugins/astra-advisor/scripts/verify.sh" in workflow, "CI workflow must run the repository verifier")
+    require("plugins/codex-orchestrator/scripts/verify.sh" in workflow, "CI workflow must run the repository verifier")
 
 # This plugin intentionally has no static role files or installation companion.
 for path in plugin.rglob("*"):

@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Verify Astra Advisor package
-        run: sh plugins/astra-advisor/scripts/verify.sh
+      - name: Verify Codex Orchestrator package
+        run: sh plugins/codex-orchestrator/scripts/verify.sh
 
   windows-profiles:
     runs-on: windows-latest
@@ -21,4 +21,4 @@ jobs:
         with:
           python-version: '3.12'
       - name: Verify automatic profile installation on Windows
-        run: python -m unittest discover -s plugins/astra-advisor/tests -p test_install_routing_profiles.py
+        run: python -m unittest discover -s plugins/codex-orchestrator/tests -p test_install_routing_profiles.py

@@ -3,7 +3,7 @@ name: orchestration
 description: "Delegate software research, implementation, verification, and review through native Codex agents while the parent interprets evidence and owns decisions."
 ---
 
-# Astra Advisor Orchestration
+# Codex Orchestrator
 
 The parent frames the objective, constraints, ownership, and expected result.
 Delegate when the work needs new research or repository inspection, execution,
