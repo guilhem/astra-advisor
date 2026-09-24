@@ -21,7 +21,8 @@ class InstallRoutingProfilesTests(unittest.TestCase):
                 env['PSExecutionPolicyPreference'] = 'Restricted'
                 powershell = ['powershell.exe', '-NoProfile', '-NonInteractive']
                 policy = subprocess.run(powershell + ['-Command', 'Get-ExecutionPolicy'],
-                                        env=env, capture_output=True, text=True, check=True)
+                                        env=env, capture_output=True, text=True)
+                self.assertEqual(policy.returncode, 0, policy.stderr)
                 self.assertEqual(policy.stdout.strip(), 'Restricted')
                 script = home / 'blocked.ps1'
                 script.write_text('exit 0')
