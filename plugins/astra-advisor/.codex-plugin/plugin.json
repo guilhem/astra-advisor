@@ -1,7 +1,7 @@
 {
   "name": "astra-advisor",
   "version": "0.2.0",
-  "description": "Native Codex delegation with optional Jev model routing.",
+  "description": "Native Codex delegation with optional external model routing.",
   "author": {
     "name": "Daniel McAteer",
     "url": "https://github.com/DannyMac180"
@@ -13,8 +13,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Astra Advisor",
-    "shortDescription": "Delegate work; let Jev route unpinned native agents.",
-    "longDescription": "The selected parent delegates research, execution, verification, and review through native Codex agents, then interprets evidence and owns decisions and acceptance. An optional trusted PreToolUse hook asks Jev to select model and effort for unpinned spawn_agent calls; explicit settings and native fallback remain intact.",
+    "shortDescription": "Delegate work; interpret evidence and own decisions.",
+    "longDescription": "The selected parent delegates research, execution, verification, and review through native Codex agents, then interprets evidence and owns decisions and acceptance. Optional model routing is provided by the separate codex-subagent-router plugin.",
     "developerName": "Daniel McAteer",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],

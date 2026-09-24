@@ -14,10 +14,10 @@ agent coordination remain parent actions.
 
 Follow user instructions, applicable `AGENTS.md`, and actual host permissions.
 Use [native delegation](references/operations.md) for assignments and capabilities.
-Leave `model` and `reasoning_effort` unset unless intentionally pinned:
-the trusted `PreToolUse` hook offers Jev routing for unpinned native `spawn_agent`
-calls. A routing failure leaves native inheritance/defaults in place. Do not infer
-the model actually run from the requested or selected model.
+Leave `model` and `reasoning_effort` unset unless intentionally pinned.
+An optional separately installed router can select settings for unpinned native
+spawns; explicit settings and roles remain authoritative. Do not infer the model
+actually run from the requested or selected model.
 
 For an initial substantial implementation, obtain an independent read-only
 acceptance review of the stable integrated artifact under [review](references/review.md).

@@ -7,11 +7,12 @@ and operational steps within that mission. An information request does not
 authorize edits. Assign writing workers distinct files and preserve concurrent
 changes; keep exploration and review read-only.
 
-Leave `model` and `reasoning_effort` absent unless explicitly pinned. The trusted
-hook handles unpinned native `spawn_agent` calls; explicit settings and native
-`agent_type` remain authoritative. A selected model is distinct from runtime
-confirmation. Report an unmet explicit requirement, observed mismatch, or material
-capability limit; missing metadata means the actual setting is unknown.
+Leave `model` and `reasoning_effort` absent unless explicitly pinned. An
+optional separately installed router may handle unpinned native spawns; explicit
+settings and native roles remain authoritative. A selected model is distinct
+from runtime confirmation. Report an unmet explicit requirement, observed
+mismatch, or material capability limit; missing metadata means the actual setting
+is unknown.
 
 Reuse the [squire](squire.md) for related work and follow-ups. The parent launches
 required independent acceptance review directly under [review](review.md).
