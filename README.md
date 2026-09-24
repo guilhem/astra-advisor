@@ -23,24 +23,46 @@ capabilities, your instructions, and repository permissions govern what can run.
 
 ## Quick start
 
-**Requires:** Codex with plugin support and native agent delegation tools.
+**Requires:** Codex with plugin support and native agent delegation tools, plus
+the `codex` CLI for the installation commands below.
 
-From the root of this checkout, register the marketplace and install the plugin:
+1. Register this repository as a marketplace and install the plugin (no checkout
+   needed):
 
-```sh
-codex plugin marketplace add .
-codex plugin add codex-orchestrator@codex-orchestrator
-```
+   ```sh
+   codex plugin marketplace add guilhem/codex-orchestrator
+   codex plugin add codex-orchestrator@codex-orchestrator
+   ```
 
-Start a fresh task, select your preferred parent model, and give it a concrete goal:
+2. Review the bundled hooks in Codex's hook settings. Codex skips plugin hooks
+   until you trust their current definitions:
 
-```text
-Use $codex-orchestrator:orchestration to fix the empty-search bug.
-Reproduce it, make the smallest fix, run the affected tests, and review the diff.
-```
+   | Hook shown in Codex | Event | When to trust it |
+   | --- | --- | --- |
+   | **Add Codex Orchestrator reminder** | `UserPromptSubmit` | For a delegation reminder on every prompt. Optional when you invoke the skill explicitly. |
+   | **Install Codex Orchestrator routing profiles** | `SessionStart` | Only for [optional model routing](#optional-model-routing). |
+
+3. Confirm that the plugin is installed and enabled:
+
+   ```sh
+   codex plugin list --marketplace codex-orchestrator
+   ```
+
+   Expect `codex-orchestrator@codex-orchestrator` with status
+   `installed, enabled`. Then start a fresh task or CLI session, select your
+   preferred parent model, and give it a concrete goal:
+
+   ```text
+   Use $codex-orchestrator:orchestration to fix the empty-search bug.
+   Reproduce it, make the smallest fix, run the affected tests, and review the diff.
+   ```
 
 Follow-ups can reuse the same squire while its context remains useful. The parent
 keeps the user conversation and decides what to do with the returned evidence.
+
+If the newly installed plugin does not appear in Codex, restart the app and
+check again. If a hook does not run, review its trust state in Codex's hook
+settings.
 
 ## How it works
 
@@ -90,10 +112,11 @@ Codex Orchestrator supplies three editable profiles:
 | [Implementation](plugins/codex-orchestrator/routing/codex-orchestrator-implementation.json) | Ordinary code changes, tests, technical analysis, and review under a clear contract. | `gpt-6-sol` | `high` |
 | [Complex](plugins/codex-orchestrator/routing/codex-orchestrator-complex.json) | Difficult diagnosis, architectural tradeoffs, and work with material security or data integrity risk. | `anthropic/claude-opus-5-5` | `high` |
 
-To install them, trust **Install Codex Orchestrator routing profiles** in Codex's
-hook settings, then start a new session. The `SessionStart` hook copies missing
-`codex-orchestrator-*.json` files to `$CODEX_HOME/subagent-router/`, falling back to
-`~/.codex/subagent-router/` when `CODEX_HOME` is unset. It provides shell and
+To install them, trust **Install Codex Orchestrator routing profiles**
+(`SessionStart`) in Codex's hook settings, then start a new session. The hook
+copies missing `codex-orchestrator-*.json` files to
+`$CODEX_HOME/subagent-router/`, falling back to `~/.codex/subagent-router/`
+when `CODEX_HOME` is unset. It provides shell and
 PowerShell commands for macOS/Linux and Windows respectively.
 
 Edit the installed profiles to customize routing. Existing files are preserved.
@@ -121,7 +144,8 @@ measure actual task savings or changes to subscription charges.
 <details>
 <summary>Try the calculator with illustrative data</summary>
 
-This fixture is an example, not usage from your task:
+This fixture is an example, not usage from your task. Run it from a separate
+local checkout of this repository:
 
 ```sh
 python3 plugins/codex-orchestrator/scripts/cost_receipt.py \
@@ -137,7 +161,7 @@ for usage provenance, partial coverage, supported pricing, and `--pricing PATH`.
 
 The plugin and marketplace are now named `codex-orchestrator`. Existing
 installations are not renamed automatically. Remove the old registration, then
-follow [Quick start](#quick-start) using this checkout:
+follow [Quick start](#quick-start):
 
 ```sh
 codex plugin remove astra-advisor@astra-advisor
@@ -152,7 +176,8 @@ The project is maintained at [`guilhem/codex-orchestrator`](https://github.com/g
 
 ## Development and reference
 
-Run the existing package validator and tests:
+From a local checkout of this repository, run the existing package validator
+and tests:
 
 ```sh
 sh plugins/codex-orchestrator/scripts/verify.sh
