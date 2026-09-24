@@ -8,7 +8,7 @@
           {
             "type": "command",
             "command": "sh \"${PLUGIN_ROOT}/scripts/install-routing-profiles.sh\"",
-            "commandWindows": "powershell.exe -NoProfile -NonInteractive -File \"${PLUGIN_ROOT}\\scripts\\install-routing-profiles.ps1\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"$ErrorActionPreference = 'Stop'; $codexHome = $env:CODEX_HOME; if (-not $codexHome) { $codexHome = Join-Path $HOME '.codex' }; if ($codexHome -eq '~') { $codexHome = $HOME } elseif ($codexHome.StartsWith('~/')) { $codexHome = Join-Path $HOME $codexHome.Substring(2) }; $destination = Join-Path $codexHome 'subagent-router'; [System.IO.Directory]::CreateDirectory($destination) | Out-Null; Get-ChildItem -LiteralPath (Join-Path $env:PLUGIN_ROOT 'routing') -Filter 'astra-*.json' -File | ForEach-Object { $target = Join-Path $destination $_.Name; if (-not (Test-Path -LiteralPath $target)) { [System.IO.File]::Copy($_.FullName, $target, $false) } }\"",
             "timeout": 10,
             "statusMessage": "Install Astra routing profiles"
           }

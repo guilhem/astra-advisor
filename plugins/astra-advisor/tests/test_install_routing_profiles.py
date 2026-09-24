@@ -16,6 +16,18 @@ class InstallRoutingProfilesTests(unittest.TestCase):
             home = Path(temporary)
             # Run the packaged hook from an unrelated working directory.
             env = {**os.environ, 'CODEX_HOME': str(home), 'PLUGIN_ROOT': str(PLUGIN)}
+            if os.name == 'nt':
+                # Exercise Windows' Restricted policy, not the CI runner's permissive default.
+                env['PSExecutionPolicyPreference'] = 'Restricted'
+                powershell = ['powershell.exe', '-NoProfile', '-NonInteractive']
+                policy = subprocess.run(powershell + ['-Command', 'Get-ExecutionPolicy'],
+                                        env=env, capture_output=True, text=True, check=True)
+                self.assertEqual(policy.stdout.strip(), 'Restricted')
+                script = home / 'blocked.ps1'
+                script.write_text('exit 0')
+                blocked = subprocess.run(powershell + ['-File', str(script)], env=env,
+                                         capture_output=True, text=True)
+                self.assertNotEqual(blocked.returncode, 0, 'Restricted must reject .ps1 files')
             command = HOOK['commandWindows' if os.name == 'nt' else 'command']
             command = command.replace('${PLUGIN_ROOT}', str(PLUGIN))
             catalog = home / 'subagent-router'
