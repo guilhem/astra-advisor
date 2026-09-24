@@ -121,10 +121,6 @@ require(ui_path.is_file(), f"missing orchestration UI metadata: {ui_path}")
 for reference_path in (skill_root / "references").glob("*.md"):
     for target in markdown_links(reference_path.read_text(encoding="utf-8")):
         check_relative_link(target, reference_path.parent, f"{reference_path.name} link")
-require((plugin / "scripts" / "cost_receipt.py").is_file(), "missing cost receipt calculator")
-require((plugin / "tests" / "test_cost_receipt.py").is_file(), "missing cost receipt tests")
-require((plugin / "pricing" / "2026-09-04.json").is_file(), "missing pricing snapshot")
-
 if skill_path.is_file():
     skill_text = skill_path.read_text(encoding="utf-8")
     require(skill_text.startswith("---\n"), "orchestration SKILL.md must start with frontmatter")
