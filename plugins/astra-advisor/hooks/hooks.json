@@ -1,13 +1,16 @@
 {
-  "description": "Optional parent advice for new subagents; enable or disable through Codex hook controls.",
+  "description": "Install missing Astra routing profiles without replacing existing files.",
   "hooks": {
-    "SubagentStart": [
+    "SessionStart": [
       {
+        "matcher": "^(startup|resume|clear)$",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"${PLUGIN_ROOT}/scripts/advice_hook.py\"",
-            "timeout": 5
+            "command": "sh \"${PLUGIN_ROOT}/scripts/install-routing-profiles.sh\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"$ErrorActionPreference = 'Stop'; $codexHome = $env:CODEX_HOME; if (-not $codexHome) { $codexHome = [IO.Path]::Combine($HOME, '.codex') }; if ($codexHome -eq '~') { $codexHome = $HOME } elseif ($codexHome.StartsWith('~/')) { $codexHome = [IO.Path]::Combine($HOME, $codexHome.Substring(2)) }; $destination = [IO.Path]::Combine($codexHome, 'subagent-router'); [void][IO.Directory]::CreateDirectory($destination); foreach ($profile in [IO.Directory]::GetFiles([IO.Path]::Combine($env:PLUGIN_ROOT, 'routing'), 'astra-*.json')) { $target = [IO.Path]::Combine($destination, [IO.Path]::GetFileName($profile)); if (-not ([IO.File]::Exists($target) -or [IO.Directory]::Exists($target))) { [IO.File]::Copy($profile, $target, $false) } }\"",
+            "timeout": 10,
+            "statusMessage": "Install Astra routing profiles"
           }
         ]
       }

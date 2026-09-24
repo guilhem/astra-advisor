@@ -1,245 +1,86 @@
 # Astra Advisor
 
-**Your selected model owns the decisions and acceptance; a retained squire gathers
-evidence and runs bounded operational work.**
+Astra Advisor delegates new research, repository inspection, execution, and
+verification through native Codex agents. The parent frames the task, interprets
+evidence, makes decisions, and accepts the result; it can answer directly from
+existing evidence. A retained squire handles related operational work. Independent
+read-only review checks changes to behavior, supported contracts, or authority,
+and supplies evidence needed for acceptance.
 
-Astra Advisor is a Codex plugin for capability-routed software delivery. Give it
-the goal, constraints, and repository context. The parent delegates information
-acquisition to a retained native subagent and applies routing preferences through
-controls the host supports.
-
-## Host capabilities
-
-Astra uses the delegation tools and controls exposed by the current host. Routing
-preferences do not require model or effort controls to be available. If an explicit
-user requirement cannot be met, the parent explains the limit and continues
-independent authorized work. Missing runtime metadata leaves confirmation unknown;
-it does not establish that delegation is unavailable.
-
-## Go deeper
-
-I write [Attention Heads](https://attentionheads.substack.com/) — deep,
-evidence-backed writing on AI, cognition, and agentic engineering. The **Agentic
-Engineering Field Notes** series covers the craft of using AI. [Subscribe](https://attentionheads.substack.com/subscribe?utm_source=github&utm_medium=readme&utm_campaign=astra-advisor)
-to get new posts in your inbox.
-
-## Quick start
-
-Install the plugin in a current Codex CLI or ChatGPT desktop app with plugins
-enabled. Start a fresh task after installation with your preferred parent model and
-effort supported by the current Codex host:
+## Set up
 
 ~~~sh
-codex plugin marketplace add DannyMac180/astra-advisor --ref main
+codex plugin marketplace add guilhem/astra-advisor --ref main
 codex plugin add astra-advisor@astra-advisor
 ~~~
 
 Start a task with:
 
 ~~~text
-Use $astra-advisor:orchestration to plan, build, verify, and review this work.
+Use $astra-advisor:orchestration to build, verify, and review this work.
 ~~~
 
-## How routing works
+The [orchestration skill](plugins/astra-advisor/skills/orchestration/SKILL.md)
+contains the delegation contract. Read its references only when needed:
+[operations](plugins/astra-advisor/skills/orchestration/references/operations.md),
+[squire](plugins/astra-advisor/skills/orchestration/references/squire.md),
+[review](plugins/astra-advisor/skills/orchestration/references/review.md), and
+[cost receipts](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md).
+Separate app tasks require an explicit request. Usage and cost receipts are
+available on request; they distinguish observed usage from API price estimates.
 
-The parent remains the architect and acceptance owner at the model and effort
-selected by the user. The skill never changes the parent session or
-claims runtime settings without evidence.
+## Optional model routing
 
-The parent keeps the user conversation, intent, architecture, approach, scope,
-arbitration, correction decisions, integration, verification, and acceptance.
-It sends all information acquisition to a retained squire, including short searches,
-contextual reads, documentation, logs, monitoring, and investigation. The squire
-chooses the tools and order within a mission, reports evidence and uncertainty, and
-can be reused for related work. It may recommend an option;
-the parent decides. The parent can execute a pure action once its target, parameters,
-and effect are fully determined and authorized. Unexpected facts requiring research
-go back to the squire. See the [squire contract](plugins/astra-advisor/skills/orchestration/references/squire.md)
-and [tool execution reference](plugins/astra-advisor/skills/orchestration/references/tool-execution.md).
+The separate [codex-subagent-router](https://github.com/guilhem/codex-subagent-router)
+plugin owns the Jev SDK, `TYPESAFE_API_KEY` in the Codex process environment,
+and its trusted hook. Install and enable it separately if you want Jev to select model
+and effort for unpinned native agent spawns. Astra itself needs no SDK or key.
+The router reads JSON profiles from `${CODEX_HOME:-~/.codex}/subagent-router/*.json`.
+The filename stem is the Jev Choice id; `defer` is reserved. Each profile has
+`description`, `model`, and `reasoning_effort`.
 
-Native delegation follows the host's exposed capabilities. The parent supplies an
-objective, scope, constraints, ownership, expected result, stopping condition, and
-reserved decisions. The squire may dispatch authorized
-workers within that mission; an information request does not authorize code edits.
-The parent directly launches independent acceptance review. There are no predefined
-role TOMLs or companion installer.
+Trust Astra's **Install Astra routing profiles** hook in Codex's hook settings,
+then start a new session. Its `SessionStart` hook installs the three bundled
+`astra-*.json` profiles automatically, using the system shell on macOS/Linux
+and PowerShell on Windows. No checkout, SDK, or separate installer is needed.
+Codex requires this trust step for
+[plugin hooks](https://developers.openai.com/plugins/build/plugins).
 
-The [routing reference](plugins/astra-advisor/skills/orchestration/references/routing-defaults.md)
-contains optional model suggestions, not an allowlist. Use the host's exposed
-capabilities to choose tools and supported arguments.
+Existing files are never replaced, including profiles you have customized.
+Updates add missing profiles but leave existing ones unchanged; to restore a
+bundled default, delete its installed file and start a new session. Disable
+Astra's hook before removing its profiles if you want them to stay removed.
 
-If an explicit model, effort, or permission requirement cannot be met, the parent
-reports the limitation and does not silently substitute or invent arguments.
-Requested settings and recorded runtime settings are separate; a role name or
-self-identification is not proof. If runtime metadata is unavailable, confirmation
-remains unknown.
+The three profiles route routine evidence and execution to Luna/max, ordinary
+implementation and review to Sol/high, and complex diagnosis or high-risk work
+to Opus/high. Native spawns with an explicit model, effort, or role bypass the
+router. An empty or invalid profile catalog, `defer`, or provider failure leaves
+native defaults in place. A selected model is not proof of the model that ran.
+Follow explicit user and applicable `AGENTS.md` routing requirements; the
+optional router cannot override them.
 
-For an initial substantial implementation, the parent assesses the integrated result
-and ensures the requested checks have run using delegated evidence. An independent
-read-only acceptance reviewer checks the stable accumulated
-diff and delivered behavior against the user's need, constraints, and accepted tradeoffs.
-It verifies claims against code and evidence, including any technical review results.
-
-Bounded code reviews can use less costly suitable agents with relevant context and the
-applicable review skill. Their technical findings inform acceptance; a technical `ship`
-covers only the assigned scope. A separate technical agent is useful when it adds
-independent evidence, without a fixed reviewer count or duplicate checks.
-The parent retains the final decision, using concise verdicts and evidence with targeted
-follow-ups as needed. Bulk inspection stays in the review agents. Acceptance review
-requires `ship`, which may include residual findings; demonstrated blockers from either
-review must be resolved. `fix-first` requires an in-scope blocking defect; non-blocking
-findings alone do not start another correction or review cycle.
-
-After a bounded correction, the parent assesses the delta and affected checks, and
-obtains targeted confirmation, preferably from the same reviewer. Unaffected evidence
-remains valid. Changes to design, authority, data ownership, or material risk require
-a new full acceptance review. `rethink` requires reassessing the plan and scope.
-Small documentation and mechanical changes need parent assessment.
-
-## Customize model routing with AGENTS.md
-
-No plugin-specific configuration file is needed. Add your preferences to your
-personal `~/.codex/AGENTS.md` (or the `AGENTS.md` in your configured `CODEX_HOME`),
-or to your project's `AGENTS.md`. Project guidance overrides conflicting personal
-guidance; more specific applicable directory guidance takes precedence. If an
-`AGENTS.override.md` is present, Codex uses it instead of `AGENTS.md` in that
-directory. See [Codex instruction discovery](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
-
-The skill applies explicit user instructions and applicable `AGENTS.md` guidance
-before its routing defaults. Override only the choices you need; the remaining
-defaults still apply. For example, a project can restrict one role:
-
-~~~md
-## Astra Advisor model preferences
-
-- For this repository, use only gpt-6-astra at high effort for delegated reviews.
-~~~
-
-"Prefer" allows another permitted choice; "only" is a restriction. A preference
-does not block delegation when the host lacks routing controls. An unmet explicit
-requirement blocks that delegation, not independent authorized work. Preferences
-cannot grant tool access or change the running parent model or effort.
-
-Keep customizations in your instruction files rather than the installed plugin cache,
-so plugin updates do not overwrite them. Start a fresh Codex session after editing,
-then ask: "Which routing preferences apply here, and which instruction supplies them?"
-The parent also passes relevant routing constraints to delegates that may delegate further.
-
-If your personal instructions still exempt trivial searches from delegation, align
-them separately; this plugin cannot override higher-priority instructions. Suggested
-replacement: “The parent delegates all information acquisition to the squire or an
-appropriate delegate. It retains reasoning over received evidence, arbitration, and
-fully determined pure actions.” This plugin does not edit personal instruction files.
-
-## Optional advice hook
-
-The bundled `SubagentStart` hook reminds new subagents of the optional
-[advice routing](plugins/astra-advisor/skills/orchestration/references/operations.md#optional-advice).
-Bring decisions requiring project context or authority to the parent. For an isolated
-technical question, an assignment may permit direct consultation of a read-only
-advisor with a compact brief and supported routing controls. Check live native
-tools and schemas first. Reuse a suitable advisor for
-related follow-ups; it cannot edit, take over execution, or delegate further.
-The delegate returns useful advice and evidence with its result.
-
-Choose by the context needed and total expected work, including briefing and
-integration. Neither consulting the parent nor starting a new advisor is always
-cheaper. Consultation remains optional and preserves independent review and existing
-routing and permission constraints.
-
-To enable the reminder, review and trust this hook in Codex `/hooks`. No environment
-variable or additional configuration is required. Leave the hook untrusted,
-disable it in `/hooks`, or remove its configuration to stop future injections.
-Previously injected context remains in existing agents; start a fresh task to
-remove it. Without the hook, the skill and optional advice routing still work;
-no consultation is required and the hook grants no delegation permission.
-
-When enabled, it applies to new subagents even outside explicit skill invocations.
-It emits only a short context message: no model calls, edits, retries, or telemetry.
-If direct advice is prohibited or unavailable, use native parent messaging; if
-that is also unavailable, report the unresolved point through the normal result.
-
-The [hook configuration](plugins/astra-advisor/hooks/hooks.json) uses Codex's
-[documented hook interface](https://learn.chatgpt.com/docs/hooks).
-Local tests exercise the packaged command, event filtering, and context-only output;
-live host discovery, trust, context injection, and any quality or cost benefit
-still need validation in a fresh Codex task.
-
-## Progress and cost details on request
-
-Updates focus on consequential decisions, results, changes, and blockers. Related
-updates can be grouped without mandatory route blocks or paired agent receipts.
-Detailed agent IDs, requested settings, and runtime evidence are available on request;
-observed mismatches and material capability limitations are still reported.
-
-Ask for usage or cost details to get an API-equivalent receipt from the existing
-calculator and available native evidence. No receipt or unavailable-cost notice is
-required otherwise. The receipt separates observed consumption from estimated USD
-prices and distinguishes whole-task, delegated-only, and partial coverage. Missing
-parent or reviewer usage prevents a whole-task claim. Without observed usage, report
-why it is unavailable; do not add telemetry infrastructure or invent token counts.
-
-The calculator can reprice the same observed tokens entirely at Astra. The difference
-is a **same-token API price comparison**. It does not measure what an
-all-Astra run would actually consume, actual net task savings, quality, speed, or a
-change to ChatGPT subscription charges or usage credits. No subagents means no
-delegation savings. Reasoning effort does not multiply the token price. Demonstrated
-savings require comparable observed runs, including coordination and corrections,
-with their scope, quality, and cost basis.
-
-The [pricing snapshot](plugins/astra-advisor/pricing/2026-09-04.json) records official
-source URLs and standard short-context USD rates per million tokens, verified by
-the recording coordinator on September 4, 2026. These are historical estimates;
-Sol pricing is promotional and may change. The calculator rejects unsupported
-long-context, service-tier, and cache-write cases instead of assuming standard rates.
-It conservatively supports at most 128,000 input tokens per call; this is an
-implementation support boundary, not a claimed official pricing threshold.
-
-Try the clearly labeled illustrative workload (not a receipt for your task):
+## Development
 
 ~~~sh
-python3 plugins/astra-advisor/scripts/cost_receipt.py plugins/astra-advisor/examples/illustrative-usage.json
 sh plugins/astra-advisor/scripts/verify.sh
 ~~~
 
-The calculator emits JSON and accepts `--pricing PATH` for another verified snapshot.
-Custom model choices do not change its Astra comparison baseline. A model missing
-from the pricing snapshot remains eligible for routing; its cost estimate is unavailable.
-Its input lists agents and unique atomic calls, usage provenance, coverage assertions,
-and explicit pricing eligibility. It validates cached-input and reasoning-output
-subsets, refuses overlapping aggregates, and keeps unknown usage separate from zero.
-See the [cost receipt reference](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md)
-for the input contract and receipt policy.
+For a local checkout, install its path as a marketplace:
 
-## ChatGPT app tasks
+~~~sh
+codex plugin marketplace add /absolute/path/to/astra-advisor
+codex plugin add astra-advisor@astra-advisor
+~~~
 
-Separate app tasks require an explicit user request. Use the app capabilities
-actually exposed by the host, choose a suitable project and starting state, and
-preserve the user's model, effort, and permission requirements. A preference alone
-does not block a task when routing controls are absent; report settings that cannot
-be confirmed. Do not use an API key, nested CLI, or invented tool as a workaround.
-
-## Updating
+To update an installed plugin:
 
 ~~~sh
 codex plugin marketplace upgrade astra-advisor
 codex plugin add astra-advisor@astra-advisor
 ~~~
 
-For local development, install this checkout as a marketplace:
+## Go deeper
 
-~~~sh
-cd /absolute/path/to/astra-advisor
-codex plugin marketplace add /absolute/path/to/astra-advisor
-codex plugin add astra-advisor@astra-advisor
-~~~
-
-Read only the reference needed for the current operation:
-
-- [Native delegation and app tasks](plugins/astra-advisor/skills/orchestration/references/operations.md)
-- [Retained squire contract](plugins/astra-advisor/skills/orchestration/references/squire.md)
-- [Bounded tool execution tasks](plugins/astra-advisor/skills/orchestration/references/tool-execution.md)
-- [Independent review and correction confirmation](plugins/astra-advisor/skills/orchestration/references/review.md)
-- [Usage and cost receipts, when requested](plugins/astra-advisor/skills/orchestration/references/cost-receipts.md)
-
-Ordinary delegation and review do not load the cost receipt procedure.
+I write [Attention Heads](https://attentionheads.substack.com/) about AI,
+cognition, and agentic engineering. [Subscribe](https://attentionheads.substack.com/subscribe?utm_source=github&utm_medium=readme&utm_campaign=astra-advisor)
+for the Agentic Engineering Field Notes.

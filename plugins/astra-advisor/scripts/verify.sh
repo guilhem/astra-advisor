@@ -209,12 +209,12 @@ for path in plugin.rglob("*"):
         errors.append(f"static role TOML is not allowed: {path.relative_to(plugin)}")
 require(not (plugin / "scripts" / "install-agents.sh").exists(), "companion installer is not allowed")
 
-# Exercise accounting behavior as part of the same local and CI verifier.
+# Exercise plugin behavior as part of the same local and CI verifier.
 result = subprocess.run(
     [sys.executable, "-B", "-m", "unittest", "discover", "-s", str(plugin / "tests"), "-p", "test_*.py"],
     cwd=repo,
 )
-require(result.returncode == 0, "cost receipt tests failed")
+require(result.returncode == 0, "plugin tests failed")
 
 if errors:
     print("VERIFY FAILED")

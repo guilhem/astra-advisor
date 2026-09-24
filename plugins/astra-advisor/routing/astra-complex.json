@@ -1,0 +1,5 @@
+{
+  "description": "Difficult diagnosis with uncertain causes, conflicting evidence, subtle concurrency or lifecycle behaviour; architectural or ownership tradeoffs; or high-risk work affecting authorization, security boundaries, money, cryptographic guarantees, or integrity of existing data. Classify by the work actually assigned, not alarming words in context.",
+  "model": "anthropic/claude-opus-5-5",
+  "reasoning_effort": "high"
+}
