@@ -35,22 +35,19 @@ and its trusted hook. Install and enable it separately if you want Jev to select
 and effort for unpinned native agent spawns. Astra itself needs no SDK or key.
 The router reads JSON profiles from `${CODEX_HOME:-~/.codex}/subagent-router/*.json`.
 The filename stem is the Jev Choice id; `defer` is reserved. Each profile has
-`description`, `model`, and `reasoning_effort`. A marketplace installation does not
-create a checkout in your current directory. If you do not already have one,
-get the profiles from this repository:
+`description`, `model`, and `reasoning_effort`.
 
-~~~sh
-git clone https://github.com/guilhem/astra-advisor.git
-cd astra-advisor
-~~~
+Trust Astra's **Install Astra routing profiles** hook in Codex's hook settings,
+then start a new session. Its `SessionStart` hook installs the three bundled
+`astra-*.json` profiles automatically, using the system shell on macOS/Linux
+and PowerShell on Windows. No checkout, SDK, or separate installer is needed.
+Codex requires this trust step for
+[plugin hooks](https://developers.openai.com/plugins/build/plugins).
 
-From the checkout root, copy Astra's profiles into the shared directory without
-replacing existing files:
-
-~~~sh
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/subagent-router"
-cp -n plugins/astra-advisor/routing/astra-*.json "${CODEX_HOME:-$HOME/.codex}/subagent-router/"
-~~~
+Existing files are never replaced, including profiles you have customized.
+Updates add missing profiles but leave existing ones unchanged; to restore a
+bundled default, delete its installed file and start a new session. Disable
+Astra's hook before removing its profiles if you want them to stay removed.
 
 The three profiles route routine evidence and execution to Luna/max, ordinary
 implementation and review to Sol/high, and complex diagnosis or high-risk work

@@ -1,0 +1,19 @@
+{
+  "description": "Install missing Astra routing profiles without replacing existing files.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "^(startup|resume|clear)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${PLUGIN_ROOT}/scripts/install-routing-profiles.sh\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -File \"${PLUGIN_ROOT}\\scripts\\install-routing-profiles.ps1\"",
+            "timeout": 10,
+            "statusMessage": "Install Astra routing profiles"
+          }
+        ]
+      }
+    ]
+  }
+}
