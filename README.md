@@ -1,9 +1,11 @@
 # Astra Advisor
 
-Astra Advisor delegates software work through native Codex agents. The selected
-parent model frames the task, interprets evidence, makes decisions, and accepts
-the result. A retained squire handles related research and operational work;
-independent read-only acceptance review checks substantial implementations.
+Astra Advisor delegates new research, repository inspection, execution, and
+verification through native Codex agents. The parent frames the task, interprets
+evidence, makes decisions, and accepts the result; it can answer directly from
+existing evidence. A retained squire handles related operational work. Independent
+read-only review checks changes to behavior, supported contracts, or authority,
+and supplies evidence needed for acceptance.
 
 ## Set up
 
