@@ -93,7 +93,6 @@ targeted review confirmation; wording-only changes need parent assessment.
 | --- | --- |
 | [Orchestration skill](plugins/codex-orchestrator/skills/orchestration/SKILL.md) | Instructions for delegation, squire reuse, review, and acceptance. |
 | [Hooks](plugins/codex-orchestrator/hooks/hooks.json) | Once trusted, add a brief delegation reminder to each prompt and copy missing bundled profiles into the separate router's configuration directory. |
-| [Cost calculator](plugins/codex-orchestrator/scripts/cost_receipt.py) | Produces API-equivalent estimates from supplied usage records and a versioned pricing snapshot. |
 
 The orchestration skill needs no additional SDK or API key. Automatic model
 selection is an optional integration described below.
@@ -126,36 +125,6 @@ disable the hook before removing the profiles permanently.
 The skill leaves model and effort unset unless intentionally pinned. User and
 repository requirements still apply. A routing choice records selection;
 confirming which model actually ran requires runtime evidence.
-
-## Usage and cost estimates
-
-Ask for a receipt when you need usage or cost details. The workflow uses observed
-token usage when available and identifies missing data. The calculator estimates
-USD cost from the bundled **2026-09-04** pricing snapshot and can reprice the same
-tokens at Astra rates, independently of your selected parent model.
-
-The bundled snapshot does not include rates for the three current routing
-profiles. Estimates for those models remain unavailable unless you supply a
-compatible pricing snapshot with `--pricing PATH`.
-
-These are historical API-equivalent estimates. Same-token repricing does not
-measure actual task savings or changes to subscription charges.
-
-<details>
-<summary>Try the calculator with illustrative data</summary>
-
-This fixture is an example, not usage from your task. Run it from a separate
-local checkout of this repository:
-
-```sh
-python3 plugins/codex-orchestrator/scripts/cost_receipt.py \
-  plugins/codex-orchestrator/examples/illustrative-usage.json
-```
-
-The command emits JSON. See the [input contract and receipt policy](plugins/codex-orchestrator/skills/orchestration/references/cost-receipts.md)
-for usage provenance, partial coverage, supported pricing, and `--pricing PATH`.
-
-</details>
 
 ## Migrating from Astra Advisor
 
@@ -192,7 +161,6 @@ package and scripts; live host discovery and model routing need host validation.
 | [Native delegation](plugins/codex-orchestrator/skills/orchestration/references/operations.md) | Assignment boundaries, optional advice, and separately requested app tasks. |
 | [Retained squire](plugins/codex-orchestrator/skills/orchestration/references/squire.md) | Reuse, reporting, and handoffs. |
 | [Independent review](plugins/codex-orchestrator/skills/orchestration/references/review.md) | Acceptance criteria and correction follow-ups. |
-| [Cost receipts](plugins/codex-orchestrator/skills/orchestration/references/cost-receipts.md) | Usage evidence and supported cost estimates. |
 
 ---
 

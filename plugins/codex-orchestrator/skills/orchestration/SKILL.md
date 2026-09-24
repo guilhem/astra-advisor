@@ -32,6 +32,5 @@ authority, or ownership. Wording or presentation-only edits need parent assessme
 Continue authorized work through validation, blocking corrections, and requested
 delivery. Ask only for essential missing information, a material scope decision,
 or additional authorization. Report checks and limitations actually observed.
-Load [cost receipts](references/cost-receipts.md) only when usage or cost is
-requested. Separate app tasks require an explicit user request; see
+Separate app tasks require an explicit user request; see
 [operations](references/operations.md#separately-requested-app-tasks).
