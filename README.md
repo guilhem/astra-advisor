@@ -70,7 +70,7 @@ targeted review confirmation; wording-only changes need parent assessment.
 | Component | Purpose |
 | --- | --- |
 | [Orchestration skill](plugins/codex-orchestrator/skills/orchestration/SKILL.md) | Instructions for delegation, squire reuse, review, and acceptance. |
-| [Profile installation hook](plugins/codex-orchestrator/hooks/hooks.json) | Copies missing bundled profiles into the separate router's configuration directory. |
+| [Hooks](plugins/codex-orchestrator/hooks/hooks.json) | Once trusted, add a brief delegation reminder to each prompt and copy missing bundled profiles into the separate router's configuration directory. |
 | [Cost calculator](plugins/codex-orchestrator/scripts/cost_receipt.py) | Produces API-equivalent estimates from supplied usage records and a versioned pricing snapshot. |
 
 The orchestration skill needs no additional SDK or API key. Automatic model

@@ -1,6 +1,19 @@
 {
-  "description": "Install missing Codex Orchestrator routing profiles without replacing existing files.",
+  "description": "Add a brief orchestration reminder to each prompt and install missing Codex Orchestrator routing profiles without replacing existing files.",
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat \"${PLUGIN_ROOT}/hooks/prompt-reminder.txt\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"Get-Content -Raw -LiteralPath ([IO.Path]::Combine($env:PLUGIN_ROOT, 'hooks', 'prompt-reminder.txt'))\"",
+            "timeout": 5,
+            "statusMessage": "Add Codex Orchestrator reminder"
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "^(startup|resume|clear)$",
