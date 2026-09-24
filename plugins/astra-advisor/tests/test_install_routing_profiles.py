@@ -25,7 +25,7 @@ class InstallRoutingProfilesTests(unittest.TestCase):
                 blocked = subprocess.run(powershell + ['-File', str(script)], env=env,
                                          capture_output=True, text=True)
                 self.assertNotEqual(blocked.returncode, 0, 'Restricted must reject .ps1 files')
-                self.assertIn('PSSecurityException', blocked.stderr)
+                self.assertIn('UnauthorizedAccess', blocked.stderr)
             command = HOOK['commandWindows' if os.name == 'nt' else 'command']
             command = command.replace('${PLUGIN_ROOT}', str(PLUGIN))
             catalog = home / 'subagent-router'
