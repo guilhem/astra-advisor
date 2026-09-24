@@ -1,0 +1,2 @@
+Apply $codex-orchestrator:orchestration when a new request or follow-up needs research, diagnosis, execution, or verification. The parent delegates this work to the retained squire and keeps framing, arbitration, and acceptance; it may answer directly from existing evidence.
+A delegate carries out its assigned mission without creating another retained squire, and may coordinate workers only when its mandate authorizes it.
