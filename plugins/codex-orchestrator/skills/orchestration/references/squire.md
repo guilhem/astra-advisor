@@ -6,7 +6,12 @@ and may coordinate authorized workers; it neither expands scope nor accepts its
 own work. The parent interprets evidence and reserves product, correction, and
 acceptance decisions.
 
-Brief the first mission using the contract in [operations](operations.md), with
+Always initialize a new squire with a simple, useful, bounded task. Keep broader
+work out of its initial prompt. Wait for its result, then send the broader mission
+to the same squire as a follow-up. On hosts that retain initial routing settings,
+this avoids a complex first assignment setting the level for later missions.
+
+Brief each mission using the contract in [operations](operations.md), with
 known decisions and a stopping condition. Follow-ups need only changed context.
 A read-only mission cannot become an edit; writing workers need explicit ownership
 and must preserve concurrent changes.
